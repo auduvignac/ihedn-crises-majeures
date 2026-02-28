@@ -16,7 +16,15 @@ $pdf_mode = 5;
 $pdflatex = $xelatex;
 
 # Fail fast with a clear message if XeLaTeX is missing.
-if (system('xelatex --version > /dev/null 2>&1') != 0) {
+sub cover_has_xelatex {
+  my $pid = open(my $fh, '-|', 'xelatex', '--version');
+  return 0 if !defined $pid;
+  while (<$fh>) { } # consume output quietly
+  close $fh;
+  return $? == 0;
+}
+
+if (!cover_has_xelatex()) {
   die "ERROR: XeLaTeX is required but 'xelatex' was not found in PATH.\n" .
       "Install TeX Live XeTeX and retry (example: texlive-xetex).\n";
 }
