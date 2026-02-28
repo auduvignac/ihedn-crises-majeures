@@ -130,6 +130,12 @@
 \tl_new:N \l_cover_title_tl
 \tl_new:N \l_cover_subtitle_tl
 \tl_new:N \l_cover_committee_tl
+\tl_new:N \l_cover_logo_path_tl
+\tl_new:N \l_cover_header_one_tl
+\tl_new:N \l_cover_header_two_tl
+\tl_new:N \l_cover_header_three_tl
+\tl_new:N \l_cover_reportline_one_tl
+\tl_new:N \l_cover_reportline_two_tl
 \tl_new:N \l_cover_title_fontsize_tl
 \tl_new:N \l_cover_title_baselineskip_tl
 \int_new:N \l_cover_title_max_lines_int
@@ -143,6 +149,12 @@
     title .tl_set:N = \l_cover_title_tl,
     subtitle .tl_set:N = \l_cover_subtitle_tl,
     committee .tl_set:N = \l_cover_committee_tl,
+    logo_path .tl_set:N = \l_cover_logo_path_tl,
+    header_1 .tl_set:N = \l_cover_header_one_tl,
+    header_2 .tl_set:N = \l_cover_header_two_tl,
+    header_3 .tl_set:N = \l_cover_header_three_tl,
+    reportline_1 .tl_set:N = \l_cover_reportline_one_tl,
+    reportline_2 .tl_set:N = \l_cover_reportline_two_tl,
     title_max_lines .int_set:N = \l_cover_title_max_lines_int,
     title_fontsize .tl_set:N = \l_cover_title_fontsize_tl,
     title_baselineskip .tl_set:N = \l_cover_title_baselineskip_tl,
@@ -178,6 +190,12 @@
     \tl_clear:N \l_cover_title_tl
     \tl_clear:N \l_cover_subtitle_tl
     \tl_clear:N \l_cover_committee_tl
+    \tl_set:Nn \l_cover_logo_path_tl {Figures/logos_IHEDN/Logo-AR16}
+    \tl_set:Nn \l_cover_header_one_tl {Union-IHEDN}
+    \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
+    \tl_set:Nn \l_cover_header_three_tl {région~Paris~/~Île~de~France}
+    \tl_set:Nn \l_cover_reportline_one_tl {Rapport~du~Comité~d'étude~de~l'Association~régionale~des~auditeurs}
+    \tl_set:Nn \l_cover_reportline_two_tl {de~l'IHEDN~région~Paris~/~Île~de~France~(AR~16)}
     \tl_set:Nn \l_cover_title_fontsize_tl {26.000pt}
     \tl_set:Nn \l_cover_title_baselineskip_tl {28.667pt}
     \int_set:Nn \l_cover_title_max_lines_int {2}
@@ -193,6 +211,12 @@
 \cs_new:Npn \CoverTitleField { \tl_use:N \l_cover_title_tl }
 \cs_new:Npn \CoverSubtitleField { \tl_use:N \l_cover_subtitle_tl }
 \cs_new:Npn \CoverCommitteeField { \tl_use:N \l_cover_committee_tl }
+\cs_new:Npn \CoverLogoPathField { \tl_use:N \l_cover_logo_path_tl }
+\cs_new:Npn \CoverHeaderOneField { \tl_use:N \l_cover_header_one_tl }
+\cs_new:Npn \CoverHeaderTwoField { \tl_use:N \l_cover_header_two_tl }
+\cs_new:Npn \CoverHeaderThreeField { \tl_use:N \l_cover_header_three_tl }
+\cs_new:Npn \CoverReportLineOneField { \tl_use:N \l_cover_reportline_one_tl }
+\cs_new:Npn \CoverReportLineTwoField { \tl_use:N \l_cover_reportline_two_tl }
 \cs_new:Npn \CoverTitleFontSpec
   { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
 \cs_new:Npn \CoverSubtitleFontSpec { \fontsize{20.000pt}{22.000pt}\selectfont }
@@ -210,20 +234,20 @@
 % 1pt = 0.3527778mm
 
 % --- Logo ---
-\CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{Figures/logos_IHEDN/Logo-AR16}
+\CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{\CoverLogoPathField}
 
 % --- Header (from measured line boxes) ---
-\CoverLineBoxRight{\CoverXRight}{12.933}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{Union-IHEDN}
-\CoverLineBoxRight{\CoverXRight}{19.918}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{Association des auditeurs IHEDN}
-\CoverLineBoxRight{\CoverXRight}{26.945}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{région Paris / Île de France}
+\CoverLineBoxRight{\CoverXRight}{12.933}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderOneField}
+\CoverLineBoxRight{\CoverXRight}{19.918}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderTwoField}
+\CoverLineBoxRight{\CoverXRight}{26.945}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderThreeField}
 \CoverLineBoxRight{\CoverXRight}{36.766}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverDateField}
 
 % --- Main title ---
 \CoverTitleBox{\CoverTitleField}
 
 % --- Subtitle ---
-\CoverLineBox{28.448}{121.518}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{145.713}{c}{Rapport du Comité d'étude de l'Association régionale des auditeurs}
-\CoverLineBox{48.218}{127.995}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{106.209}{c}{de l'IHEDN région Paris / Île de France (AR 16)}
+\CoverLineBox{28.448}{121.518}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{145.713}{c}{\CoverReportLineOneField}
+\CoverLineBox{48.218}{127.995}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{106.209}{c}{\CoverReportLineTwoField}
 
 % --- Central statement ---
 \CoverSubtitleBox{\CoverSubtitleField}
