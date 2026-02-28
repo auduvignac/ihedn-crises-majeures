@@ -12,10 +12,14 @@
 \newif\ifcoverglobaltypesetting
 \newif\ifcoverglobalsmallcapsfix
 \newif\ifcoverlocalsmallcapsfix
+\newif\ifcoverfontglobal
+\newif\ifcoverfontlocal
 \coverapplygeometryfalse
 \coverglobaltypesettingfalse
 \coverglobalsmallcapsfixfalse
 \coverlocalsmallcapsfixtrue
+\coverfontglobaltrue
+\coverfontlocalfalse
 
 \DeclareOption{apply-geometry}{\coverapplygeometrytrue}
 \DeclareOption{no-apply-geometry}{\coverapplygeometryfalse}
@@ -25,6 +29,9 @@
 \DeclareOption{no-global-smallcaps-fix}{\coverglobalsmallcapsfixfalse}
 \DeclareOption{local-smallcaps-fix}{\coverlocalsmallcapsfixtrue}
 \DeclareOption{no-local-smallcaps-fix}{\coverlocalsmallcapsfixfalse}
+\DeclareOption{global-mainfont}{\coverfontglobaltrue\coverfontlocalfalse}
+\DeclareOption{local-mainfont}{\coverfontglobalfalse\coverfontlocaltrue}
+\DeclareOption{no-mainfont-override}{\coverfontglobalfalse\coverfontlocalfalse}
 \ProcessOptions\relax
 
 \ifcoverapplygeometry
@@ -51,21 +58,26 @@
 
 % Font setup target: Times New Roman (XeLaTeX).
 \newcommand{\CoverFontFallbackNote}{}
-\IfFontExistsTF{Times New Roman}{%
-  \setmainfont{Times New Roman}[
-    UprightFont = *,
-    BoldFont = * Bold,
-    ItalicFont = * Italic,
-    BoldItalicFont = * Bold Italic
-  ]%
-}{%
-  \PackageWarningNoLine{ihedn-cover}{%
-    Times New Roman not found. Fallback to TeX Gyre Termes.\MessageBreak
-    Install Times New Roman to match reference metrics exactly%
+\newcommand{\CoverSetupMainFont}{%
+  \IfFontExistsTF{Times New Roman}{%
+    \setmainfont{Times New Roman}[
+      UprightFont = *,
+      BoldFont = * Bold,
+      ItalicFont = * Italic,
+      BoldItalicFont = * Bold Italic
+    ]%
+  }{%
+    \PackageWarningNoLine{ihedn-cover}{%
+      Times New Roman not found. Fallback to TeX Gyre Termes.\MessageBreak
+      Install Times New Roman to match reference metrics exactly%
+    }%
+    \setmainfont{TeX Gyre Termes}%
+    \renewcommand{\CoverFontFallbackNote}{fallback=TeX Gyre Termes (Times New Roman missing)}%
   }%
-  \setmainfont{TeX Gyre Termes}%
-  \renewcommand{\CoverFontFallbackNote}{fallback=TeX Gyre Termes (Times New Roman missing)}%
 }
+\ifcoverfontglobal
+  \CoverSetupMainFont
+\fi
 \ifcoverglobaltypesetting
   \CoverApplyTypesettingFreeze
 \fi
@@ -308,6 +320,9 @@
 
 \NewDocumentCommand{\PageDeGardeIHEDN}{g}{%
 \begingroup
+\ifcoverfontlocal
+  \CoverSetupMainFont
+\fi
 \CoverApplyTypesettingFreeze
 \ifcoverlocalsmallcapsfix
   \renewcommand{\textsc}[1]{\MakeUppercase{##1}}%
