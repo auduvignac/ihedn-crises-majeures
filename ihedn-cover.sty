@@ -31,7 +31,7 @@
     BoldItalicFont = * Bold Italic
   ]%
 }{%
-  \PackageWarningNoLine{PageDeGardeIHEDN}{%
+  \PackageWarningNoLine{ihedn-cover}{%
     Times New Roman not found. Fallback to TeX Gyre Termes.\MessageBreak
     Install Times New Roman to match reference metrics exactly%
   }%
@@ -175,7 +175,7 @@
       { \dim_add:Nn \l_cover_title_allowed_dim { \l_cover_title_baselineskip_tl } }
     \dim_compare:nNnT { \l_cover_title_used_dim } > { \l_cover_title_allowed_dim }
       {
-        \PackageWarningNoLine{PageDeGardeIHEDN}
+        \PackageWarningNoLine{ihedn-cover}
           {Title~height~(\dim_use:N \l_cover_title_used_dim)~exceeds~title_max_lines~
            (\int_use:N\l_cover_title_max_lines_int).~
            Consider~reducing~title_fontsize/title_baselineskip~or~shortening~title}
