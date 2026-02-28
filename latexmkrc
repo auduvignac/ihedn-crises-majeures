@@ -22,7 +22,7 @@ if (defined $engine && $engine ne 'xelatex') {
   $ENV{'LATEXMK_ENGINE'} = 'xelatex';
 }
 
-$xelatex = 'xelatex -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error %O %S';
+$xelatex = 'xelatex -shell-escape -synctex=1 -file-line-error %O %S';
 $pdf_mode = 5;
 # Compatibility: `latexmk -pdf` still runs XeLaTeX.
 $pdflatex = $xelatex;
