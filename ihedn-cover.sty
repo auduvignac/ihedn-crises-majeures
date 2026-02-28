@@ -1,25 +1,45 @@
 \ProvidesPackage{ihedn-cover}[2026/02/28 IHEDN cover page package]
 
-\RequirePackage[
-  paperwidth=595.32001bp,
-  paperheight=841.92004bp,
-  margin=0pt
-]{geometry}
+% Package options to control host-document side effects.
+\newif\ifcoverapplygeometry
+\newif\ifcoverglobaltypesetting
+\newif\ifcoverglobalsmallcapsfix
+\newif\ifcoverlocalsmallcapsfix
+\coverapplygeometryfalse
+\coverglobaltypesettingfalse
+\coverglobalsmallcapsfixfalse
+\coverlocalsmallcapsfixtrue
+
+\DeclareOption{apply-geometry}{\coverapplygeometrytrue}
+\DeclareOption{no-apply-geometry}{\coverapplygeometryfalse}
+\DeclareOption{global-typesetting}{\coverglobaltypesettingtrue}
+\DeclareOption{no-global-typesetting}{\coverglobaltypesettingfalse}
+\DeclareOption{global-smallcaps-fix}{\coverglobalsmallcapsfixtrue}
+\DeclareOption{no-global-smallcaps-fix}{\coverglobalsmallcapsfixfalse}
+\DeclareOption{local-smallcaps-fix}{\coverlocalsmallcapsfixtrue}
+\DeclareOption{no-local-smallcaps-fix}{\coverlocalsmallcapsfixfalse}
+\ProcessOptions\relax
+
+\ifcoverapplygeometry
+  \RequirePackage{geometry}
+\fi
 \RequirePackage{fontspec}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
 \RequirePackage{ragged2e}
 \usetikzlibrary{calc}
 
-% Typographic freeze: no microtype, fixed spacing behavior.
-\frenchspacing
-\linespread{1}\selectfont
-\hyphenpenalty=10000
-\exhyphenpenalty=10000
-\tolerance=1
-\emergencystretch=0pt
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0pt}
+\newcommand{\CoverApplyTypesettingFreeze}{%
+  % Typographic freeze: no microtype, fixed spacing behavior.
+  \frenchspacing
+  \linespread{1}\selectfont
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+  \tolerance=1
+  \emergencystretch=0pt
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0pt}
+}
 
 % Font setup target: Times New Roman (XeLaTeX).
 \newcommand{\CoverFontFallbackNote}{}
@@ -38,10 +58,16 @@
   \setmainfont{TeX Gyre Termes}%
   \renewcommand{\CoverFontFallbackNote}{fallback=TeX Gyre Termes (Times New Roman missing)}%
 }
+\ifcoverglobaltypesetting
+  \CoverApplyTypesettingFreeze
+\fi
+
 % Times New Roman has no OpenType small-caps feature in this setup.
-% Neutralize \textsc/\scshape to avoid TU/.../sc font-shape warnings.
-\renewcommand{\textsc}[1]{\MakeUppercase{#1}}
-\renewcommand{\scshape}{\upshape}
+% Keep fix local by default to avoid changing host document behavior.
+\ifcoverglobalsmallcapsfix
+  \renewcommand{\textsc}[1]{\MakeUppercase{#1}}
+  \renewcommand{\scshape}{\upshape}
+\fi
 
 \newif\ifcoverdebug
 \coverdebugfalse
@@ -222,6 +248,19 @@
 \ExplSyntaxOff
 
 \NewDocumentCommand{\PageDeGardeIHEDN}{g}{%
+\begingroup
+\CoverApplyTypesettingFreeze
+\ifcoverlocalsmallcapsfix
+  \renewcommand{\textsc}[1]{\MakeUppercase{##1}}%
+  \renewcommand{\scshape}{\upshape}%
+\fi
+\ifcoverapplygeometry
+  \newgeometry{
+    paperwidth=595.32001bp,
+    paperheight=841.92004bp,
+    margin=0pt
+  }%
+\fi
 \IfNoValueTF{#1}{\CoverSetFields{}}{\CoverSetFields{#1}}
 \begin{titlepage}
 \thispagestyle{empty}
@@ -298,4 +337,25 @@
 
 \end{tikzpicture}
 \end{titlepage}%
+\ifcoverapplygeometry
+  \restoregeometry
+\fi
+\endgroup
 }
+
+\ifcoverapplygeometry\else
+  \AtBeginDocument{%
+    \ifdim\paperwidth=210mm\relax\else
+      \PackageWarningNoLine{ihedn-cover}{%
+        Host~paperwidth~is~\the\paperwidth,~expected~210mm~for~reference~cover.
+        ~Use~option~apply-geometry~if~needed%
+      }%
+    \fi
+    \ifdim\paperheight=297mm\relax\else
+      \PackageWarningNoLine{ihedn-cover}{%
+        Host~paperheight~is~\the\paperheight,~expected~297mm~for~reference~cover.
+        ~Use~option~apply-geometry~if~needed%
+      }%
+    \fi
+  }
+\fi
