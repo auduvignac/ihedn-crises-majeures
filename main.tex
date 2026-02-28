@@ -42,6 +42,10 @@
 % SVG support:
 %   svg-support               -> enable SVG logos (default, needs shell-escape)
 %   no-svg-support            -> disable SVG path handling (pdf/png only)
+%
+% Debug overlay:
+%   debug                     -> show mm grid + bounding boxes on cover
+%   no-debug                  -> hide debug overlay (default)
 % ----------------------------------------------------------------
 \usepackage[
   no-apply-geometry,
@@ -49,7 +53,8 @@
   no-global-smallcaps-fix,
   local-smallcaps-fix,
   global-mainfont,
-  svg-support
+  svg-support,
+  no-debug
 ]{ihedn-cover}
 
 % Example: use Arial for the full report + cover.

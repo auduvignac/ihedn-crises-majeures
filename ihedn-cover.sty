@@ -16,6 +16,7 @@
 \newif\ifcoverfontglobal
 \newif\ifcoverfontlocal
 \newif\ifcoverusesvg
+\newif\ifcoverdebug
 \coverapplygeometryfalse
 \coverglobaltypesettingfalse
 \coverglobalsmallcapsfixfalse
@@ -23,6 +24,7 @@
 \coverfontglobaltrue
 \coverfontlocalfalse
 \coverusesvgtrue
+\coverdebugfalse
 
 \DeclareOption{apply-geometry}{\coverapplygeometrytrue}
 \DeclareOption{no-apply-geometry}{\coverapplygeometryfalse}
@@ -37,6 +39,8 @@
 \DeclareOption{no-mainfont-override}{\coverfontglobalfalse\coverfontlocalfalse}
 \DeclareOption{svg-support}{\coverusesvgtrue}
 \DeclareOption{no-svg-support}{\coverusesvgfalse}
+\DeclareOption{debug}{\coverdebugtrue}
+\DeclareOption{no-debug}{\coverdebugfalse}
 \ProcessOptions\relax
 
 \ifcoverapplygeometry
@@ -103,9 +107,6 @@
   }%
   \CoverApplySmallCapsFix
 \fi
-
-\newif\ifcoverdebug
-\coverdebugfalse
 
 % Coordinate system: origin top-left; x right; y down; units in mm.
 \newcommand{\CoverXRight}{195.0}
