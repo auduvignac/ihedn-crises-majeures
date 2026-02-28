@@ -1,0 +1,22 @@
+# Fichiers auxiliaires de LaTeX et Biber
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+build/
+
+# Fichiers/répertoires associés à l'IDE
+*.vscode
+
+
+
