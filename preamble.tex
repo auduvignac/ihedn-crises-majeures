@@ -1,0 +1,294 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[
+  paperwidth=595.32001bp,
+  paperheight=841.92004bp,
+  margin=0pt
+]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{ragged2e}
+\usetikzlibrary{calc}
+
+% Typographic freeze: no microtype, fixed spacing behavior.
+\frenchspacing
+\linespread{1}\selectfont
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\tolerance=1
+\emergencystretch=0pt
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Font setup target: Times New Roman (XeLaTeX).
+\newcommand{\CoverFontFallbackNote}{}
+\IfFontExistsTF{Times New Roman}{%
+  \setmainfont{Times New Roman}[
+    UprightFont = *,
+    BoldFont = * Bold,
+    ItalicFont = * Italic,
+    BoldItalicFont = * Bold Italic
+  ]%
+}{%
+  \PackageWarningNoLine{PageDeGardeIHEDN}{%
+    Times New Roman not found. Fallback to TeX Gyre Termes.\MessageBreak
+    Install Times New Roman to match reference metrics exactly%
+  }%
+  \setmainfont{TeX Gyre Termes}%
+  \renewcommand{\CoverFontFallbackNote}{fallback=TeX Gyre Termes (Times New Roman missing)}%
+}
+\newfontfamily\covercalibri{Times New Roman}
+% Times New Roman has no OpenType small-caps feature in this setup.
+% Neutralize \textsc/\scshape to avoid TU/.../sc font-shape warnings.
+\renewcommand{\textsc}[1]{\MakeUppercase{#1}}
+\renewcommand{\scshape}{\upshape}
+
+\newif\ifcoverdebug
+\coverdebugfalse
+
+% Coordinate system: origin top-left; x right; y down; units in mm.
+\newcommand{\CoverXRight}{195.0}
+
+\newcommand{\CoverLine}[4]{%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\mbox{#4}}};%
+}
+
+\newcommand{\CoverLineBox}[6]{%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\makebox[#4mm][#5]{#6}}};%
+}
+
+\newcommand{\CoverLineBoxRight}[4]{%
+  \node[
+    anchor=north east,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\mbox{#4}}};%
+}
+
+\newcommand{\CoverTextBox}[6]{%
+  \node[
+    anchor=north west,
+    inner sep=0pt,
+    outer sep=0pt,
+    text width=#3mm,
+    align=#4
+  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#5#6}};%
+}
+
+\newcommand{\CoverTitleBox}[1]{%
+  \CoverTextBox{13.208}{87.107}{175.741}{center}{\bfseries\CoverTitleFontSpec}{#1}%
+}
+
+\newcommand{\CoverSubtitleBox}[1]{%
+  \CoverTextBox{13.081}{150.757}{176.536}{center}{\bfseries\CoverSubtitleFontSpec}{#1}%
+}
+
+\newcommand{\CoverCommitteeBox}[1]{%
+  \CoverTextBox{15.028}{236.094}{180.013}{left}{\CoverCommitteeFontSpec\justifying}{#1}%
+}
+
+\newcommand{\CoverCommitteeBoxCentered}[5]{%
+  \node[
+    anchor=north,
+    inner sep=0pt,
+    outer sep=0pt,
+    text width=#3mm,
+    align=center
+  ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current page.north west) {{#4\centering #5}};%
+}
+
+\newcommand{\CoverCommitteeBoxJustified}[5]{%
+  \node[
+    anchor=north,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current page.north west)
+    {{#4\parbox[t]{#3mm}{%
+      \setlength{\parindent}{0pt}%
+      \setlength{\parskip}{0pt}%
+      \leftskip=0pt%
+      \rightskip=0pt%
+      \parfillskip=0pt%
+      \justifying\noindent #5%
+    }}};%
+}
+
+\newcommand{\CoverPlaceImage}[5]{%
+  \node[anchor=north west,inner sep=0pt,outer sep=0pt]
+    at ([xshift=#1mm,yshift=-#2mm]current page.north west)
+    {\includegraphics[width=#3mm,height=#4mm]{#5}};%
+}
+
+\newcommand{\CoverDebugBox}[5]{%
+  \draw[cyan!70!black,line width=0.15mm]
+    ([xshift=#1mm,yshift=-#2mm]current page.north west)
+    rectangle ++(#3mm,-#4mm);
+  \node[anchor=south west,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
+    at ([xshift=#1mm,yshift=-#2mm]current page.north west) {#5};
+}
+
+\ExplSyntaxOn
+\tl_new:N \l_cover_date_tl
+\tl_new:N \l_cover_title_tl
+\tl_new:N \l_cover_subtitle_tl
+\tl_new:N \l_cover_committee_tl
+\tl_new:N \l_cover_title_fontsize_tl
+\tl_new:N \l_cover_title_baselineskip_tl
+\int_new:N \l_cover_title_max_lines_int
+\box_new:N \l_cover_title_measure_box
+\dim_new:N \l_cover_title_allowed_dim
+\dim_new:N \l_cover_title_used_dim
+
+\keys_define:nn { cover/page }
+  {
+    date .tl_set:N = \l_cover_date_tl,
+    title .tl_set:N = \l_cover_title_tl,
+    subtitle .tl_set:N = \l_cover_subtitle_tl,
+    committee .tl_set:N = \l_cover_committee_tl,
+    title_max_lines .int_set:N = \l_cover_title_max_lines_int,
+    title_fontsize .tl_set:N = \l_cover_title_fontsize_tl,
+    title_baselineskip .tl_set:N = \l_cover_title_baselineskip_tl,
+  }
+
+\cs_new_protected:Npn \cover_check_title_fit:
+  {
+    \vbox_set:Nn \l_cover_title_measure_box
+      {
+        \hsize=175.741mm
+        \parindent=0pt
+        \centering
+        \bfseries\fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont
+        \tl_use:N \l_cover_title_tl \par
+      }
+    \dim_set:Nn \l_cover_title_used_dim
+      { \box_ht:N \l_cover_title_measure_box + \box_dp:N \l_cover_title_measure_box }
+    \dim_zero:N \l_cover_title_allowed_dim
+    \int_step_inline:nn { \l_cover_title_max_lines_int }
+      { \dim_add:Nn \l_cover_title_allowed_dim { \l_cover_title_baselineskip_tl } }
+    \dim_compare:nNnT { \l_cover_title_used_dim } > { \l_cover_title_allowed_dim }
+      {
+        \PackageWarningNoLine{PageDeGardeIHEDN}
+          {Title~height~(\dim_use:N \l_cover_title_used_dim)~exceeds~title_max_lines~
+           (\int_use:N\l_cover_title_max_lines_int).~
+           Consider~reducing~title_fontsize/title_baselineskip~or~shortening~title}
+      }
+  }
+
+\cs_new_protected:Npn \cover_set_fields:n #1
+  {
+    \tl_clear:N \l_cover_date_tl
+    \tl_clear:N \l_cover_title_tl
+    \tl_clear:N \l_cover_subtitle_tl
+    \tl_clear:N \l_cover_committee_tl
+    \tl_set:Nn \l_cover_title_fontsize_tl {26.000pt}
+    \tl_set:Nn \l_cover_title_baselineskip_tl {28.667pt}
+    \int_set:Nn \l_cover_title_max_lines_int {2}
+    \keys_set:nn { cover/page } { #1 }
+    \tl_trim_spaces:N \l_cover_committee_tl
+    \tl_replace_all:Nnn \l_cover_committee_tl { \\ } { ~ }
+    \tl_replace_all:Nnn \l_cover_committee_tl { \par } { \par\noindent }
+    \cover_check_title_fit:
+  }
+
+\cs_new_protected:Npn \CoverSetFields #1 { \cover_set_fields:n {#1} }
+\cs_new:Npn \CoverDateField { \tl_use:N \l_cover_date_tl }
+\cs_new:Npn \CoverTitleField { \tl_use:N \l_cover_title_tl }
+\cs_new:Npn \CoverSubtitleField { \tl_use:N \l_cover_subtitle_tl }
+\cs_new:Npn \CoverCommitteeField { \tl_use:N \l_cover_committee_tl }
+\cs_new:Npn \CoverTitleFontSpec
+  { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
+\cs_new:Npn \CoverSubtitleFontSpec { \fontsize{20.000pt}{22.000pt}\selectfont }
+\cs_new:Npn \CoverCommitteeFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
+\ExplSyntaxOff
+
+\NewDocumentCommand{\PageDeGardeIHEDN}{g}{%
+\IfNoValueTF{#1}{\CoverSetFields{}}{\CoverSetFields{#1}}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+
+% Reference dimensions (from reference.pdf):
+% MediaBox: 595.320pt x 841.920pt = 210.000mm x 297.000mm
+% 1pt = 0.3527778mm
+
+% --- Logo ---
+\CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{Figures/logos_IHEDN/Logo-AR16}
+
+% --- Header (from measured line boxes) ---
+\CoverLineBoxRight{\CoverXRight}{12.933}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{Union-IHEDN}
+\CoverLineBoxRight{\CoverXRight}{19.918}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{Association des auditeurs IHEDN}
+\CoverLineBoxRight{\CoverXRight}{26.945}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{région Paris / Île de France}
+\CoverLineBoxRight{\CoverXRight}{36.766}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverDateField}
+
+% --- Main title ---
+\CoverTitleBox{\CoverTitleField}
+
+% --- Subtitle ---
+\CoverLineBox{28.448}{121.518}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{145.713}{c}{Rapport du Comité d'étude de l'Association régionale des auditeurs}
+\CoverLineBox{48.218}{127.995}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{106.209}{c}{de l'IHEDN région Paris / Île de France (AR 16)}
+
+% --- Central statement ---
+\CoverSubtitleBox{\CoverSubtitleField}
+
+% --- Committee paragraph ---
+\CoverCommitteeBoxJustified{15.028}{236.094}{180.013}{\CoverCommitteeFontSpec}{\CoverCommitteeField}
+
+% --- Page number ---
+%\CoverLine{192.871}{274.908}{\covercalibri\fontsize{12.000pt}{12.000pt}\selectfont}{1}
+
+\ifcoverdebug
+  % 1 mm grid + emphasized 10 mm grid
+  \foreach \x in {0,1,...,210} {
+    \draw[gray!18,line width=0.03mm] ([xshift=\x mm]current page.north west) -- ([xshift=\x mm,yshift=-297mm]current page.north west);
+  }
+  \foreach \y in {0,1,...,297} {
+    \draw[gray!18,line width=0.03mm] ([yshift=-\y mm]current page.north west) -- ([xshift=210mm,yshift=-\y mm]current page.north west);
+  }
+  \foreach \x in {0,10,...,210} {
+    \draw[gray!55,line width=0.09mm] ([xshift=\x mm]current page.north west) -- ([xshift=\x mm,yshift=-297mm]current page.north west);
+  }
+  \foreach \y in {0,10,...,297} {
+    \draw[gray!55,line width=0.09mm] ([yshift=-\y mm]current page.north west) -- ([xshift=210mm,yshift=-\y mm]current page.north west);
+  }
+  \draw[red!85!black,line width=0.20mm]
+    ([xshift=\CoverXRight mm]current page.north west) --
+    ([xshift=\CoverXRight mm,yshift=-297mm]current page.north west);
+  \node[anchor=north west,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
+    at ([xshift=\CoverXRight mm,yshift=-0.8mm]current page.north west) {X\_RIGHT};
+
+  % Bounding boxes
+  \CoverDebugBox{19.451}{24.596}{32.052}{44.907}{logo}
+  \CoverDebugBox{159.851}{12.933}{35.110}{6.233}{hdr1}
+  \CoverDebugBox{113.877}{19.918}{81.055}{6.233}{hdr2}
+  \CoverDebugBox{129.582}{26.945}{65.382}{6.233}{hdr3}
+  \CoverDebugBox{160.316}{36.766}{34.626}{6.233}{date}
+  \CoverDebugBox{13.208}{87.107}{175.741}{10.170}{title}
+  \CoverDebugBox{28.448}{121.518}{145.713}{6.233}{sub1}
+  \CoverDebugBox{48.218}{127.995}{106.209}{6.233}{sub2}
+  \CoverDebugBox{13.081}{150.757}{176.536}{24.082}{subtitle-block}
+  \CoverDebugBox{15.028}{236.094}{180.013}{31.071}{committee-block}
+  \draw[orange!90!black,line width=0.18mm]
+    ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-236.094mm]current page.north west) --
+    ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-267.165mm]current page.north west);
+  \node[anchor=south west,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
+    at ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-267.165mm]current page.north west) {committee-center};
+  \draw[magenta!85!black,line width=0.18mm]
+    ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-236.094mm]current page.north west) --
+    ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-267.165mm]current page.north west);
+  \node[anchor=south east,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
+    at ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-267.165mm]current page.north west) {committee-right};
+  \CoverDebugBox{192.871}{274.908}{2.117}{4.686}{pnum}
+\fi
+
+\end{tikzpicture}
+\end{titlepage}%
+}
