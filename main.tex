@@ -1,7 +1,59 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage[]{ihedn-cover}
-% empêche le package d’imposer Times New Roman
-%\usepackage[no-mainfont-override]{ihedn-cover}
+
+% ============================================================
+% IHEDN COVER TEMPLATE (XeLaTeX)
+% ============================================================
+% Compilation (from project root):
+%   latexmk -pdf main.tex
+%
+% Optional environment controls from latexmkrc:
+%   LATEXMK_ENGINE=xelatex        (default/enforced)
+%   LATEXMK_SHELL_ESCAPE=1|0      (default 1, needed for SVG conversion)
+%
+% Required package for this template:
+%   \usepackage{ihedn-cover}
+%
+% Note: ihedn-cover already loads needed internal packages
+% (fontspec, graphicx, tikz, ragged2e, optional svg).
+% ============================================================
+
+% ----------------------------------------------------------------
+% Package options (documented)
+% ----------------------------------------------------------------
+% Geometry scope:
+%   apply-geometry            -> force A4 + zero margins while cover is built
+%   no-apply-geometry         -> do not alter host geometry (default)
+%
+% Typesetting freeze:
+%   global-typesetting        -> apply freeze globally (intrusive)
+%   no-global-typesetting     -> no global freeze (default)
+%
+% Small-caps handling:
+%   local-smallcaps-fix       -> \textsc -> \MakeUppercase only inside cover (default)
+%   no-local-smallcaps-fix    -> disable local fix
+%   global-smallcaps-fix      -> global override (intrusive)
+%   no-global-smallcaps-fix   -> disable global fix (default)
+%
+% Main font handling:
+%   global-mainfont           -> set Times New Roman globally (default)
+%   local-mainfont            -> set Times only during cover rendering
+%   no-mainfont-override      -> keep host document main font
+%
+% SVG support:
+%   svg-support               -> enable SVG logos (default, needs shell-escape)
+%   no-svg-support            -> disable SVG path handling (pdf/png only)
+% ----------------------------------------------------------------
+\usepackage[
+  no-apply-geometry,
+  no-global-typesetting,
+  no-global-smallcaps-fix,
+  local-smallcaps-fix,
+  global-mainfont,
+  svg-support
+]{ihedn-cover}
+
+% Example: use Arial for the full report + cover.
+% Uncomment and switch package option to no-mainfont-override.
 % \setmainfont{Arial}[
 %   UprightFont    = *,
 %   BoldFont       = * Bold,
@@ -9,15 +61,12 @@
 %   BoldItalicFont = * Bold Italic
 % ]
 
-
 \begin{document}
 
-\PageDeGardeIHEDN{
-  logo_path = {Figures/logos_IHEDN/Logo-AR16},
-  date = {le 19 juin 2026},
-  title = {Crises majeures : quel rôle pour les citoyens engagés et les associations IHEDN ?},
-  %subtitle = {},
-  committee = {Comité d'étude, d'octobre 2025 à juin 2026, présidé par Valérie Arlé-Faivre, rapporté par Aurélien Duvignac-Rosa, composé de Pascal Bayot Duponchel, Jean-Jacques Cleynen, Valérie Cowan, Alain Fontan, Pierre-Marie Giard, Muriel Joyeux, Bruno Leray, Yves-Henri Renhas, Isabelle de Segonzac, Gérard Turck, Marie Danielle Vasquez-Duchêne.}
-}
+% ----------------------------------------------------------------
+% Cover keys (all available keys are shown below)
+% ----------------------------------------------------------------
+% Header block (top-right), logo, title, report lines, subtitle, committee.
+\PageDeGardeIHEDN{header_1={Union-IHEDN},header_2={Association des auditeurs IHEDN},header_3={région Paris / Île de France},date={le 19 juin 2026},logo_path={Figures/logos_IHEDN/Logo-AR16},title={Crises majeures : quel rôle pour les citoyens engagés et les associations IHEDN ?},title_max_lines=2,title_fontsize={26.000pt},title_baselineskip={28.667pt},reportline_1={Rapport du Comité d'étude de l'Association régionale des auditeurs},reportline_2={de l'IHEDN région Paris / Île de France (AR 16)},subtitle={Satisfaire les besoins vitaux de la population en temps de crise. Pourquoi et comment s'engager dans l'amélioration de la résilience de la Nation ? Objectif à 5 ans.},committee={Comité d'étude, d'octobre 2025 à juin 2026, présidé par Valérie Arlé-Faivre, rapporté par Aurélien Duvignac-Rosa, composé de Pascal Bayot Duponchel, Jean-Jacques Cleynen, Valérie Cowan, Alain Fontan, Pierre-Marie Giard, Muriel Joyeux, Bruno Leray, Yves-Henri Renhas, Isabelle de Segonzac, Gérard Turck, Marie Danielle Vasquez-Duchêne.}}
 
 \end{document}
