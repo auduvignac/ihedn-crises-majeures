@@ -1,0 +1,480 @@
+\ProvidesFile{sciencespo.bbx}[2025/12/13 Style bibliographique français (Sciences Po)]
+
+% Style de base pour la bibliographie
+\RequireBibliographyStyle{authoryear}
+\input{sciencespo-common.def}
+
+% --- GESTION DU NOMBRE D'AUTEURS (et al.) ---
+\AtBeginDocument{%
+    \setcounter{maxnames}{3}
+    \setcounter{minnames}{3}
+}
+
+% Séparateurs entre auteurs : virgule + espace, sans virgule avant "et"
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{\addspace\bibstring{and}\space}
+\DeclareDelimFormat{andothersdelim}{\addnbspace}
+
+
+% --- FORMATTAGE DES NOMS : Nom, Prénom. ---
+\DeclareNameFormat{labelname}{%
+  \nameparts{#1}%
+  \usebibmacro{name:family-given}%
+    {\namepartfamily}%
+    {\namepartgiven}%
+    {\namepartprefix}%
+    {\namepartsuffix}%
+  \usebibmacro{name:andothers}%
+}
+\DeclareNameAlias{author}{labelname}
+\DeclareNameAlias{editor}{labelname}
+\DeclareNameAlias{director}{labelname}
+
+% "et al." en fin de liste (déclenché quand des auteurs supplémentaires existent)
+\renewbibmacro*{name:andothers}{%
+  \ifboolexpr{
+    test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+    and
+    test \ifmorenames
+  }
+    {\printdelim{andothersdelim}\bibstring{andothers}}
+    {}}
+
+% --- FORMATTAGE DES CHAMPS STANDARDS (conforme au CSL) ---
+\DeclareFieldFormat{title}{\scpo@titleformat{#1}}
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}}
+\DeclareFieldFormat[incollection]{booktitle}{\mkbibemph{#1}}
+\DeclareFieldFormat{journaltitle}{\mkbibemph{#1}}
+\DeclareFieldFormat{edition}{#1\adddot}
+\DeclareFieldFormat[incollection]{pages}{#1}
+\DeclareFieldFormat[article]{pages}{#1}
+\DeclareFieldFormat[thesis]{pages}{%
+  \ifnumeral{#1}
+    {#1\addspace\bibstring{page}}
+    {\ifnumerals{#1}
+       {#1\addspace\bibstring{pages}}
+       {#1}}}
+\DeclareFieldFormat[report]{pagetotal}{#1\addspace\bibstring{pages}}
+\DeclareFieldFormat[report]{pages}{%
+  \ifnumeral{#1}
+    {p\adddot\space#1}
+    {\ifnumerals{#1}
+       {pp\adddot\space#1}
+       {p\adddot\space#1}}}
+\DeclareFieldFormat[online]{volume}{#1}
+\DeclareFieldFormat[online]{number}{#1}
+\DeclareFieldFormat[online]{pages}{#1}
+\DeclareFieldFormat[incollection]{editortype}{%
+  \ifbibstring{#1}
+    {\bibstring{#1}}
+    {#1}}
+\DeclareFieldFormat[incollection]{url}{\url{#1}}
+\DeclareFieldFormat[article]{url}{\url{#1}}
+\DeclareFieldFormat[book]{url}{\url{#1}}
+\DeclareFieldFormat[thesis]{url}{\url{#1}}
+\DeclareFieldFormat[report]{url}{\url{#1}}
+\DeclareFieldFormat[online]{url}{\url{#1}}
+\DeclareFieldFormat[online]{websitetitle}{#1}
+\DeclareFieldFormat[online]{pubdate}{\mkbibdatelong{#1}}
+\DeclareFieldFormat[online]{updatedate}{\mkbibdatelong{#1}}
+\ExplSyntaxOn
+\cs_new_protected:Npn \scpo_format_duration:n #1
+  {
+    \seq_set_split:Nnn \l_tmpa_seq {:} {#1}
+    \int_compare:nNnTF {\seq_count:N \l_tmpa_seq} = {2}
+      {
+        \cs_if_exist:NTF \duration
+          {
+            \duration
+              {\seq_item:Nn \l_tmpa_seq {1}}
+              {\seq_item:Nn \l_tmpa_seq {2}}
+          }
+          {{\NoAutoSpacing #1}}
+      }
+      {{\NoAutoSpacing #1}}
+  }
+\cs_new_eq:NN \scpoformatduration \scpo_format_duration:n
+\ExplSyntaxOff
+\DeclareFieldFormat[online]{duration}{\scpoformatduration{#1}}
+
+% --- MACROS DATES ET ACCÈS POUR LES ENTRÉES EN LIGNE ---
+\newcommand*{\printonlinepubdatevalue}{%
+  \iffieldundef{pubyear}{}{%
+    \iffieldundef{pubmonth}{%
+      \printfield{pubyear}%
+    }{%
+      \iffieldundef{pubday}{%
+        \mkbibmonth{\thefield{pubmonth}}\space\printfield{pubyear}%
+      }{%
+        \printfield{pubday}\space\mkbibmonth{\thefield{pubmonth}}\space\printfield{pubyear}%
+      }%
+    }%
+  }%
+}
+
+\newcommand*{\printonlinepubdate}{%
+  \iffieldundef{pubyear}{}{%
+    \addcomma\space%
+    \printonlinepubdatevalue%
+  }%
+}
+
+\newcommand*{\printonlineupdatedate}{%
+  \iffieldundef{updateyear}{}{%
+    \addcomma\space%
+    \iffieldundef{updatemonth}{%
+      \printfield{updateyear}%
+    }{%
+      \iffieldundef{updateday}{%
+        \mkbibmonth{\thefield{updatemonth}}\space\printfield{updateyear}%
+      }{%
+        \printfield{updateday}\space\mkbibmonth{\thefield{updatemonth}}\space\printfield{updateyear}%
+      }%
+    }%
+  }%
+}
+
+\newcommand*{\printonlinepubdateinline}{%
+  \printonlinepubdatevalue%
+}
+
+\newcommand*{\printonlineaccessdate}{%
+  \iffieldundef{urlyear}%
+    {}%
+    {%
+      \iffieldundef{urlmonth}{%
+        \printfield{urlyear}%
+      }{%
+        \iffieldundef{urlday}{%
+          \mkbibmonth{\thefield{urlmonth}}\space\printfield{urlyear}%
+        }{%
+          \printfield{urlday}\space\mkbibmonth{\thefield{urlmonth}}\space\printfield{urlyear}%
+        }%
+      }%
+    }%
+}
+
+\newcommand*{\printonlineurldate}{%
+  \iffieldundef{urlyear}%
+    {}%
+    {%
+      \ifboolexpr{ test{\iffieldequalstr{entrysubtype}{video}} }%
+        {\printtext{\mkbibbrackets{consultée le\space\printonlineaccessdate}}}%
+        {\printtext{\mkbibbrackets{consulté le\space\printonlineaccessdate}}}%
+    }%
+}
+
+\newcommand*{\printonlineaccess}{%
+  \iffieldundef{url}%
+    {}%
+    {%
+      \printtext{\bibstring{url}\addcolon\space}%
+      \printfield{url}%
+      \iffieldundef{urlyear}%
+        {\ifbool{scpo@fullcitepostnote}{}{\adddot}}%
+        {%
+          \space%
+          \printonlineurldate%
+          \ifbool{scpo@fullcitepostnote}{}{\adddot}%
+        }%
+    }%
+}
+
+% --- HELPERS RENDU ENTRÉES EN LIGNE ---
+\newcommand*{\printonlineplatformorpublisher}{%
+  \iffieldundef{platform}
+    {\iflistundef{publisher}{}{\printlist{publisher}}}
+    {\printfield{platform}}%
+}
+
+\newcommand*{\printonlineplatformonly}{%
+  \iffieldundef{platform}{}{\printfield{platform}}%
+}
+
+\newcommand*{\printonlinedates}{%
+  \iffieldundef{pubyear}{}{\adddot\space\printonlinepubdateinline}%
+  \printonlineupdatedate%
+}
+
+\newcommand*{\printonlineplatformdatesaccess}{%
+  \printonlineplatformorpublisher%
+  \printonlinedates%
+  \adddot\space%
+  \printonlineaccess%
+}
+
+\newcommand*{\printonlinenameblock}{%
+  \ifboolexpr{ test{\iffieldequalstr{entrysubtype}{podcast}} }%
+    {\ifnameundef{author}{\iflistundef{publisher}{\printlist{institution}}{\printlist{publisher}}}{\printnames{author}}}%
+    {\ifnameundef{author}{\printlist{institution}}{\printnames{author}}}%
+}
+
+\newcommand*{\printonlinetitleblock}{%
+  \ifboolexpr{ test{\iffieldequalstr{entrysubtype}{website}} }%
+    {\printtext{\mkbibquote{\printfield[websitetitle]{title}}.}}%
+    {\printfield{title}}%
+  \ifboolexpr{ test{\iffieldequalstr{entrysubtype}{website}} }%
+    {\setunit{\addspace}}%
+    {\setunit{\adddot\space}}%
+}
+
+\newcommand*{\printonlinewebsiteblock}{%
+  \printonlineplatformdatesaccess%
+}
+
+\newcommand*{\printonlinepodcastblock}{%
+  \printonlineplatformonly%
+  \printonlinedates%
+  \iffieldundef{duration}{}{\adddot\space\printfield{duration}}%
+  \iffieldundef{series}{}{\adddot\space\mkbibparens{\printfield{series}}}%
+  \adddot\space%
+  \printonlineaccess%
+}
+
+\newcommand*{\printonlinedefaultblock}{%
+  \printonlineplatformorpublisher%
+  \printonlinedates%
+  \ifboolexpr{
+    test{\iffieldequalstr{entrysubtype}{video}}
+    and
+    not test{\iffieldundef{duration}}
+  }{%
+    \adddot\space%
+    \printfield{duration}%
+  }{}%
+  \adddot\space%
+  \printonlineaccess%
+}
+
+\newcommand*{\printonlinejournalblock}{%
+  \printfield{journaltitle}%
+  \space[en ligne]\adddot\space%
+  \printonlinepubdateinline%
+  \iffieldundef{volume}{}{%
+    \addcomma\space%
+    \printtext{vol.\space\printfield{volume}}}%
+  \iffieldundef{number}{}{%
+    \addcomma\space%
+    \printtext{n\textsuperscript{o}\space\printfield{number}}}%
+  \iffieldundef{pages}{}{%
+    \addcomma\space%
+    \printtext{p.\space\printfield{pages}}}%
+  \adddot\space%
+  \printonlineaccess%
+}
+
+\newcommand*{\printonlinenonjournalblock}{%
+  \ifboolexpr{ test{\iffieldequalstr{entrysubtype}{website}} }%
+    {\printonlinewebsiteblock}%
+    {\ifboolexpr{ test{\iffieldequalstr{entrysubtype}{podcast}} }%
+       {\printonlinepodcastblock}%
+       {\printonlinedefaultblock}}%
+}
+
+% --- DRIVER POUR LIVRE (@book) ---
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \printnames{author}%
+  \newunit\newblock%
+  \printfield{title}%
+  \newunit\newblock%
+  \ifnameundef{translator}{}{%
+    \printtext{\bibstring{bytranslator}\space}%
+    \printnames{translator}%
+    \adddot%
+  }%
+  \newunit\newblock%
+  \printfield{edition}%
+  \newunit\newblock%
+  \printlist{location}%
+  \addcolon\space%
+  \printlist{publisher}%
+  \iffieldundef{origyear}
+    {\adddot\space\printfield{year}}%
+    {\adddot\space\printtext{\mkbibbrackets{\printfield{origyear}}}\space\printfield{year}}%
+  \iffieldundef{note}{}{\adddot\space\printfield{note}}%
+  \adddot%
+  \addspace%
+  \printfield{pages}%
+  \iffieldundef{series}
+    {}%
+    {\addspace\printtext{\mkbibparens{\printfield{series}%
+      \iffieldundef{number}{}{\addcomma\space\printfield{number}}}}}%
+  \iffieldundef{url}{}{\newunit\newblock\printonlineaccess}%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR CHAPITRE (@incollection) ---
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \printnames{author}%
+  \newunit\newblock%
+  \printfield{title}%
+  {\renewcommand*{\newunitpunct}{\addspace}\newunit}%
+  \bibstring{in}\space%
+  \printnames[given-family]{editor}%
+  \iffieldundef{editortype}{}{\addspace\mkbibparens{\printfield{editortype}}}%
+  \setunit{\addperiod\space}%
+  \printfield{booktitle}%
+  \newunit\newblock%
+  \printlist{location}%
+  \addcolon\space%
+  \printlist{publisher}%
+  \adddot\space%
+  \printfield{year}%
+  \adddot%
+  \addspace%
+  \iffieldpages{pages}
+    {\printtext{\bibstring{pages}\addspace}}
+    {\printtext{\bibstring{page}\addspace}}%
+  \printfield{pages}%
+  \iffieldundef{series}
+    {}
+    {\adddot\space\mkbibparens{\printfield{series}%
+      \iffieldundef{number}{}{\addcomma\space\printfield{number}}}}%
+  \iffieldundef{url}{}{\adddot\space\printonlineaccess}%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR ARTICLE DE REVUE (@article) ---
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  % Auteur prioritaire ; sinon acronyme d'institution ; sinon institution complète
+  \ifnameundef{author}
+    {\iffieldundef{shortinstitution}
+        {\iflistundef{institution}{}{\printlist{institution}}}
+        {\printfield{shortinstitution}}}
+    {\printnames{author}}%
+  \newunit\newblock%
+  \printfield{title}%
+  \setunit{\adddot\space}%
+  \printfield{journaltitle}%
+  \addcomma\space%
+  \iffieldundef{monthtext}{\printfield{month}\addspace\printfield{year}}{\printfield{monthtext}}%
+  \addcomma\space%
+  \iffieldundef{volume}{}{\printtext{vol.\addspace}\printfield{volume}\addcomma\space}%
+  \iffieldundef{number}{}{\printtext{n\textsuperscript{o}\addspace}\printfield{number}\addcomma\space}%
+  \iffieldundef{pages}
+    {}
+    {%
+      \iffieldpages{pages}
+        {\printtext{pp.\addspace}}
+        {\printtext{p.\addspace}}%
+      \printfield{pages}}%
+  \iffieldundef{url}{}{\adddot\space\printonlineaccess}%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR THÈSE (@thesis) ---
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \printnames{author}%
+  \newunit\newblock%
+  \printfield{title}%
+  \iffieldundef{type}
+    {}
+    {\adddot\space\printfield{type}}%
+  \ifboolexpr{ not test{\iflistundef{location}} or not test{\iflistundef{institution}} }
+    {%
+      \adddot\space%
+      \iflistundef{location}{}{\printlist{location}}%
+      \iflistundef{institution}
+        {}
+        {\iflistundef{location}
+           {\printlist{institution}}
+           {\addcolon\space\printlist{institution}}}%
+    }
+    {}%
+  \adddot\space%
+  \printfield{year}%
+  \iffieldundef{pages}
+    {}
+    {\adddot\space\printfield{pages}}%
+  \iffieldundef{url}
+    {}
+    {\adddot\space\printonlineaccess}%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR FILM (@movie) ---
+\DeclareBibliographyDriver{movie}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \ifnameundef{director}
+    {\ifnameundef{author}{}{\printnames{author}\addcomma\space\printtext{réal.}}}
+    {\printnames{director}\addcomma\space\printtext{réal.}}%
+  \newunit\newblock%
+  \printfield{title}%
+  \iffieldundef{medium}{}{\space[\printfield{medium}]}%
+  \setunit{\adddot\space}%
+  \iflistundef{publisher}{}{\printlist{publisher}\setunit{\addcomma\space}}%
+  \printfield{year}%
+  \iffieldundef{year}{}{\adddot}%
+  \iffieldundef{extent}{}{\space\printfield{extent}}%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR ENTRÉES EN LIGNE (@online) ---
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \printonlinenameblock%
+  \newunit\newblock%
+  \printonlinetitleblock%
+  \iffieldundef{journaltitle}{%
+    \printonlinenonjournalblock%
+  }{%
+    \printonlinejournalblock%
+  }%
+  \usebibmacro{finentry}%
+}
+
+% --- DRIVER POUR RAPPORT (@report) ---
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  % Auteur prioritaire ; sinon acronyme de l'institution ; sinon nom complet
+  \ifnameundef{author}
+    {\iffieldundef{shortinstitution}
+       {\printlist{institution}}
+       {\printfield{shortinstitution}}}%
+    {\printnames{author}}%
+  \setunit{\adddot\space}%
+  \printfield{title}%
+  \setunit{\adddot\space}%
+  \iffieldundef{type}
+    {\iffieldundef{number}
+       {}%
+       {\printtext{\bibstring{report}\addspace\bibstring{number}\addspace\printfield{number}}}}%
+    {\printfield{type}%
+     \iffieldundef{number}{}{\addspace\bibstring{number}\addspace\printfield{number}}}%
+  \setunit{\adddot\space}%
+  \iffieldundef{organization}
+    {%
+      \ifboolexpr{
+        test {\ifnameundef{author}}
+        and
+        test {\iffieldundef{shortinstitution}}
+      }
+        {}
+        {\printlist{institution}}%
+    }
+    {\printlist{organization}}%
+  \setunit{\adddot\space}%
+  \printfield{year}%
+  \iffieldundef{series}{}{\addspace\mkbibparens{\printfield{series}}}%
+  \setunit{\adddot\space}%
+  \printfield{note}%
+  \setunit{\adddot\space}%
+  \iffieldundef{pagetotal}
+    {\printfield{pages}}
+    {\printfield{pagetotal}}%
+  \iffieldundef{url}{}{\newunit\newblock\printonlineaccess}%
+  \usebibmacro{finentry}%
+}
+
+\endinput
