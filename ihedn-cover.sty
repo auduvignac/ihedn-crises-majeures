@@ -94,8 +94,47 @@
 
 % Coordinate system: origin top-left; x right; y down; units in mm.
 \newcommand{\CoverXRight}{195.0}
+\newcommand{\CoverLogoX}{19.451}
+\newcommand{\CoverLogoY}{24.596}
+\newcommand{\CoverLogoWidth}{32.052}
+\newcommand{\CoverLogoHeight}{44.907}
+\newcommand{\CoverHeaderLineOneY}{12.933}
+\newcommand{\CoverHeaderLineTwoY}{19.918}
+\newcommand{\CoverHeaderLineThreeY}{26.945}
+\newcommand{\CoverHeaderDateY}{36.766}
+\newcommand{\CoverTitleX}{13.208}
+\newcommand{\CoverTitleY}{87.107}
 \newcommand{\CoverTitleWidth}{175.741}
 \newcommand{\CoverTitleWidthDim}{175.741mm}
+\newcommand{\CoverSubtitleBlockX}{13.081}
+\newcommand{\CoverSubtitleBlockY}{150.757}
+\newcommand{\CoverSubtitleBlockWidth}{176.536}
+\newcommand{\CoverReportLineOneX}{28.448}
+\newcommand{\CoverReportLineOneY}{121.518}
+\newcommand{\CoverReportLineOneWidth}{145.713}
+\newcommand{\CoverReportLineTwoX}{48.218}
+\newcommand{\CoverReportLineTwoY}{127.995}
+\newcommand{\CoverReportLineTwoWidth}{106.209}
+\newcommand{\CoverCommitteeX}{15.028}
+\newcommand{\CoverCommitteeY}{261.094}
+\newcommand{\CoverCommitteeWidth}{180.013}
+\newcommand{\CoverCommitteeBottomY}{292.165}
+
+% Debug layout measurements (from calibrated reference boxes).
+\newcommand{\CoverDebugHeaderOneX}{159.851}
+\newcommand{\CoverDebugHeaderTwoX}{113.877}
+\newcommand{\CoverDebugHeaderThreeX}{129.582}
+\newcommand{\CoverDebugHeaderDateX}{160.316}
+\newcommand{\CoverDebugHeaderOneWidth}{35.110}
+\newcommand{\CoverDebugHeaderTwoWidth}{81.055}
+\newcommand{\CoverDebugHeaderThreeWidth}{65.382}
+\newcommand{\CoverDebugHeaderDateWidth}{34.626}
+\newcommand{\CoverDebugLineHeight}{6.233}
+\newcommand{\CoverDebugTitleHeight}{10.170}
+\newcommand{\CoverDebugSubtitleReportOneHeight}{6.233}
+\newcommand{\CoverDebugSubtitleReportTwoHeight}{6.233}
+\newcommand{\CoverDebugSubtitleBlockHeight}{24.082}
+\newcommand{\CoverDebugCommitteeHeight}{31.071}
 
 \newcommand{\CoverLine}[4]{%
   \node[
@@ -132,11 +171,11 @@
 }
 
 \newcommand{\CoverTitleBox}[1]{%
-  \CoverTextBox{13.208}{87.107}{\CoverTitleWidth}{center}{\bfseries\CoverTitleFontSpec}{#1}%
+  \CoverTextBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{center}{\bfseries\CoverTitleFontSpec}{#1}%
 }
 
 \newcommand{\CoverSubtitleBox}[1]{%
-  \CoverTextBox{13.081}{150.757}{176.536}{center}{\bfseries\CoverSubtitleFontSpec}{#1}%
+  \CoverTextBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{center}{\bfseries\CoverSubtitleFontSpec}{#1}%
 }
 
 \newcommand{\CoverCommitteeBoxJustified}[5]{%
@@ -282,25 +321,25 @@
         \regex_match:nnTF { \.svg\Z } { \l_tmpb_tl }
           {
             \regex_replace_once:nnN { \.[sS][vV][gG]\Z } {} \l_tmpa_tl
-            \CoverPlaceSvg{19.451}{24.596}{32.052}{44.907}{\l_tmpa_tl}
+            \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl}
           }
           {
             \regex_match:nnTF { \.(pdf|png)\Z } { \l_tmpb_tl }
               {
-                \CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{\l_tmpa_tl}
+                \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl}
               }
               {
                 \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .pdf }
                 \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
-                  { \CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{\l_tmpc_tl} }
+                  { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
                   {
                     \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .png }
                     \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
-                      { \CoverPlaceImage{19.451}{24.596}{32.052}{44.907}{\l_tmpc_tl} }
+                      { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
                       {
                         \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .svg }
                         \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
-                          { \CoverPlaceSvg{19.451}{24.596}{32.052}{44.907}{\l_tmpa_tl} }
+                          { \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
                           {
                             \PackageWarningNoLine{ihedn-cover}
                               {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.svg}
@@ -314,7 +353,7 @@
 \cs_new_protected:Npn \CoverDebugLogoBoxIfSet
   {
     \tl_if_blank:VF \l_cover_logo_path_tl
-      { \CoverDebugBox{19.451}{24.596}{32.052}{44.907}{logo} }
+      { \CoverDebugBox{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{logo} }
   }
 \ExplSyntaxOff
 
@@ -348,23 +387,23 @@
 \CoverPlaceLogoIfSet
 
 % --- Header (from measured line boxes) ---
-\CoverLineBoxRight{\CoverXRight}{12.933}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderOneField}
-\CoverLineBoxRight{\CoverXRight}{19.918}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderTwoField}
-\CoverLineBoxRight{\CoverXRight}{26.945}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderThreeField}
-\CoverLineBoxRight{\CoverXRight}{36.766}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverDateField}
+\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineOneY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderOneField}
+\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineTwoY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderTwoField}
+\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineThreeY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderThreeField}
+\CoverLineBoxRight{\CoverXRight}{\CoverHeaderDateY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverDateField}
 
 % --- Main title ---
 \CoverTitleBox{\CoverTitleField}
 
 % --- Subtitle ---
-\CoverLineBox{28.448}{121.518}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{145.713}{c}{\CoverReportLineOneField}
-\CoverLineBox{48.218}{127.995}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{106.209}{c}{\CoverReportLineTwoField}
+\CoverLineBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverReportLineOneWidth}{c}{\CoverReportLineOneField}
+\CoverLineBox{\CoverReportLineTwoX}{\CoverReportLineTwoY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverReportLineTwoWidth}{c}{\CoverReportLineTwoField}
 
 % --- Central statement ---
 \CoverSubtitleBox{\CoverSubtitleField}
 
 % --- Committee paragraph ---
-\CoverCommitteeBoxJustified{15.028}{261.094}{180.013}{\CoverCommitteeFontSpec}{\CoverCommitteeField}
+\CoverCommitteeBoxJustified{\CoverCommitteeX}{\CoverCommitteeY}{\CoverCommitteeWidth}{\CoverCommitteeFontSpec}{\CoverCommitteeField}
 
 \ifcoverdebug
   % 1 mm grid + emphasized 10 mm grid
@@ -388,25 +427,25 @@
 
   % Bounding boxes
   \CoverDebugLogoBoxIfSet
-  \CoverDebugBox{159.851}{12.933}{35.110}{6.233}{hdr1}
-  \CoverDebugBox{113.877}{19.918}{81.055}{6.233}{hdr2}
-  \CoverDebugBox{129.582}{26.945}{65.382}{6.233}{hdr3}
-  \CoverDebugBox{160.316}{36.766}{34.626}{6.233}{date}
-  \CoverDebugBox{13.208}{87.107}{175.741}{10.170}{title}
-  \CoverDebugBox{28.448}{121.518}{145.713}{6.233}{sub1}
-  \CoverDebugBox{48.218}{127.995}{106.209}{6.233}{sub2}
-  \CoverDebugBox{13.081}{150.757}{176.536}{24.082}{subtitle-block}
-  \CoverDebugBox{15.028}{261.094}{180.013}{31.071}{committee-block}
+  \CoverDebugBox{\CoverDebugHeaderOneX}{\CoverHeaderLineOneY}{\CoverDebugHeaderOneWidth}{\CoverDebugLineHeight}{hdr1}
+  \CoverDebugBox{\CoverDebugHeaderTwoX}{\CoverHeaderLineTwoY}{\CoverDebugHeaderTwoWidth}{\CoverDebugLineHeight}{hdr2}
+  \CoverDebugBox{\CoverDebugHeaderThreeX}{\CoverHeaderLineThreeY}{\CoverDebugHeaderThreeWidth}{\CoverDebugLineHeight}{hdr3}
+  \CoverDebugBox{\CoverDebugHeaderDateX}{\CoverHeaderDateY}{\CoverDebugHeaderDateWidth}{\CoverDebugLineHeight}{date}
+  \CoverDebugBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{\CoverDebugTitleHeight}{title}
+  \CoverDebugBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{\CoverDebugSubtitleReportOneHeight}{sub1}
+  \CoverDebugBox{\CoverReportLineTwoX}{\CoverReportLineTwoY}{\CoverReportLineTwoWidth}{\CoverDebugSubtitleReportTwoHeight}{sub2}
+  \CoverDebugBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{\CoverDebugSubtitleBlockHeight}{subtitle-block}
+  \CoverDebugBox{\CoverCommitteeX}{\CoverCommitteeY}{\CoverCommitteeWidth}{\CoverDebugCommitteeHeight}{committee-block}
   \draw[orange!90!black,line width=0.18mm]
-    ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-261.094mm]current page.north west) --
-    ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-292.165mm]current page.north west);
+    ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm/2\relax,yshift=-\CoverCommitteeY mm]current page.north west) --
+    ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm/2\relax,yshift=-\CoverCommitteeBottomY mm]current page.north west);
   \node[anchor=south west,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
-    at ([xshift=\dimexpr15.028mm + 180.013mm/2\relax,yshift=-292.165mm]current page.north west) {committee-center};
+    at ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm/2\relax,yshift=-\CoverCommitteeBottomY mm]current page.north west) {committee-center};
   \draw[magenta!85!black,line width=0.18mm]
-    ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-261.094mm]current page.north west) --
-    ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-292.165mm]current page.north west);
+    ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm\relax,yshift=-\CoverCommitteeY mm]current page.north west) --
+    ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm\relax,yshift=-\CoverCommitteeBottomY mm]current page.north west);
   \node[anchor=south east,inner sep=0.3mm,font=\tiny\ttfamily,fill=white]
-    at ([xshift=\dimexpr15.028mm + 180.013mm\relax,yshift=-292.165mm]current page.north west) {committee-right};
+    at ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm\relax,yshift=-\CoverCommitteeBottomY mm]current page.north west) {committee-right};
 \fi
 
 \end{tikzpicture}
