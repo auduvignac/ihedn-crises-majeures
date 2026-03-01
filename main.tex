@@ -1,6 +1,5 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage{array}
-\usepackage[french]{babel}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
 \usepackage{graphicx}
@@ -68,9 +67,12 @@
 % ----------------------------------------------------------------
 \usepackage{polyglossia}
 \setdefaultlanguage{french}
-\frenchsetup{SmallCapsFigTabCaptions=false}
-\addto\captionsfrench{\renewcommand{\tablename}{Tableau}}
-\addto\captionsfrench{\renewcommand{\figurename}{Figure}}
+\makeatletter
+\g@addto@macro\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+}
+\makeatother
 \usepackage{csquotes}
 \usepackage{hyperref}
 \makeatletter
@@ -130,6 +132,8 @@
   \item À chaque chapitre ou section, il est nécessaire de présenter des propositions concrètes et réalisables.
 \end{itemize}
 
+\newpage
+
 \section{Insertion de figures}
 
 Chaque figure doit comporter une légende achevée par un point et être dimensionnée de manière à respecter strictement les marges du document.
@@ -141,6 +145,8 @@ Chaque figure doit être référencée dans le texte au moyen de son numéro~: \
     \caption{Titre explicite de la figure.}
     \label{fig:exemple}
 \end{figure}
+
+\newpage
 
 \section{Références et bibliographie}
 
