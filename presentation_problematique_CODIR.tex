@@ -1,0 +1,200 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+
+% ============================================================
+% IHEDN COVER TEMPLATE (XeLaTeX)
+% ============================================================
+% Compilation (from project root):
+%   latexmk -pdf main.tex
+%   LATEXMK_SHELL_ESCAPE=0 latexmk -pdf main.tex
+%
+% Optional environment controls from latexmkrc:
+%   LATEXMK_ENGINE=xelatex        (default/enforced)
+%   LATEXMK_SHELL_ESCAPE=1|0      (default 1, needed for SVG conversion)
+%
+% Required package for this template:
+%   \usepackage{ihedn-cover}
+%
+% Note: ihedn-cover already loads needed internal packages
+% (fontspec, graphicx, tikz, ragged2e, optional svg).
+% ============================================================
+
+% ----------------------------------------------------------------
+% Package options (documented)
+% ----------------------------------------------------------------
+% Geometry scope:
+%   apply-geometry            -> force A4 + zero margins while cover is built
+%   no-apply-geometry         -> do not alter host geometry (default)
+%
+% Typesetting freeze:
+%   global-typesetting        -> apply freeze globally (intrusive)
+%   no-global-typesetting     -> no global freeze (default)
+%
+% Small-caps handling:
+%   local-smallcaps-fix       -> \textsc -> \MakeUppercase only inside cover (default)
+%   no-local-smallcaps-fix    -> disable local fix
+%   global-smallcaps-fix      -> global override (intrusive)
+%   no-global-smallcaps-fix   -> disable global fix (default)
+%
+% Main font handling:
+%   global-mainfont           -> set Times New Roman globally (default)
+%   local-mainfont            -> set Times only during cover rendering
+%   no-mainfont-override      -> keep host document main font
+%
+% SVG support:
+%   svg-support               -> enable SVG logos (default, needs shell-escape)
+%   no-svg-support            -> disable SVG path handling (pdf/png only)
+%
+% Debug overlay:
+%   debug                     -> show mm grid + bounding boxes on cover
+%   no-debug                  -> hide debug overlay (default)
+% ----------------------------------------------------------------
+\usepackage[
+  no-apply-geometry,
+  no-global-typesetting,
+  global-smallcaps-fix,
+  local-smallcaps-fix,
+  global-mainfont,
+  svg-support,
+  no-debug
+]{ihedn-cover}
+
+% ----------------------------------------------------------------
+% Bibliography stack (BibLaTeX/Biber, style from subtree vendor/)
+% ----------------------------------------------------------------
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\makeatletter
+\g@addto@macro\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+}
+\makeatother
+\usepackage{csquotes}
+\usepackage{hyperref}
+\makeatletter
+\let\ihedn@orig@input@path\input@path
+\def\input@path{{vendor/biblatex-sciences-po-fr/style/}}
+\makeatother
+\usepackage[
+  backend=biber,
+  style=sciencespo,
+  hyperref=true,
+  autolang=other
+]{biblatex}
+\makeatletter
+\let\input@path\ihedn@orig@input@path
+\makeatother
+\addbibresource{bibliographies/bib/articles.bib}
+\addbibresource{bibliographies/bib/livres.bib}
+\addbibresource{bibliographies/bib/online.bib}
+
+% Example: use Arial for the full report + cover.
+% Uncomment and switch package option to no-mainfont-override.
+% \setmainfont{Arial}[
+%   UprightFont    = *,
+%   BoldFont       = * Bold,
+%   ItalicFont     = * Italic,
+%   BoldItalicFont = * Bold Italic
+% ]
+
+\begin{document}
+
+% ----------------------------------------------------------------
+% Cover keys (all available keys are shown below)
+% ----------------------------------------------------------------
+% Header block (top-right), logo, title, report lines, subtitle, committee.
+\PageDeGardeIHEDN{header_1={Union-IHEDN},header_2={Association des auditeurs IHEDN},header_3={région Paris / Île de France},date={le 01 mars 2026},logo_path={Figures/logos_IHEDN/Logo-AR16},title={Crises majeures : quel rôle pour les citoyens engagés et les associations IHEDN ?},title_max_lines=2,title_fontsize={26.000pt},title_baselineskip={28.667pt},reportline_1={Rapport du Comité d'étude de l'Association régionale des auditeurs},reportline_2={de l'IHEDN région Paris / Île de France (AR 16)},subtitle={Présentation de la problématique et du cadre général du questionnaire en vue d'établir une cartographie claire des membres de l'AR 16.},committee={Comité d'étude, d'octobre 2025 à juin 2026, présidé par Valérie Arlé-Faivre, rapporté par Aurélien Duvignac-Rosa, composé de Pascal Bayot Duponchel, Jean-Jacques Cleynen, Valérie Cowan, Alain Fontan, Pierre-Marie Giard, Muriel Joyeux, Bruno Leray, Yves-Henri Renhas, Isabelle de Segonzac, Gérard Turck, Marie Danielle Vasquez-Duchêne.}}
+
+\clearpage
+\pagenumbering{Roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Objectifs de l'enquête ?}
+
+À l'occasion du 50\textsuperscript{e} anniversaire de l'AR 16\footcite{linkedin_AR16}, la question de son positionnement stratégique et de sa capacité d'engagement dans la gestion des crises majeures se pose avec une acuité particulière. 
+
+Or, toute réflexion stratégique suppose un préalable : disposer d'une connaissance objectivée de l'Association et de ses membres. À ce jour, notre perception des ressources, des compétences et des disponibilités repose largement sur des représentations partielles.
+
+L'enquête proposée vise à produire un état des lieux fiable permettant de dépasser ces impressions et de fonder les décisions futures sur des données empiriques.
+
+\section{Problématique centrale}
+
+La question directrice est la suivante :
+
+\begin{quote}
+\textbf{Quelle est la capacité réelle et mobilisable de l'AR 16 à contribuer à la préparation, à l'accompagnement et à l'analyse des crises majeures ?}
+\end{quote}
+
+L'hypothèse sous-jacente est que l'Association dispose d'un capital de compétences significatif, mais insuffisamment cartographié et structuré. Le questionnaire constitue l'outil permettant d'objectiver cette hypothèse.
+
+\section{Finalités stratégiques}
+
+L'enquête poursuit quatre objectifs :
+
+\begin{itemize}
+    \item Cartographier précisément les profils et compétences des membres ;
+    \item Identifier les conditions réelles d'engagement (contraintes professionnelles, disponibilité, statut) ;
+    \item Renforcer la crédibilité institutionnelle de l'AR 16 par des données objectivées ;
+    \item Structurer l'Association (mise à jour de l'annuaire, identification d'expertises spécifiques).
+\end{itemize}
+
+\newpage
+
+\section{Cadre méthodologique}
+
+Le questionnaire devra découler d'une problématique explicite et d'hypothèses clairement formulées. Chaque question devra répondre à un objectif analytique précis.
+
+Deux précautions sont essentielles :
+
+\begin{itemize}
+    \item Éviter toute \enquote{imposition de problématique} susceptible d'orienter les réponses\footcite{Bourdieu1980} \footcite[70]{DeSingly2020} \footcite[84]{Fenneteau2015} ;
+    \item Interpréter les données biographiques avec prudence, en tenant compte des déterminations sociales et professionnelles\footcite[45]{Bourdieu1980}.
+\end{itemize}
+
+Le questionnaire sera structuré de manière progressive, précédé d'un paragraphe explicatif, et d'une longueur raisonnable afin de garantir un taux de réponse satisfaisant.
+
+\section{Cadre juridique}
+
+La mise en œuvre suppose :
+
+\begin{itemize}
+    \item la conformité aux exigences du RGPD ;
+    \item la désignation d'un référent pour la protection des données ;
+    \item la rédaction d'un formulaire de consentement ;
+    \item l'anonymisation des réponses.
+\end{itemize}
+
+\section{Enjeu pour le CODIR}
+
+\textbf{Valider le principe de cette enquête revient à choisir de fonder le positionnement stratégique de l'AR 16 sur une connaissance objectivée plutôt que sur des représentations partielles.}
+
+Le questionnaire constitue ainsi un \textbf{levier de structuration interne}, \textbf{de clarification stratégique} et \textbf{de valorisation institutionnelle}.
+
+\bigskip
+
+\noindent
+\textbf{Il ne s'agit pas d'un simple outil administratif, mais d'un instrument d'analyse et de projection stratégique.}
+
+\newpage
+
+\printbibliography[heading=bibintoc,title={Références biliographiques}]
+
+% ----------------------------------------------------------------
+% Notes d'usage:
+% - Le style bibliographique est dans:
+%   vendor/biblatex-sciences-po-fr/style/
+% - Ajouter des entrées dans les fichiers bibliographiques chargés ci-dessus:
+%   vendor/biblatex-sciences-po-fr/bibliographies/{articles,livres,online,rapports,theses}.bib
+% - Compilation requise:
+%   latexmk -pdf main.tex
+%   (latexmkrc est configuré pour XeLaTeX + Biber).
+% ----------------------------------------------------------------
+
+\end{document}
