@@ -1,0 +1,278 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+
+% ============================================================
+% IHEDN COVER TEMPLATE (XeLaTeX)
+% ============================================================
+% Compilation (from project root):
+%   latexmk -pdf main.tex
+%   LATEXMK_SHELL_ESCAPE=0 latexmk -pdf main.tex
+%
+% Optional environment controls from latexmkrc:
+%   LATEXMK_ENGINE=xelatex        (default/enforced)
+%   LATEXMK_SHELL_ESCAPE=1|0      (default 1, needed for SVG conversion)
+%
+% Required package for this template:
+%   \usepackage{ihedn-cover}
+%
+% Note: ihedn-cover already loads needed internal packages
+% (fontspec, graphicx, tikz, ragged2e, optional svg).
+% ============================================================
+
+% ----------------------------------------------------------------
+% Package options (documented)
+% ----------------------------------------------------------------
+% Geometry scope:
+%   apply-geometry            -> force A4 + zero margins while cover is built
+%   no-apply-geometry         -> do not alter host geometry (default)
+%
+% Typesetting freeze:
+%   global-typesetting        -> apply freeze globally (intrusive)
+%   no-global-typesetting     -> no global freeze (default)
+%
+% Small-caps handling:
+%   local-smallcaps-fix       -> \textsc -> \MakeUppercase only inside cover (default)
+%   no-local-smallcaps-fix    -> disable local fix
+%   global-smallcaps-fix      -> global override (intrusive)
+%   no-global-smallcaps-fix   -> disable global fix (default)
+%
+% Main font handling:
+%   global-mainfont           -> set Times New Roman globally (default)
+%   local-mainfont            -> set Times only during cover rendering
+%   no-mainfont-override      -> keep host document main font
+%
+% SVG support:
+%   svg-support               -> enable SVG logos (default, needs shell-escape)
+%   no-svg-support            -> disable SVG path handling (pdf/png only)
+%
+% Debug overlay:
+%   debug                     -> show mm grid + bounding boxes on cover
+%   no-debug                  -> hide debug overlay (default)
+% ----------------------------------------------------------------
+\usepackage[
+  no-apply-geometry,
+  no-global-typesetting,
+  global-smallcaps-fix,
+  local-smallcaps-fix,
+  global-mainfont,
+  svg-support,
+  no-debug
+]{ihedn-cover}
+
+% ----------------------------------------------------------------
+% Bibliography stack (BibLaTeX/Biber, style from subtree vendor/)
+% ----------------------------------------------------------------
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\makeatletter
+\g@addto@macro\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+}
+\makeatother
+\usepackage{csquotes}
+\usepackage{hyperref}
+\makeatletter
+\let\ihedn@orig@input@path\input@path
+\def\input@path{{vendor/biblatex-sciences-po-fr/style/}}
+\makeatother
+\usepackage[
+  backend=biber,
+  style=sciencespo,
+  hyperref=true,
+  autolang=other
+]{biblatex}
+\makeatletter
+\let\input@path\ihedn@orig@input@path
+\makeatother
+\addbibresource{bibliographies/bib/articles.bib}
+\addbibresource{bibliographies/bib/livres.bib}
+\addbibresource{bibliographies/bib/online.bib}
+
+% Example: use Arial for the full report + cover.
+% Uncomment and switch package option to no-mainfont-override.
+% \setmainfont{Arial}[
+%   UprightFont    = *,
+%   BoldFont       = * Bold,
+%   ItalicFont     = * Italic,
+%   BoldItalicFont = * Bold Italic
+% ]
+
+\begin{document}
+
+% ----------------------------------------------------------------
+% Cover keys (all available keys are shown below)
+% ----------------------------------------------------------------
+% Header block (top-right), logo, title, report lines, subtitle, committee.
+\PageDeGardeIHEDN{header_1={Union-IHEDN},header_2={Association des auditeurs IHEDN},header_3={région Paris / Île de France},date={le 01 mars 2026},logo_path={Figures/logos_IHEDN/Logo-AR16},title={Crises majeures : quel rôle pour les citoyens engagés et les associations IHEDN ?},title_max_lines=2,title_fontsize={26.000pt},title_baselineskip={28.667pt},reportline_1={Rapport du Comité d'étude de l'Association régionale des auditeurs},reportline_2={de l'IHEDN région Paris / Île de France (AR 16)},subtitle={Éléments de synthèse relatifs à l'échange avec le Docteur Victor Violier -- Sociologue à l'IRSEM},committee={Comité d'étude, d'octobre 2025 à juin 2026, présidé par Valérie Arlé-Faivre, rapporté par Aurélien Duvignac-Rosa, composé de Pascal Bayot Duponchel, Jean-Jacques Cleynen, Valérie Cowan, Alain Fontan, Pierre-Marie Giard, Muriel Joyeux, Bruno Leray, Yves-Henri Renhas, Isabelle de Segonzac, Gérard Turck, Marie Danielle Vasquez-Duchêne.}}
+
+\clearpage
+\pagenumbering{Roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Ambition et portée de l'enquête}
+
+L'enquête envisagée vise à produire un savoir objectivé sur :
+
+\begin{itemize}
+    \item les membres de l'AR 16 ;
+    \item la structure sociologique de l'Association ;
+    \item sa capacité potentielle d'engagement dans la gestion des crises majeures.
+\end{itemize}
+
+À terme, une extension à d'autres associations régionales pourrait être explorée. Toutefois, une telle ambition supposerait des moyens humains et méthodologiques conséquents. Dans l'immédiat, il est proposé de conduire un sondage ciblé sur l'AR 16, susceptible de constituer un modèle reproductible.
+
+\section{Finalité et justification de l'enquête}
+
+Toute démarche d'enquête suppose de répondre préalablement à une question fondamentale : \enquote{À quoi doit servir cette étude ?}
+
+Selon le Docteur Violier\footcite{violier_irsem}, l'enquête permet de dépasser les représentations spontanées et d'introduire une distance analytique. Elle constitue un instrument d'objectivation.
+
+Dans le contexte du 50\textsuperscript{e} anniversaire de l'AR 16 Paris-Île-de-France (créée en 1976\footcite{linkedin_AR16}), elle peut également jouer un rôle de plaidoyer institutionnel, en permettant :
+
+\begin{itemize}
+    \item de dresser un état des lieux ;
+    \item de produire un bilan structuré ;
+    \item de dégager des perspectives d'évolution.
+\end{itemize}
+
+Deux objectifs architecturent la démarche :
+
+\begin{enumerate}
+    \item Cartographier l'Association pour mieux la faire connaître ;
+    \item Connaître les membres afin de déterminer les modalités réalistes de leur inclusion dans la gestion des crises majeures.
+\end{enumerate}
+
+\section{De la problématique au questionnaire}
+
+L'élaboration du questionnaire doit être précédée d'une problématique claire. Il convient :
+
+\begin{itemize}
+    \item de formuler une question centrale ;
+    \item d'énoncer une hypothèse principale ;
+    \item de décliner des sous-questions permettant de valider ou d'invalider cette hypothèse ;
+    \item d'identifier les facteurs déterminants et les facteurs associés.
+\end{itemize}
+
+Il est relativement simple de produire des questions ; il est plus exigeant d'en évaluer la pertinence. Chaque question doit être justifiée au regard de l'objet de recherche.
+
+\section{Précautions méthodologiques}
+
+\subsection{Éviter l'\enquote{imposition de problématique}}
+
+Le questionnaire ne doit pas orienter implicitement les réponses ni imposer une lecture préconçue de la réalité. Il doit susciter l'engagement des personnes sollicitées et garantir la neutralité de la formulation\footcite{Bourdieu1980} \footcite[70]{DeSingly2020} \footcite[84]{Fenneteau2015}.
+
+\subsection{Prendre garde à l'illusion biographique}
+
+Il convient d'être attentif à la reconstruction \textit{a posteriori} d'une cohérence dans les trajectoires individuelles. Les données biographiques doivent être contextualisées et interprétées avec prudence. À l'instar de l'opinion supposée autonome, la biographie est souvent présentée comme spontanée et indépendante des déterminations sociales, alors qu'elle est socialement construite et historiquement située. L'enquête ne doit pas valider cette naturalisation des parcours, mais rendre visibles les structures qui les rendent possibles.\footcite[45]{Bourdieu1980}
+
+
+\subsection{Le choix du format des questions}
+
+\enquote{Avant de rédiger une question, il faut définir le format de celle-ci.
+Les questions peuvent être \textit{ouvertes}, \textit{fermées} ou \textit{mixtes}. Chacune
+de ces formules s'accompagne de contraintes qui lui sont propres et
+présente à la fois des avantages et des inconvénients spécifiques.
+La connaissance de ces caractéristiques permet de comprendre dans
+quel contexte ces différents formats de question peuvent être utilisés.}\footcite[65]{Fenneteau2015}
+
+\subsubsection{Les questions ouvertes}
+
+\enquote{Quand on emploie une question ouverte, on formule une interrogation sans présenter une liste de réponses. La personne interrogée peut dire ce qu'elle veut ; aucune suggestion ne lui est faite.}\footcite[65]{Fenneteau2015}
+
+\subsubsection{Les questions fermées}
+
+\enquote{Les questions \textit{fermées} sont celles pour lesquelles la personne interrogée
+\textit{répond en choisissant une modalité} parmi celles qui lui sont
+présentées.}\footcite[71]{Fenneteau2015}
+
+\subsubsection{Les questions mixtes}
+
+\enquote{Les questions \textit{mixtes} s'apparentent aux questions \textit{fermées} parce
+qu'elles sont accompagnées d'une liste de modalités de réponse. Elles
+sont également partiellement \textit{ouvertes}, car la dernière modalité invite
+la personne interrogée à apporter des précisions en toute liberté.
+Cette dernière modalité est généralement : \enquote{\textit{Autre. Précisez.}}.}\footcite[79]{Fenneteau2015}
+
+\section{Structuration du questionnaire}
+
+\subsection{Principes généraux}
+
+Le questionnaire devra :
+
+\begin{itemize}
+    \item Comporter un paragraphe liminaire présentant les auteurs, les objectifs et la durée estimée ;
+    \item expliciter les garanties de confidentialité ;
+    \item être structuré de manière progressive et didactique ;
+   \item Demeurer d'une longueur raisonnable.
+\end{itemize}
+
+Il conviendra également d'encourager la diffusion interne et de prévoir une restitution des résultats.
+
+\subsection{Rubriques recommandées}
+
+Le questionnaire pourrait comporter :
+
+\begin{enumerate}
+    \item Informations biographiques de base ;
+    \item Environnement familial ;
+    \item Formation ;
+    \item Profession (secteur public/privé) ;
+    \item Catégorie socio-professionnelle ;
+    \item Statut (actif/retraité) ;
+    \item Niveau d'engagement envisageable en cas de crise ;
+    \item Questions ouvertes.
+\end{enumerate}
+
+Ces éléments permettront d'actualiser la cartographie des membres, d'évaluer la part des civils et des militaires en vue de compléter l'annuaire des membres de l'AR 16.
+
+\section{Dimension juridique et organisationnelle}
+
+La mise en œuvre de l'enquête suppose :
+
+\begin{itemize}
+    \item l'identification d'un Délégué à la protection des données (DPO) ;
+    \item la conformité aux exigences du RGPD et de la CNIL ;
+    \item la rédaction d'un formulaire de consentement ;
+    \item l'établissement d'un calendrier prévisionnel.
+\end{itemize}
+
+Le cadre juridique constitue un préalable indispensable. L'anonymisation des données peut faciliter la participation et simplifier les contraintes administratives.
+
+\section{Conclusion}
+
+L'enquête envisagée constitue :
+
+\begin{itemize}
+    \item un instrument de connaissance interne ;
+    \item un levier de structuration stratégique ;
+    \item un outil de valorisation institutionnelle ;
+    \item un fondement empirique pour toute proposition relative à l'intégration des membres de l'AR 16 dans la gestion des crises majeures.
+\end{itemize}
+
+Sa pertinence dépendra de la clarté de sa problématique, de la rigueur de sa construction et du respect du cadre juridique applicable.
+
+\newpage
+
+\printbibliography[heading=bibintoc,title={Références bibliographiques}]
+
+\nocite{*}
+
+% ----------------------------------------------------------------
+% Notes d'usage:
+% - Le style bibliographique est dans:
+%   vendor/biblatex-sciences-po-fr/style/
+% - Ajouter des entrées dans les fichiers bibliographiques chargés ci-dessus:
+%   vendor/biblatex-sciences-po-fr/bibliographies/{articles,livres,online,rapports,theses}.bib
+% - Compilation requise:
+%   latexmk -pdf main.tex
+%   (latexmkrc est configuré pour XeLaTeX + Biber).
+% ----------------------------------------------------------------
+
+\end{document}
