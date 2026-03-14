@@ -1,0 +1,311 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+
+% ============================================================
+% IHEDN COVER TEMPLATE (XeLaTeX)
+% ============================================================
+% Compilation (from project root):
+%   latexmk -pdf main.tex
+%   LATEXMK_SHELL_ESCAPE=0 latexmk -pdf main.tex
+%
+% Optional environment controls from latexmkrc:
+%   LATEXMK_ENGINE=xelatex        (default/enforced)
+%   LATEXMK_SHELL_ESCAPE=1|0      (default 1, needed for SVG conversion)
+%
+% Required package for this template:
+%   \usepackage{ihedn-cover}
+%
+% Note: ihedn-cover already loads needed internal packages
+% (fontspec, graphicx, tikz, ragged2e, optional svg).
+% ============================================================
+
+% ----------------------------------------------------------------
+% Package options (documented)
+% ----------------------------------------------------------------
+% Geometry scope:
+%   apply-geometry            -> force A4 + zero margins while cover is built
+%   no-apply-geometry         -> do not alter host geometry (default)
+%
+% Typesetting freeze:
+%   global-typesetting        -> apply freeze globally (intrusive)
+%   no-global-typesetting     -> no global freeze (default)
+%
+% Small-caps handling:
+%   local-smallcaps-fix       -> \textsc -> \MakeUppercase only inside cover (default)
+%   no-local-smallcaps-fix    -> disable local fix
+%   global-smallcaps-fix      -> global override (intrusive)
+%   no-global-smallcaps-fix   -> disable global fix (default)
+%
+% Main font handling:
+%   global-mainfont           -> set Times New Roman globally (default)
+%   local-mainfont            -> set Times only during cover rendering
+%   no-mainfont-override      -> keep host document main font
+%
+% SVG support:
+%   svg-support               -> enable SVG logos (default, needs shell-escape)
+%   no-svg-support            -> disable SVG path handling (pdf/png only)
+%
+% Debug overlay:
+%   debug                     -> show mm grid + bounding boxes on cover
+%   no-debug                  -> hide debug overlay (default)
+% ----------------------------------------------------------------
+\usepackage[
+  no-apply-geometry,
+  no-global-typesetting,
+  global-smallcaps-fix,
+  local-smallcaps-fix,
+  global-mainfont,
+  svg-support,
+  no-debug
+]{ihedn-cover}
+
+% ----------------------------------------------------------------
+% Bibliography stack (BibLaTeX/Biber, style from subtree vendor/)
+% ----------------------------------------------------------------
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\makeatletter
+\g@addto@macro\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+}
+\makeatother
+\usepackage{csquotes}
+\usepackage{hyperref}
+\makeatletter
+\let\ihedn@orig@input@path\input@path
+\def\input@path{{vendor/biblatex-sciences-po-fr/style/}}
+\makeatother
+\usepackage[
+  backend=biber,
+  style=sciencespo,
+  hyperref=true,
+  autolang=other
+]{biblatex}
+\makeatletter
+\let\input@path\ihedn@orig@input@path
+\makeatother
+\addbibresource{bibliographies/bib/articles.bib}
+\addbibresource{bibliographies/bib/livres.bib}
+\addbibresource{bibliographies/bib/online.bib}
+\addbibresource{bibliographies/bib/rapports.bib}
+
+% ----------------------------------------------------------------
+% tcolorbox
+% ----------------------------------------------------------------
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+% Example: use Arial for the full report + cover.
+% Uncomment and switch package option to no-mainfont-override.
+% \setmainfont{Arial}[
+%   UprightFont    = *,
+%   BoldFont       = * Bold,
+%   ItalicFont     = * Italic,
+%   BoldItalicFont = * Bold Italic
+% ]
+
+\begin{document}
+
+% ----------------------------------------------------------------
+% Cover keys (all available keys are shown below)
+% ----------------------------------------------------------------
+% Header block (top-right), logo, title, report lines, subtitle, committee.
+\PageDeGardeIHEDN{
+    header_1={Union-IHEDN},
+    header_2={Association des auditeurs IHEDN},
+    header_3={région Paris / Île de France},
+    date={le 01 mars 2026},
+    logo_path={Figures/logos_IHEDN/Logo-AR16},
+    title={Crises majeures : quel rôle pour les citoyens engagés et les associations IHEDN ?},
+    title_max_lines=2,
+    title_fontsize={26.000pt},
+    title_baselineskip={28.667pt},
+    reportline_1={Rapport du Comité d'étude de l'Association régionale des auditeurs},
+    reportline_2={de l'IHEDN région Paris / Île de France (AR 16)},
+    subtitle={Compte rendu de la réunion du 05 Mars 2026},
+    committee={Comité d'étude, d'octobre 2025 à juin 2026, présidé par Valérie Arlé-Faivre, rapporté par Aurélien Duvignac-Rosa, composé de Pascal Bayot Duponchel, Jean-Jacques Cleynen, Valérie Cowan, Alain Fontan, Pierre-Marie Giard, Muriel Joyeux, Bruno Leray, Yves-Henri Renhas, Isabelle de Segonzac, Gérard Turck, Marie Danielle Vasquez-Duchêne.}
+}
+
+\section{Éléments de rappel}
+
+La réunion du 5 mars 2026 s'inscrit dans la continuité des réflexions engagées
+par le comité d'études autour du rôle potentiel des membres de l'AR~16 dans
+le cadre de crises majeures.
+
+Les échanges antérieurs ont mis en évidence que l'engagement des auditeurs
+IHEDN ne peut être envisagé qu'en tenant compte de la temporalité propre aux
+situations de crise.
+
+À cet égard, trois moments distincts peuvent être identifiés :
+
+\begin{itemize}
+    \item \textbf{Avant la crise} : les membres de l'AR~16 peuvent jouer un rôle pertinent en matière de préparation, de sensibilisation et de diffusion d'une culture de résilience et d'esprit de défense au niveau territorial ;
+    
+    \item \textbf{Pendant la crise} : la gestion opérationnelle étant strictement hiérarchisée et placée sous l'autorité des pouvoirs publics, les auditeurs se mettent prioritairement au service des administrations, institutions ou corps auxquels ils appartiennent ;
+    
+    \item \textbf{Après la crise} : les membres peuvent contribuer aux retours d'expérience (\textit{RETEX}), à l'analyse sociologique, organisationnelle ou informationnelle des crises, ainsi qu'à la diffusion des enseignements tirés.
+\end{itemize}
+
+Dans ce cadre, les échanges ont conduit à formuler une interrogation centrale :
+\textit{quelle est la capacité réelle de mobilisation de l'AR~16 en cas de crise majeure ?}
+
+Cette question renvoie à une problématique plus large concernant la nature
+même de l'association : constitue-t-elle avant tout un collectif organisé,
+un réseau informel d'expertises, un hub d'agrégation de compétences
+individuelles ou encore une porte d'entrée permettant aux autorités
+publiques d'identifier certaines ressources issues de la société civile ?
+
+Les discussions ont également souligné une vulnérabilité potentielle :
+dans l'hypothèse d'une crise majeure, une partie des membres pourrait être
+mobilisée par leurs propres obligations professionnelles ou institutionnelles,
+ce qui pourrait limiter la capacité d'action collective de l'association
+en tant que telle.
+
+Dans ce contexte, il est apparu nécessaire de disposer d'une connaissance
+plus fine de la composition sociologique et professionnelle de l'association.
+La réalisation d'une enquête rigoureuse et structurée apparaît comme un
+outil particulièrement adapté pour établir un diagnostic crédible.
+
+La mise en place d'un questionnaire, évoquée lors des réunions précédentes,
+présente à cet égard un double intérêt :
+
+\begin{itemize}
+    \item mieux connaître les profils, compétences et disponibilités des auditeurs ;
+    \item raviver le lien entre les membres en manifestant l'attention portée
+    par l'association à leur parcours et à leurs expertises.
+\end{itemize}
+
+Au-delà de cet objectif de connaissance interne, l'enquête pourrait également
+contribuer à clarifier la capacité réelle de mobilisation de l'AR~16 dans le
+champ plus large de la résilience nationale.
+
+Cette démarche s'inscrit par ailleurs dans un contexte institutionnel marqué
+par un intérêt croissant pour la contribution des citoyens engagés et des
+réseaux associatifs aux dispositifs de gestion des crises majeures. La lettre
+adressée par l'IHEMI le 30 décembre 2025 relative aux enjeux liés aux risques
+et aux crises illustre cette dynamique\footcite{IHEMI:2025:LIREC75}.
+
+Enfin, les échanges ont souligné que le cinquantième anniversaire de
+l'association constitue une opportunité symbolique forte pour engager une
+telle réflexion collective : l'enquête permettrait à la fois de célébrer
+l'histoire de l'association et d'interroger sa capacité d'adaptation face aux
+défis contemporains.
+
+Dans cette perspective, la réalisation d'un questionnaire pourrait constituer
+le point de départ d'un diagnostic partagé sur les ressources, les compétences
+et les formes d'engagement potentielles des membres de l'AR~16.
+
+\section{Aval du CODIR}
+
+La mise en œuvre d'une telle démarche suppose toutefois l'aval préalable
+du Comité directeur.
+
+À cette fin, Alain Fontan a rédigé une lettre à destination du CODIR afin
+de proposer officiellement l'engagement de cette initiative.
+
+Cette lettre a été adressée le 6 mars 2026. Le Comité directeur, qui se
+réunira le 17 mars 2026, sera amené à échanger sur cette proposition, comme
+l'a indiqué la présidente de l'association, Madame Coralie Noël.
+
+La lettre reproduite ci-dessous présente les objectifs généraux de la
+démarche ainsi que les conditions de sa mise en œuvre.
+
+\begin{tcolorbox}[
+breakable,
+colback=gray!5,
+colframe=black,
+boxrule=0.5pt,
+arc=3mm
+]
+\setlength{\parskip}{0.5em}
+IHEDN AR 16
+
+Comité d'études « Crises majeures »
+
+\hfill Paris, le 6 mars 2026
+
+Chère Présidente,\\
+Chères et Chers Membres CoDir,
+
+Le 50e anniversaire de notre Association constitue un moment important de son histoire. Au-delà de la célébration légitime du parcours accompli, cet anniversaire peut aussi devenir une occasion de projection vers l'avenir.
+
+Dans un contexte marqué par la multiplication des crises, les réseaux d'expertise et de confiance constituent une ressource précieuse pour la société. L'AR 16 représente, à cet égard, un capital humain et relationnel exceptionnel, encore insuffisamment cartographié.
+
+Notre Comité d'études pose la question : que peut apporter notre réseau d'auditeurs en situation de crise majeure ?
+
+Pour répondre à cette interrogation, nous proposons le lancement, à l'occasion du 50e anniversaire, d'une initiative structurante :
+
+\begin{itemize}
+    \item la cartographie des compétences, disponibilités et engagements des membres de l'AR 16.
+\end{itemize}
+
+Cette démarche prendra la forme d'une enquête auprès des membres, permettant de :
+
+\begin{itemize}
+    \item mieux connaître les profils et expertises des auditeurs ;
+    \item identifier la disponibilité et le mode d'engagement en cas de crise ;
+    \item structurer des groupes de réflexion ou d'analyse ad hoc.
+\end{itemize}
+
+Ainsi, notre Association pourrait contribuer à renforcer la culture de coopération et de résilience, sans jamais se substituer aux responsabilités des acteurs publics.
+
+L'enquête - sous la forme d'un questionnaire anonyme - devient un instrument de connaissance du capital stratégique de l'AR 16. Elle permet aussi de transformer l'expérience individuelle en connaissance collective.
+
+Il ne s'agit ni d'un contrôle, ni d'une obligation, ni d'une évaluation. Les réponses seront traitées de manière anonyme, confidentielle et analysées globalement.
+
+Pour nous accompagner dans cette démarche, le Comité d'études a échangé avec le Dr Victor Violier, sociologue à l'IRSEM. La faisabilité du projet suppose toutefois le concours d'un délégué à la protection des données afin de garantir la conformité au règlement européen sur la protection des données.
+
+Dans cette perspective, un rapprochement avec l'Union IHEDN, dépositaire des fichiers des associations régionales, pourrait être envisagé.
+
+L'enquête, dont le lancement pourrait intervenir dans le courant du premier semestre 2026, ne donnera lieu à une exploitation complète des résultats qu'au cours de l'année suivante. Elle pourrait néanmoins s'inscrire dans le cadre du cinquantième anniversaire de l'AR~16 et faire l'objet d'une restitution publique, éventuellement avec le concours de l'IRSEM, lors d'un événement organisé en 2027.
+
+Notre ambition est réelle : l'enquête permet de célébrer notre histoire, mais aussi, dans le cadre d'une démarche participative, de réfléchir collectivement à notre avenir.
+
+Nous vous remercions, Chère Présidente, Chères et Chers Membres du CoDir, de votre accueil, compréhension et confiance.
+
+\begin{flushright}
+Les Membres du Comité « Crises majeures »
+
+(Présents à la réunion du 5 mars 2026)
+
+Valérie Faivre, Gérard Turck, Aurélien Duvignac-Rosa,\\
+Jean-Jacques Cleymen, Bruno Leray, Alain Fontan
+\end{flushright}
+
+\end{tcolorbox}
+
+Au-delà de la dimension méthodologique, la mise en place de ce questionnaire
+conduira nécessairement l'association à s'interroger plus largement sur son
+positionnement et sa fonction au sein de l'écosystème de la résilience
+territoriale.
+
+Il s'agira notamment de déterminer dans quelle mesure l'AR~16 peut constituer
+un acteur de diffusion de l'esprit de défense, un réseau d'expertises
+mobilisables ou encore un espace de réflexion collective susceptible
+d'apporter une contribution utile à l'analyse et à la compréhension des
+crises contemporaines.
+
+
+%\newpage
+
+%\printbibliography[heading=bibintoc,title={Références bibliographiques}]
+
+%\nocite{*}
+
+% ----------------------------------------------------------------
+% Notes d'usage:
+% - Le style bibliographique est dans:
+%   vendor/biblatex-sciences-po-fr/style/
+% - Ajouter des entrées dans les fichiers bibliographiques chargés ci-dessus:
+%   vendor/biblatex-sciences-po-fr/bibliographies/{articles,livres,online,rapports,theses}.bib
+% - Compilation requise:
+%   latexmk -pdf main.tex
+%   (latexmkrc est configuré pour XeLaTeX + Biber).
+% ----------------------------------------------------------------
+
+\end{document}
