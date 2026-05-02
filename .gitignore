@@ -1,4 +1,4 @@
-# LaTeX / latexmk / biblatex generated files
+# Fichiers auxiliaires de LaTeX et Biber
 *.aux
 *.bbl
 *.bcf
@@ -13,12 +13,10 @@
 *.synctex.gz
 *.toc
 *.xdv
+build/
 
-# Build outputs
-/build/
-/main.pdf
+# Fichiers/répertoires associés à l'IDE
+*.vscode
 
-# Editor settings
-/.vscode/
 
 

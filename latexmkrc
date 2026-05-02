@@ -1,65 +1,26 @@
-# latexmkrc
-$interaction = 'nonstopmode';
-$halt_on_error = 1;
+# Fichier de configuration pour latexmk (latexmkrc)
 
-# This template is XeLaTeX-only (fontspec + system fonts), regardless of
-# latexmk command-line engine switches.
-my @forbidden_switches = grep {
-  /^-(?:pdflua|lualatex|pdfdvi|pdfps|dvi|ps)\b/
-} @ARGV;
-if (@forbidden_switches) {
-  warn "WARNING (ihedn): XeLaTeX-only template.\n" .
-       "Ignoring latexmk switch(es): " . join(', ', @forbidden_switches) . "\n" .
-       "Forcing XeLaTeX configuration from latexmkrc.\n";
-}
+# 1. Utiliser le compilateur Pdflatex
+$pdflatex = 'pdflatex -interaction=nonstopmode %O %S';
 
-# This template is XeLaTeX-only (fontspec + system fonts).
-# If LATEXMK_ENGINE is provided, only "xelatex" is accepted.
-my $engine = $ENV{'LATEXMK_ENGINE'};
-if (defined $engine && $engine ne 'xelatex') {
-  warn "WARNING (ihedn): XeLaTeX-only template.\n" .
-       "Ignoring LATEXMK_ENGINE='$engine' and forcing XeLaTeX.\n";
-  $ENV{'LATEXMK_ENGINE'} = 'xelatex';
-}
+# 2. Utiliser Biber au lieu de BibTeX
+$bibtex = 'biber %O %S';
+$biber = 'biber';
 
-my $shell_escape = $ENV{'LATEXMK_SHELL_ESCAPE'} // '1';
-my $shell_escape_flag = '';
-if ($shell_escape =~ /^(?:1|true|yes|on)$/i) {
-  $shell_escape_flag = '-shell-escape ';
-}
-elsif ($shell_escape =~ /^(?:0|false|no|off)$/i) {
-  warn "WARNING (ihedn): LATEXMK_SHELL_ESCAPE disabled; SVG logos require shell escape.\n";
-}
-else {
-  warn "WARNING (ihedn): Unrecognized LATEXMK_SHELL_ESCAPE='$shell_escape'; defaulting to enabled.\n";
-  $shell_escape_flag = '-shell-escape ';
-}
+# 3. Spécifier le format de sortie (PDF)
+$pdf_mode = 1;
 
-$xelatex = "xelatex ${shell_escape_flag}-synctex=1 -file-line-error %O %S";
-$pdf_mode = 5;
-# Compatibility: `latexmk -pdf` still runs XeLaTeX.
-$pdflatex = $xelatex;
-# Compatibility: if tooling forces LuaLaTeX modes/switches, still run XeLaTeX.
-$lualatex = $xelatex;
-# BibLaTeX: force Biber instead of BibTeX.
-$bibtex = 'biber %O %B';
+# 3bis. Répertoires de sortie/auxiliaires
+$out_dir = 'build';
+$aux_dir = 'build';
 
-# Fail fast with a clear message if XeLaTeX is missing.
-sub cover_has_xelatex {
-  my $pid = open(my $fh, '-|', 'xelatex', '--version');
-  return 0 if !defined $pid;
-  while (<$fh>) { } # consume output quietly
-  close $fh;
-  return $? == 0;
-}
+# 4. Forcer la compilation jusqu'à ce que le fichier soit stable
+$force_mode = 1;
 
-if (!cover_has_xelatex()) {
-  die "ERROR: XeLaTeX is required but 'xelatex' was not found in PATH.\n" .
-      "Install TeX Live XeTeX and retry (example: texlive-xetex).\n";
-}
+# 5. Biber control file extension
+$biber_aux_ext = 'bcf';
 
-# Nettoyage additionnel
-$clean_ext .= ' synctex.gz bbl bcf run.xml';
-
-# Dossier de sortie (optionnel)
-# $out_dir = 'build';
+# 6. FIX CRITIQUE : DÉFINITION EXPLICITE DES FICHIERS À SUPPRIMER POUR LA COMMANDE -C
+# Nous utilisons la variable dédiée au nettoyage complet et y ajoutons les fichiers Biber.
+# (Notez l'espace au début de la chaîne pour la séparation des extensions)
+$clean_full_ext .= ' bbl bcf run.xml';

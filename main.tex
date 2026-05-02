@@ -1,0 +1,1154 @@
+\documentclass{article}
+
+% Langue et typographie
+\usepackage[french]{babel}
+\usepackage{csquotes}
+\usepackage{fontspec} % XeLaTeX
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% Mathématiques et tableaux
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+% Commandes avancées
+\usepackage{xparse}
+
+% Hyperliens
+\usepackage{hyperref}
+
+% --------------------------------------------------------------------
+% Flag pour afficher toute la bibliographie (mode demonstration)
+% --------------------------------------------------------------------
+% Activation via ligne de commande :
+% xelatex "\def\demobib{1}\input{main.tex}"
+
+% --------------------------------------------------------------------
+% Configuration biblatex (style Sciences Po)
+% --------------------------------------------------------------------
+\usepackage[
+    style=sciencespo,
+    backend=biber,
+    hyperref=true,
+    loccittracker=true, % Autorise loc. cit. (désactivé par défaut en pratique)
+    pagetracker=true,   % Active ibid./op. cit.
+    doi=false,
+    url=true,
+    urldate=long,
+    autolang=other      % Maintient les locutions latines
+]{biblatex}
+
+% Fichiers bibliographiques
+\addbibresource{bibliographies/articles.bib}
+\addbibresource{bibliographies/livres.bib}
+\addbibresource{bibliographies/theses.bib}
+\addbibresource{bibliographies/films.bib}
+\addbibresource{bibliographies/rapports.bib}
+\addbibresource{bibliographies/online.bib}
+
+% --------------------------------------------------------------------
+% Commandes pédagogiques pour les exemples de citation
+% --------------------------------------------------------------------
+
+% Commande standard : partage l'historique global
+% (utile pour tester ibid./op. cit.)
+\NewDocumentCommand{\footciteexample}{ O{} O{} m }{%
+  \footnote{%
+    \fullcite[#1][#2]{#3}%
+  }%
+}
+
+% Variante locale : isole chaque citation dans un refsection
+% pour garantir des exemples sans ibid./op. cit.
+\NewDocumentCommand{\footciteexamplelocal}{ O{} O{} m }{%
+  \begin{refsection}%
+    \footnote{%
+      \fullcite[#1][#2]{#3}%
+    }%
+  \end{refsection}%
+}
+
+% Structure commune : sections "sans pagination / avec pagination / avec référence explicite".
+\NewDocumentCommand{\threemodesections}{ m m m }{%
+  \subparagraph{Sans pagination}\par\smallskip%
+  #1%
+  \subparagraph{Avec pagination explicite}\par\smallskip%
+  #2%
+  \subparagraph{Avec référence explicite}\par\smallskip%
+  #3%
+}
+
+% Rendu standard d'un exemple de commande dans un bloc isole.
+\NewDocumentCommand{\bibexamplecommand}{ m m }{%
+  \begin{bibexample}
+    \texttt{\detokenize{#1}}\par\smallskip
+    #2
+  \end{bibexample}
+}
+
+% Tests standardises des locutions latines pour un couple de references.
+\NewDocumentCommand{\locutiontests}{ m m }{%
+  \paragraph{Locutions latines}%
+  Le présent paragraphe a pour objectif de vérifier le bon fonctionnement de la
+génération automatique des locutions latines par (Bib\LaTeX) dans le cas
+des ouvrages. Contrairement aux démonstrations précédentes, les locutions
+(\emph{Ibid.}, \emph{Op. cit.}, \emph{Loc. cit.}) ne sont ici ni neutralisées ni
+contournées. Les citations sont volontairement enchaînées afin de provoquer leur
+apparition et d'en vérifier le comportement effectif.
+  Les enchaînements \emph{Ibid.}, \emph{Op. cit.} et \emph{Loc. cit.} sont gérés
+  automatiquement par le style, selon l'historique des citations et la pagination
+  fournie. Pour contrôler le rendu dans chaque mode, utilisez les séquences suivantes :%
+
+  \threemodesections{%
+    \begin{itemize}%
+      \item \emph{Ibid.} :%
+        \citereset%
+        \begin{enumerate}
+          \item \texttt{\detokenize{\cite{#1}}} : \cite{#1}%
+          \item \texttt{\detokenize{\cite{#1}}} : \cite{#1}%
+        \end{enumerate}
+      \item \emph{Op. cit.} :%
+        \citereset%
+            \texttt{\detokenize{\cite{#1}}} : \cite{#1}\\%
+            \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+            \texttt{\detokenize{\cite{#1}}} : \cite{#1}%
+    \end{itemize}%
+  }{%
+    \begin{itemize}%
+      \item \emph{Ibid.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[p.45]{#1}}} : \cite[p.45]{#1}\\%
+            \texttt{\detokenize{\cite[p.45]{#1}}} : \cite[p.45]{#1}%
+      \item \emph{Op. cit.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[p.45]{#1}}} : \cite[p.45]{#1}\\%
+            \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+            \texttt{\detokenize{\cite[p.46]{#1}}} : \cite[p.46]{#1}%
+      \item \emph{Loc. cit.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[p.45]{#1}}} : \cite[p.45]{#1}\\%
+            \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+            \texttt{\detokenize{\cite[p.45]{#1}}} : \cite[p.45]{#1}%
+    \end{itemize}%
+  }{%
+    \begin{itemize}%
+      \item \emph{Ibid.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[Voir aussi][p.45]{#1}}} : \cite[Voir aussi][p.45]{#1}\\%
+            \texttt{\detokenize{\cite[Voir aussi][p.45]{#1}}} : \cite[Voir aussi][p.45]{#1}%
+      \item \emph{Op. cit.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[Voir aussi][p.45]{#1}}} : \cite[Voir aussi][p.45]{#1}\\%
+            \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+            \texttt{\detokenize{\cite[Voir aussi][p.46]{#1}}} : \cite[Voir aussi][p.46]{#1}%
+      \item \emph{Loc. cit.} :%
+        \citereset%
+            \texttt{\detokenize{\cite[Voir aussi][p.45]{#1}}} : \cite[Voir aussi][p.45]{#1}\\%
+            \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+            \texttt{\detokenize{\cite[Voir aussi][p.45]{#1}}} : \cite[Voir aussi][p.45]{#1}%
+    \end{itemize}%
+  }%
+}
+
+% Tests ciblés Ibid./Op. cit. pour les entrées en ligne.
+\NewDocumentCommand{\onlineibidopcittests}{ m m }{%
+  \noindent\textbf{Locutions latines (\emph{Ibid.} / \emph{Op. cit.})}\par
+  \begin{itemize}
+    \item \emph{Ibid.} :%
+      \citereset%
+      \texttt{\detokenize{\cite{#1}}} : \cite{#1}\\%
+      \texttt{\detokenize{\cite{#1}}} : \cite{#1}%
+    \item \emph{Op. cit.} :%
+      \citereset%
+      \texttt{\detokenize{\cite{#1}}} : \cite{#1}\\%
+      \texttt{\detokenize{\cite{#2}}} : \cite{#2}\\%
+      \texttt{\detokenize{\cite{#1}}} : \cite{#1}%
+  \end{itemize}%
+}
+
+% Bloc standardise pour les exemples de livres
+\NewDocumentCommand{\bookexample}{ m +v m m }{%
+  \paragraph{Structure :}%
+  #1\par\smallskip%
+  \paragraph{Source bibliographique (Bib\LaTeX)}%
+  \begingroup\small\ttfamily\obeylines\obeyspaces%
+  \scantokens{#2}%
+  \endgroup%
+  \citetests{#3}%
+  \locutiontests{#3}{#4}%
+}
+
+% Bloc standardise pour les exemples de ressources en ligne.
+\NewDocumentCommand{\onlineexample}{ m +v m m }{%
+  \paragraph{Structure :}%
+  #1\par\smallskip%
+  \paragraph{Source bibliographique (Bib\LaTeX)}%
+  \begingroup\small\ttfamily\obeylines\obeyspaces%
+  \scantokens{#2}%
+  \endgroup%
+  \noindent\textbf{Citation complète (\texttt{\textbackslash fullcite})}\par
+  \begin{itemize}
+    \item Sans référence explicite :
+      \begin{bibexample}
+        \fullcite{#3}
+      \end{bibexample}
+    \item Avec référence explicite :
+      \begin{bibexample}
+        Voir aussi~\fullcite{#3}
+      \end{bibexample}
+  \end{itemize}
+  \paragraph{Citation en note de bas de page}%
+  \begin{itemize}
+    \item Sans référence explicite :
+      \footciteexamplelocal{#3}
+    \item Avec référence explicite :
+      \footciteexamplelocal[Voir aussi]{#3}
+  \end{itemize}%
+  \onlineibidopcittests{#3}{#4}%
+}
+
+% Tests standardises des citations (fullcite/cite/footcite) pour une reference.
+\NewDocumentCommand{\citetests}{ m }{%
+  \paragraph{Citation complète (\texttt{\textbackslash fullcite})}%
+
+  \threemodesections
+    {\bibexamplecommand{\fullcite{#1}}{\fullcite{#1}}}
+    {\bibexamplecommand{\fullcite[p.45]{#1}}{\fullcite[p.45]{#1}}}
+    {\bibexamplecommand{\fullcite[Voir aussi][p.45]{#1}}{\fullcite[Voir aussi][p.45]{#1}}}
+
+  \paragraph{Citation simple (\texttt{\textbackslash cite})}%
+
+  \threemodesections
+    {\bibexamplecommand{\cite{#1}}{\cite{#1}}}
+    {\bibexamplecommand{\cite[p.45]{#1}}{\cite[p.45]{#1}}}
+    {\bibexamplecommand{\cite[Voir aussi][p.45]{#1}}{\cite[Voir aussi][p.45]{#1}}}
+
+  \paragraph{Citation en note de bas de page}%
+
+  \begin{itemize}
+	\item Sans pagination :
+	      \footciteexamplelocal{#1}
+
+	\item Avec pagination explicite :
+	      \footciteexamplelocal[][p.45]{#1}
+
+	\item Avec référence explicite :
+	      \footciteexamplelocal[Voir aussi][p.45]{#1}
+  \end{itemize}%
+}
+
+% Environnement standardisé pour les rendus d'exemples
+% (citations dans le corps du texte, sans interaction entre elles)
+\newenvironment{bibexample}
+  {\begin{refsection}\small}
+  {\end{refsection}}
+
+% --------------------------------------------------------------------
+% Métadonnées du document
+% --------------------------------------------------------------------
+\title{Mode d'emploi du style bibliographique \texttt{sciencespo}}
+\author{Aurélien Duvignac-Rosa}
+\date{Basé sur le Mémorandum Officiel de Sciences Po}
+\setcounter{tocdepth}{3}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Pourquoi un style \texttt{sciencespo} ?}
+
+Ce style reprend les exigences du mémorandum Sciences Po\footnote{Voir \texttt{documentation/citer-sources-rediger-bibliographie-fr.pdf}.} et s'appuie sur trois fichiers :
+\begin{itemize}
+	\item \texttt{sciencespo.cbx} : gestion des citations en notes (ibid./op. cit., ajout du \texttt{shorttitle}).
+	\item \texttt{sciencespo.bbx} : format de la bibliographie (noms en majuscules, ordre des éléments).
+	\item \texttt{biblatex-dm.cfg} : déclaration des champs additionnels (mois textuel, plateforme vidéo, discipline, etc.).
+\end{itemize}
+Ils sont basés sur \texttt{biblatex} avec \texttt{biber} et couvrent tous les exemples du mémo : livres, rapports, chapitres, articles, thèses, films, vidéos en ligne, articles en ligne et sites web.
+
+\section{Règles générales de citation (rappel du mémo)}
+
+\subsection{Droit d'auteur}
+Respectez la convention de Berne : guillemets pour les citations littérales, mention systématique de l'auteur et du titre, citation courte par rapport au texte original. La paraphrase sans référence est assimilée à du plagiat.
+
+\subsection{Construire la bibliographie}
+\begin{itemize}
+	\item Indiquer auteur, titre, source d'origine (revue, ouvrage collectif), date et pagination.
+	\item Classer la bibliographie par ordre alphabétique des auteurs (ou par thèmes puis auteurs).
+\end{itemize}
+
+\section{Installer et charger le style}
+
+\subsection{Placer les fichiers}
+\begin{enumerate}
+	\item Copier \texttt{style/sciencespo.cbx} dans \texttt{\$TEXMFHOME/tex/latex/biblatex/cbx/}.
+	\item Copier \texttt{style/sciencespo.bbx} dans \texttt{\$TEXMFHOME/tex/latex/biblatex/bbx/}.
+	\item Copier \texttt{style/biblatex-dm.cfg} dans \texttt{\$TEXMFHOME/tex/latex/biblatex/}.
+\end{enumerate}
+Avec Docker/Makefile, ces montages sont faits automatiquement (voir \texttt{docker-compose.yml}).
+
+\subsection{Charger \texttt{biblatex}}
+\begin{verbatim}
+\usepackage[
+    style=sciencespo,
+    backend=biber,
+    hyperref=true,
+    pagetracker=true,
+    doi=false,
+    url=true,
+    urldate=long,
+    autolang=other
+]{biblatex}
+\end{verbatim}
+\textbf{Pourquoi ces options ?}
+\begin{itemize}
+	\item \texttt{pagetracker} active ibid./op. cit. en bas de page.
+	\item \texttt{autolang=other} conserve les locutions latines.
+	\item \texttt{doi=false} et \texttt{url=true} reflètent le mémo (URLs seulement pour les ressources en ligne).
+\end{itemize}
+Ajoutez ensuite vos fichiers \texttt{.bib} via \verb|\addbibresource|.
+
+\section{Citer dans le texte : notes de bas de page}
+
+\subsection{Commandes principales}
+\begin{itemize}
+	\item \verb|\footcite{clé}| : citation courte en note.
+	\item \verb|\footcite[23]{clé}| : ajout d'une page.
+	\item \verb|\footcite[Voir aussi][65]{clé}| : préfixe libre + page.
+	\item \verb|\footfullcite{clé}| : citation complète directement en note (utile pour la première mention dans certains travaux).
+	\item \verb|\fullcite{clé}| : citation complète dans le corps du texte.
+\end{itemize}
+
+\subsection{Gestion automatique des répétitions}
+Le \texttt{.cbx} repose sur \texttt{verbose-trad1} : répétition immédiate $\rightarrow$ ibid.; répétition non immédiate $\rightarrow$ op. cit.; numéros de pages mis à jour automatiquement. Renseignez le champ \texttt{shorttitle} dans vos \texttt{.bib} pour lever toute ambiguïté d'auteur lors d'un op. cit.
+
+\subsection{Exemple complet de notes}
+\begin{enumerate}
+	\item \texttt{\textbackslash footcite[][15]\{Fitoussi:1995\}} \footcite[15]{Fitoussi:1995}
+	\item \texttt{\textbackslash footcite[][15]\{Fitoussi:1995\}} \footcite[15]{Fitoussi:1995}
+	\item \texttt{\textbackslash footcite[150]\{Fitoussi:1995\}} \footcite[150]{Fitoussi:1995}
+	\item \texttt{\textbackslash footcite[][5]\{Leca:2001\}} \footcite[5]{Leca:2001}
+	\item \texttt{\textbackslash footcite[300]\{Fitoussi:1995\}} \footcite[300]{Fitoussi:1995}
+	\item \texttt{\textbackslash footcite[Voir aussi][65]\{Vernant:2000\}} \footcite[Voir aussi][65]{Vernant:2000}
+\end{enumerate}
+\textbf{À tester (notes)} : rejouer cette séquence pour vérifier ibid./op. cit. et les pages ; comparer \verb|\footcite| (forme courte) et \verb|\footfullcite| (forme complète en note) sur une même clé ; ajouter un second titre d'un même auteur avec \texttt{shorttitle} pour observer son affichage avant op. cit.
+
+\section{Champs spécifiques supportés par le style}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{@{}llp{8cm}@{}}
+		\toprule
+		Type     & Champ                                                   & Utilisation par \texttt{sciencespo}                                                                          \\
+		\midrule
+		Tous     & \texttt{shorttitle}                                     & Affiché avant op. cit. pour distinguer deux titres du même auteur.                                           \\
+		Rapport  & \texttt{shortinstitution}                               & Acronyme prioritaire lorsque l'auteur est absent.                                                            \\
+		Article  & \texttt{monthtext}                                      & Mois/saison libre (ex. \texttt{fév.-avr. 2001}) en lieu et place de \texttt{month+year}.                     \\
+		Article  & \texttt{issuetitlelabel}                                & Libellé optionnel affiché avant \texttt{issuetitle} (ex. \texttt{Dossier thématique}).                       \\
+		Chapitre & \texttt{editortype}                                     & Rôle de l'éditeur scientifique via clé localisable (ex. \texttt{director} \(\rightarrow\) \og dir.\fg{}). \\
+		Thèse    & \texttt{discipline}                                     & Discipline affichée après le type de thèse.                                                                  \\
+		Film     & \texttt{medium}, \texttt{extent}                        & Support et durée : \og [cassette vidéo]\fg{}, \og 1 cass. vidéo VHS, 52 min.\fg{}                            \\
+		En ligne & \texttt{platform}                                       & Plateforme (Statista, YouTube...) lorsque \texttt{journaltitle} n'est pas présent.                           \\
+		En ligne & \texttt{pubdate}, \texttt{updatedate}, \texttt{urldate} & Dates de publication, de mise à jour et de consultation (affichées entre crochets).                          \\
+			En ligne & \texttt{entrysubtype}                                   & \texttt{website} : titre entre guillemets ; \texttt{video} : titre en italique, plateforme, date et durée ; \texttt{podcast} : titre en italique, éditeur/auteur, plateforme, date, durée et série entre parenthèses ; \texttt{statistic} : titre en italique, base de données et année. \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Fiches de saisie par type d'entrée}
+Chaque entrée \texttt{.bib} ci-dessous correspond à un exemple du mémo Sciences Po et illustre le rendu \texttt{\textbackslash fullcite}.
+
+\subsection{Principes méthodologiques, typologie des ouvrages et locutions latines}
+
+\paragraph{Principes méthodologiques}
+
+Les exemples de citation présentés dans cette documentation sont encapsulés
+dans des environnements \texttt{refsection} afin d'éviter toute interaction
+avec l'historique global des citations (notamment l'emploi automatique de
+\emph{ibid.}, \emph{idem} ou \emph{op. cit.}). Cette encapsulation garantit
+un rendu stable et reproductible des exemples, indépendamment du contexte
+du document.
+
+La commande \texttt{\textbackslash footciteexample} est réservée aux usages
+pédagogiques illustratifs. Elle ne doit pas être utilisée dans le corps
+analytique du rapport, où les citations doivent recourir exclusivement aux
+commandes standard \texttt{\textbackslash cite},
+\texttt{\textbackslash footcite} ou \texttt{\textbackslash fullcite},
+selon le niveau de détail requis.
+
+\paragraph{Typologie des ouvrages}
+
+Les entrées de type \texttt{@book} couvrent l'ensemble des cas usuels rencontrés
+dans les travaux en sciences humaines et sociales. La présente documentation
+distingue les situations suivantes, sans modifier le type bibliographique,
+les différences étant portées par les champs descriptifs de l'entrée :
+
+\begin{itemize}
+	\item \textbf{Livre (monographie) avec mention d'édition}, lorsque l'éditeur
+	      précise explicitement une édition autre que la première
+	      (champ \texttt{edition}) ;
+	\item \textbf{Livre (monographie) sans mention d'édition explicite}, correspondant
+	      au cas général des ouvrages publiés sans précision d'édition ;
+	\item \textbf{Livre à auteurs multiples}, pour lequel l'abréviation automatique
+	      (\emph{et al.}) peut être activée à l'aide de \texttt{and others} ;
+	\item \textbf{Ouvrage en langue étrangère}, pour lequel le titre n'est pas traduit,
+	      les autres éléments bibliographiques restant conformes aux normes françaises ;
+	\item \textbf{Livre en collection}, identifié par la présence des champs
+	      \texttt{series} et, le cas échéant, \texttt{number}.
+\end{itemize}
+
+Les contributions insérées dans des ouvrages collectifs relèvent du type
+\texttt{@incollection} et font l'objet d'une section distincte.
+
+\paragraph{Locutions latines utilisées dans les citations}
+
+Dans les démonstrations relatives aux ouvrages (livres), certaines locutions
+latines traditionnellement utilisées dans les références bibliographiques
+peuvent apparaître afin d'abréger les citations successives. Leur emploi est
+automatiquement géré par \texttt{biblatex} en fonction de la proximité et de la
+nature des références appelées.
+
+\begin{itemize}
+	\item \emph{Ibid.} (\emph{ibidem}) est employé lorsque deux citations consécutives
+	      renvoient à la même œuvre. La mention de pagination peut alors être ajoutée
+	      ou modifiée (par exemple : \emph{ibid.}, p.~45) ;
+	\item \emph{Id.} / \emph{Ead.} (\emph{idem}, \emph{eadem}) désignent le même auteur
+	      que la référence précédente, lorsqu'il s'agit d'une œuvre différente ;
+	\item \emph{Op. cit.} (\emph{opere citato}) est utilisé pour renvoyer à une œuvre
+	      déjà citée antérieurement, lorsque la citation n'est plus immédiatement
+	      consécutive ;
+	\item \emph{Loc. cit.} (\emph{loco citato}) renvoie à un passage précis d'une œuvre
+	      déjà citée, dans un contexte non consécutif.
+\end{itemize}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|p{3cm}|p{6.5cm}|p{4.5cm}|}
+		\hline
+		\textbf{Locution}                              &
+		\textbf{Condition d'apparition}                &
+		\textbf{Activation requise / Remarques}          \\
+		\hline
+
+		\emph{Ibid.}                                   &
+		Deux citations consécutives renvoyant à la \textbf{même œuvre}.
+		La pagination peut être identique ou modifiée. &
+		Activée par défaut dans les styles académiques français
+		(\texttt{ibidtracker=true}).                     \\
+		\hline
+
+		\emph{Id.} / \emph{Ead.}                       &
+		Deux citations consécutives renvoyant au \textbf{même auteur}
+		mais à des œuvres différentes.                 &
+		Activée par défaut (\texttt{idemtracker=true}).
+		Dépend du style choisi.                          \\
+		\hline
+
+		\emph{Op. cit.}                                &
+		Retour à une œuvre déjà citée après \textbf{interruption}
+		par une autre référence.                       &
+		Activée par défaut dans les styles classiques
+		(\texttt{opcittracker=true}).                    \\
+		\hline
+
+		\emph{Loc. cit.}                               &
+		Retour à la \textbf{même œuvre et au même passage}
+		dans un contexte non consécutif.               &
+		Désactivée par défaut.
+		Nécessite \texttt{loccittracker=true}.
+		Usage déconseillé en production.                 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+
+
+\subsection{Livres imprimés ou \textit{e-books} (\texttt{@book})}
+
+\subsubsection{Structure générale}
+
+\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Édition. Ville de publication : Éditeur. Année de publication. Nombre de pages. (Collection)
+
+\subsubsection{Modèle générique}
+
+\begin{verbatim}
+@book{CleUnique:YYYY,
+  author     = {Nom, Prénom},
+  title      = {Titre de l'ouvrage},
+  edition    = {2e éd.},
+  publisher  = {Nom de l'éditeur},
+  location   = {Ville},
+  year       = {YYYY},
+  pages      = {xxx p.},
+  series     = {Nom de la collection},
+  number     = {Numéro dans la collection},
+  shorttitle = {Titre court (facultatif, recommandé)}
+}
+\end{verbatim}
+
+\textbf{Champs obligatoires} :
+\texttt{author}, \texttt{title}, \texttt{publisher}, \texttt{location}, \texttt{year}, \texttt{pages}.
+
+\textbf{Champs optionnels} :
+\texttt{edition} (si $\neq$ 1\textsuperscript{re}),
+\texttt{series}/\texttt{number} (collection),
+\texttt{shorttitle} (fortement recommandé pour les références fréquemment rappelées via \emph{Op. cit.}).
+
+\subsubsection{Livre avec mention d'édition}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Édition. Ville de publication : Éditeur. Année de publication. Nombre de pages.}|
+\begin{verbatim}
+@book{Boursin:1991,
+  author    = {Boursin, Jean-Louis},
+  title     = {Comprendre la statistique descriptive},
+  edition   = {Nouv. éd.},
+  publisher = {A. Colin},
+  location  = {Paris},
+  year      = {1991},
+  pages     = {168 p.}
+}
+\end{verbatim}
+|{Boursin:1991}{Fitoussi:1995}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Édition. Ville de publication : Éditeur. Année de publication. Nombre de pages.}|
+\begin{verbatim}
+@book{Castanet:2023,
+  author    = {Castanet, Victor},
+  title     = {Les fossoyeurs},
+  edition   = {Édition augmentee de 10 chapitres inedits},
+  publisher = {Éditions J'ai lu},
+  location  = {Paris},
+  year      = {2023},
+  pages     = {506 p.}
+}
+\end{verbatim}
+|{Castanet:2023}{Boursin:1991}
+
+\subsubsection{Livre sans mention d'édition explicite}
+
+\emph{L'absence de mention d'édition implique qu'il s'agit de la première édition ou que l'éditeur ne la précise pas explicitement.}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Ville de publication : Éditeur. Année de publication. Nombre de pages.}|
+\begin{verbatim}
+@book{Fitoussi:1995,
+  author    = {Fitoussi, Jean-Paul},
+  title     = {Le débat interdit : monnaie, Europe, pauvreté},
+  publisher = {Arléa},
+  location  = {Paris},
+  year      = {1995},
+  pages     = {318 p.}
+}
+\end{verbatim}
+|{Fitoussi:1995}{Boursin:1991}
+
+\subsubsection{Livre traduit avec date d'édition originale et collection}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Traduit par Prénom \textsc{Nom}. Ville de publication : Éditeur. [Année d'édition originale] Année de publication. Nombre de pages. (Collection, numéro).}|
+\begin{verbatim}
+@book{Benjamin:2018,
+  author       = {Benjamin, Walter},
+  title        = {Le surréalisme : et autres textes},
+  translator   = {Mannoni, Olivier},
+  publisher    = {Payot},
+  location     = {Paris},
+  year         = {2018},
+  origyear     = {1927},
+  pages        = {119 p.},
+  series       = {Petite bibliothèque Payot},
+  number       = {classiques}
+}
+\end{verbatim}
+|{Benjamin:2018}{Fitoussi:1995}
+
+\subsubsection{Livre à auteurs multiples}
+
+\emph{Dans l'exemple bibliographique proposé, l'ouvrage comporte des pages liminaires numérotées en chiffres romains (VIII), suivies de 204 pages de texte principal. En l'occurence la référence bibliographique présentée compte 212 pages physiques au total, mais bibliographiquement sont distinguées : VIII + 204 pages, conformément aux usages bibliographiques. Par ailleurs, pour les ouvrages en langue étrangère, le titre n'est pas traduit. Les éléments de description bibliographique (lieu, éditeur, pagination) restent conformes aux normes françaises.}
+
+\bookexample{\textsc{Nom}, Prénom, \textsc{Nom}, Prénom et \textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Ville de publication : Éditeur. Année de publication. Nombre de pages liminaires-Nombre de pages.}|
+\begin{verbatim}
+@book{Lazar:1991,
+  author    = {Lazar, Marc and Waller, Michael and Courtois, Stephane},
+  title     = {Comrades and brothers : communism and trade unions in Europe},
+  publisher = {Cass},
+  location  = {London},
+  year      = {1991},
+  pages     = {VIII-204 p.}
+}
+\end{verbatim}
+|{Lazar:1991}{Fitoussi:1995}
+\subsubsection{Ouvrage collectif à auteurs multiples}
+
+\bookexample{\textsc{Nom}, Prénom, \textsc{Nom}, Prénom et al. \textit{Titre de l'ouvrage}. Ville de publication : Éditeur. Année de publication. Nombre de pages.}|
+\begin{verbatim}
+@book{Hermet:2000,
+  author    = {Hermet, Guy and Badie, Bertrand
+               and Birnbaum, Pierre and others},
+  title     = {Dictionnaire de la science politique
+               et des institutions politiques},
+  publisher = {A. Colin},
+  location  = {Paris},
+  year      = {2000},
+  pages     = {287 p.}
+}
+\end{verbatim}
+|{Hermet:2000}{Fitoussi:1995}
+
+\subsubsection{Livre numérique en langue anglaise avec URL}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Ville de publication : Éditeur. Année de publication. Note. Nombre de pages. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@book{Pilkington:1998,
+  author    = {Pilkington, Hilary},
+  title     = {Migration, Displacement and Identity in Post-Soviet Russia},
+  publisher = {Taylor \& Francis},
+  location  = {London},
+  year      = {1998},
+  pages     = {265 p.},
+  note      = {ProQuest Ebook Central},
+  url       = {https://ebookcentral.proquest.com/lib/sciences-po/detail.action?docID=178630},
+  urldate   = {2023-04-04}
+}
+\end{verbatim}
+|{Pilkington:1998}{Fitoussi:1995}
+
+\subsubsection{Livre en collection/serie}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Ville de publication : Éditeur. Année de publication. Nombre de pages. (Collection, numéro)}|
+\begin{verbatim}
+@book{Vernant:2000,
+  author    = {Vernant, Jean-Pierre},
+  title     = {Entre mythe et politique},
+  publisher = {Seuil},
+  location  = {Paris},
+  year      = {2000},
+  pages     = {658 p.},
+  series    = {Points. Essais},
+  number    = {430}
+}
+\end{verbatim}
+|{Vernant:2000}{Fitoussi:1995}
+
+
+\subsection{Rapports (\texttt{@report})}
+
+\subsubsection{Structure générale}
+
+\textsc{Nom}, Prénom. \textit{Titre de l'ouvrage}. Rapport n° Numéro du rapport. Institution. Année de publication. Nombre de pages.
+
+\subsubsection{Modèle générique}
+
+\begin{verbatim}
+@report{CleUnique:YYYY,
+  author      = {Nom, Prénom},
+  title       = {Titre du rapport},
+  subtitle    = {Sous-titre (facultatif)},
+  type        = {Libellé de type (facultatif ; ex. Working Paper, Annual Report)},
+  number      = {Numéro du rapport},
+  institution = {Nom de l'institution / organisme éditeur},
+  shortinstitution = {Nom de l'institution / organisme éditeur abrégé},
+  sortkey     = {Nom de l'institution / organisme éditeur pour le tri},
+  year        = {YYYY},
+  pagetotal   = {xxx},
+  series      = {Nom de la série (facultatif)},
+  url         = {https://... (facultatif)},
+  urldate     = {YYYY-MM-DD (facultatif)},
+  language    = {french}, % ou english (facultatif)
+  shorttitle  = {Titre court (facultatif, recommandé)}
+}
+\end{verbatim}
+
+\emph{Règle de rendu : si \texttt{type} est absent et \texttt{number} est renseigné, le style produit automatiquement \og Rapport n\textsuperscript{o} ...\fg{}. Utilisez \texttt{type} uniquement pour des libellés alternatifs (ex. \texttt{Working Paper}, \texttt{Annual Report}) et sans y inclure \og Rapport\fg{} ni \og n\textsuperscript{o}\fg{}, afin d'éviter les redondances.}
+\emph{Pour \texttt{@report}, utilisez \texttt{pagetotal} pour le nombre total de pages (ex. \texttt{pagetotal = \{134\}}). Réservez \texttt{pages} aux intervalles de pages pour les types qui l'emploient ainsi (articles, chapitres).}
+
+\subsubsection{Rapport statistique institutionnel (sans auteur)}
+
+\emph{Rapports ou séries statistiques produits par un organisme public, sans auteur nominatif, utilisés comme données de référence.}
+\emph{Les rapports institutionnels relèvent du type \texttt{@report}. Ils se distinguent des ouvrages par la prééminence de l'institution productrice sur l'auteur individuel, ainsi que par la présence fréquente d'un type, d'un numéro et d'une série.}
+
+\emph{Dans le cas des rapports institutionnels, l'institution fait office d'auteur principal. L'utilisation des champs \texttt{shortinstitution} et \texttt{sortkey} permet d'assurer une forme de citation abrégée cohérente et un classement alphabétique stable dans la bibliographie.}
+
+\emph{Lorsque le champ \texttt{shortinstitution} est utilisé seul, la casse doit être strictement conservée afin de respecter la dénomination officielle de l'organisme.
+Dans l'exemple proposé, \texttt{shortinstitution} remplace l'auteur institutionnel et permet de maintenir le formalisme correct ; l'institut doit ainsi être écrit Insee (et non INSEE).
+}
+
+\bookexample{Institution (ou Institution abrégée). \textit{Titre du rapport}. Type de document. Numéro. Institution éditrice. Année de publication. (Série). Nombre de pages.}|
+\begin{verbatim}
+@report{Insee:2020,
+  shortinstitution = {Insee},
+  sortkey          = {Insee},
+  title            = {Démographie - Population au début du mois - France (inclus Mayotte à partir de 2014)},
+  number           = {001641607},
+  institution      = {Institut national de la statistique et des études économiques},
+  year             = {2020},
+  series           = {Séries chronologiques},
+  pagetotal        = {150}
+}
+\end{verbatim}
+|{Insee:2020}{Fitoussi:1995}
+
+\subsubsection{Rapport statistique institutionnel (sans auteur et sans institution abrégée)}
+
+\emph{Dans le cas de figure où il n'existe pas de dénomination officielle abrégée pour l'institution éditrice, \texttt{shortinstitution} prendra la même chaîne de caractère que celle placée dans \texttt{institution}.
+Dans l'exemple proposé, le numéro du rapport n'est pas mentionné.}
+
+\bookexample{Institution. \textit{Titre du rapport}. Type de document. Numéro. Année de publication. (Série). Nombre de pages.}|
+\begin{verbatim}
+@report{UNEP:2024:AdaptationGap,
+  shortinstitution = {United Nations Environment Programme},
+  sortkey          = {United Nations Environment Programme},
+  title       = {Adaptation Gap Report 2024},
+  institution = {United Nations Environment Programme},
+  year        = {2024},
+  pagetotal   = {116}
+}
+\end{verbatim}
+|{UNEP:2024:AdaptationGap}{Fitoussi:1995}
+
+\subsubsection{Rapport institutionnel de politique publique (sans auteur nominatif, avec pagination)}
+
+\emph{Rapports officiels produits par une institution nationale ou supranationale (UE, ministères, agences), rendant compte d'une activité ou d'une politique.}
+
+\bookexample{Institution. \textit{Titre du rapport}. Rapport n° Numéro du rapport. Institution éditrice. Année de publication. Nombre de pages.}|
+\begin{verbatim}
+@report{EC:2022:AAR,
+  shortinstitution = {European Commission},
+  sortkey          = {European Commission},
+  title       = {2021 Annual Activity Report},
+  institution = {European External Action Service -- European Union},
+  number      = {(2022) 5064306},
+  year        = {2022},
+  pagetotal   = {134}
+}
+\end{verbatim}
+|{EC:2022:AAR}{Insee:2020}
+
+\subsubsection{Rapport de recherche ou working paper (avec auteur, URL et date de consultation)}
+
+\emph{Rapports académiques, working papers, documents de recherche diffusés par des instituts, universités ou think tanks.}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre du rapport : Sous-titre}. Rapport n°\,Numéro du rapport. Institution éditrice. Année de publication. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@report{Claeys:2005:PolicyMix,
+  author      = {Claeys, Peter},
+  title       = {Policy Mix and Debt Sustainability : Evidence from Fiscal Policy Rules},
+  institution = {CESifo Group Munich},
+  number      = {1406},
+  year        = {2005},
+  url         = {https://ideas.repec.org/p/ces/ceswps/_1406.html},
+  urldate     = {2017-01-24}
+}
+\end{verbatim}
+|{Claeys:2005:PolicyMix}{Insee:2020}
+
+\subsubsection{Exemple de compatibilité avec \texttt{pages}}
+
+\bookexample{Institution. \textit{Titre du rapport}. Année de publication. pp. xx-yy.}|
+\begin{verbatim}
+@report{Legacy:Report:Example,
+  title       = {Legacy Report Example},
+  institution = {Example Institution},
+  year        = {2021},
+  pages       = {37-87}
+}
+\end{verbatim}
+|{Legacy:Report:Example}{Insee:2020}
+
+\subsection{Chapitres d'ouvrage collectif (\texttt{@incollection})}
+
+\emph{Les chapitres d'ouvrage correspondent à des contributions autonomes
+	insérées dans un ouvrage collectif dirigé. Ils relèvent du type
+	\texttt{@incollection} et se distinguent des livres par la présence d'un titre
+	de chapitre et d'un directeur scientifique.}
+
+Structure : \textsc{Nom}, Prénom. \og Titre du chapitre \fg{} in Prénom \textsc{Nom} (dir.). \textit{Titre de l'ouvrage collectif}. Lieu de publication : Éditeur. Année. pp. xx-yy. (Collection)
+
+\paragraph{Modèle générique}
+
+\begin{verbatim}
+@incollection{Cle:YYYY,
+  author     = {Nom, Prénom},
+  title      = {Titre du chapitre},
+  editor     = {Nom, Prénom},
+  editortype = {director},
+  booktitle  = {Titre de l'ouvrage collectif},
+  publisher  = {Éditeur},
+  location   = {Lieu},
+  year       = {YYYY},
+  pages      = {xx-yy}
+}
+\end{verbatim}
+
+\subsubsection{Chapitre d'ouvrage collectif sans collection}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre du chapitre \fg{} in Prénom \textsc{Nom} (dir.). \textit{Titre de l'ouvrage collectif}. Lieu de publication : Éditeur. Année. pp. xx-yy.}|
+\begin{verbatim}
+@incollection{Hassenteufel:1993,
+  author     = {Hassenteufel, Patrick},
+  title      = {Les automnes infirmiers (1988-1992) : dynamiques d'une mobilisation},
+  editor     = {Fillieule, Olivier},
+  editortype = {director},
+  booktitle  = {Sociologie de la protestation},
+  publisher  = {l'Harmattan},
+  location   = {Paris},
+  year       = {1993},
+  pages      = {93-120}
+}
+\end{verbatim}
+|{Hassenteufel:1993}{Fitoussi:1995}
+
+\subsubsection{Chapitre d'ouvrage collectif avec collection}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre du chapitre \fg{} in Prénom \textsc{Nom} (dir.). \textit{Titre de l'ouvrage collectif}. Lieu de publication : Éditeur. Année. pp. xx-yy. (Collection)}|
+\begin{verbatim}
+@incollection{Blancheton:2017:Crises,
+  author     = {Blancheton, Bertrand},
+  title      = {Chapitre IV - Les spécificités françaises dans les crises des années 1970 et du seuil des années 1980},
+  editor     = {Bonin, Hubert and Blancheton, Bertrand},
+  editortype = {director},
+  booktitle  = {Crises et batailles boursières en France aux XXe et XXIe siècles},
+  publisher  = {Droz},
+  location   = {Genève},
+  year       = {2017},
+  pages      = {103-110},
+  series     = {Publications d'histoire économique et sociale internationale}
+}
+\end{verbatim}
+|{Blancheton:2017:Crises}{Fitoussi:1995}
+
+\subsubsection{Chapitre d'ouvrage collectif sans collection, version en ligne}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre du chapitre \fg{} in Prénom \textsc{Nom} (dir.). \textit{Titre de l'ouvrage collectif}. Lieu de publication : Éditeur. Année. pp. xx-yy. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@incollection{Blancheton:2017:Crises:Online,
+  author     = {Blancheton, Bertrand},
+  title      = {Chapitre IV - Les spécificités françaises dans les crises des années 1970 et du seuil des années 1980},
+  editor     = {Bonin, Hubert and Blancheton, Bertrand},
+  editortype = {director},
+  booktitle  = {Crises et batailles boursières en France aux XXe et XXIe siècles},
+  publisher  = {Droz},
+  location   = {Genève},
+  year       = {2017},
+  pages      = {103-110},
+  url        = {https://www.cairn.info/crises-et-batailles-boursieres-en-france--9782600057882-p-103.html},
+  urldate    = {2018-11-06}
+}
+\end{verbatim}
+|{Blancheton:2017:Crises:Online}{Fitoussi:1995}
+
+\subsection{Articles de revue (imprimés ou en ligne)}
+
+Structure : \textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de la revue}. Date de publication, volume numéro. Pages
+
+\emph{Le champ \texttt{monthtext} permet d'indiquer un mois, un intervalle de mois ou une saison complète.}
+
+\subsubsection{Article de revue imprimé avec volume et numéro}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de la revue}, année, vol. x, n\textsuperscript{o} y, pp. xx-yy.}|
+\begin{verbatim}
+@article{Leca:2001,
+  author       = {Leca, Jean},
+  title        = {Les 50 ans de la RFSP : une relecture cavalière des débuts},
+  journaltitle = {Revue française de science politique},
+  monthtext    = {fév.-avr. 2001},
+  year         = {2001},
+  volume       = {LI},
+  number       = {1-2},
+  pages        = {5-17}
+}
+\end{verbatim}
+|{Leca:2001}{Fitoussi:1995}
+
+\subsubsection{Article de revue imprimé sans volume et numéros regroupés}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de la revue}, année, n\textsuperscript{o} x-y, pp. xx-yy.}|
+\begin{verbatim}
+@article{Simeant:1993,
+  author       = {Sim\'eant, Johanna},
+  title        = {Violence d'un répertoire, les sans-papiers de la grève à la faim},
+  journaltitle = {Cultures et conflits},
+  monthtext    = {print.-été 1993},
+  year         = {1993},
+  number       = {9-10},
+  pages        = {315-338}
+}
+\end{verbatim}
+|{Simeant:1993}{Fitoussi:1995}
+
+\subsubsection{Article de revue imprimé en langue étrangère}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de la revue}, année, vol. x, n\textsuperscript{o} y, pp. xx-yy.}|
+\begin{verbatim}
+@article{Rinde:Rokkan:1959,
+  author       = {Rinde, Erik and Rokkan, Stein},
+  title        = {Toward an International Program of Research on the Handling of Conflicts: Introduction},
+  journaltitle = {The Journal of Conflict Resolution},
+  year         = {1959},
+  volume       = {3},
+  number       = {1},
+  pages        = {1-5}
+}
+\end{verbatim}
+|{Rinde:Rokkan:1959}{Fitoussi:1995}
+
+\subsubsection{Article de revue imprimé en langue étrangère avec url}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de la revue}, année, vol. x, n\textsuperscript{o} y, pp. xx-yy. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@article{Rinde:Rokkan:1959:Online,
+  author       = {Rinde, Erik and Rokkan, Stein},
+  title        = {Toward an International Program of Research on the Handling of Conflicts: Introduction},
+  journaltitle = {The Journal of Conflict Resolution},
+  year         = {1959},
+  volume       = {3},
+  number       = {1},
+  pages        = {1-5},
+  url          = {http://www.jstor.org/stable/172864},
+  urldate      = {2017-01-24}
+}
+\end{verbatim}
+|{Rinde:Rokkan:1959:Online}{Fitoussi:1995}
+
+\subsubsection{Citation d'une revue institutionnelle avec volume, numéro et sans article précisé}
+
+\bookexample{Institution abrégée. \textit{Titre de la revue}, « Titre du numéro », mois année, n\textsuperscript{o} y. Institution nom complet. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@article{Sibony2015:RDN,
+  author       = {Sibony, Laura},
+  title        = {Les réseaux sociaux transforment ils la guerre ?},
+  journaltitle = {Revue Défense Nationale},
+  issuetitle   = {Cyberdéfense et cyberguerre},
+  monthtext    = {nov. 2015},
+  year         = {2015},
+  number       = {784},
+  pages        = {49-52}
+}
+\end{verbatim}
+|{Sibony2015:RDN}{Fitoussi:1995}
+
+\subsubsection{Citation d'une revue institutionnelle avec volume, numéro, dossier thématique et sans article précisé}
+
+\bookexample{Institution abrégée. \textit{Titre de la revue}, Dossier thématique : « Titre du numéro », mois année, n\textsuperscript{o} y. Institution nom complet. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@article{IHEMI:2025:LIREC75,
+  shortinstitution = {{IHEMI}},
+  sortkey         = {{IHEMI}},
+  institution     = {{Institut des Hautes Etudes du Ministère de l'Intérieur}},
+  subtitle     = {Comment collaborer davantage avec les citoyens plutôt que de les « responsabiliser » ? : leçons tirées du Japon},
+  issuetitlelabel  = {Dossier thématique},
+  issuetitle        = {Le volontariat et la mobilisation citoyenne : leviers de la gestion de crise ?},
+  journaltitle = {LIREC -- Lettre d'information sur les risques et les crises},
+  year         = {2025},
+  monthtext    = {décembre 2025},
+  number       = {75},
+  url          = {https://www.ihemi.fr/sites/default/files/publications/files/2025-12/lirec_75_-_ihemi_0.pdf},
+  urldate      = {2026-03-14},
+  language     = {french}
+}
+\end{verbatim}
+|{IHEMI:2025:LIREC75}{Fitoussi:1995}
+
+\subsection{Articles de presse (en ligne)}
+
+\bookexample{\textsc{Nom}, Prénom. \og Titre de l'article \fg{}. \textit{Titre de presse}. Date de publication. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@article{Lechner:2014:Eotone,
+  author       = {Lechner, Marie},
+  title        = {Eotone, concert aux quatre vents},
+  journaltitle = {Libération},
+  monthtext    = {16 septembre 2014},
+  year         = {2014},
+  url          = {https://next.liberation.fr/arts/2014/09/16/eotone-concert-aux-quatre-vents_1101895},
+  urldate      = {2023-04-04}
+}
+\end{verbatim}
+|{Lechner:2014:Eotone}{Fitoussi:1995}
+
+\subsection{Thèses ou mémoires (\texttt{@thesis})}
+
+Structure : \textsc{Nom}, Prénom. \textit{Titre du document}. Niveau de la thèse. Ville : Établissement de soutenance. Année. Pagination.
+
+\emph{Les thèses et mémoires constituent des travaux universitaires non publiés
+	ou diffusés de manière limitée. Ils relèvent du type \texttt{@thesis}, pour lequel
+	le niveau du diplôme et la discipline occupent une place centrale dans la
+	référence bibliographique.}
+
+\subsubsection{Thèse avec nombre de volumes}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre du document}. Niveau de la thèse. Ville : Établissement de soutenance. Année. Pagination.}|
+\begin{verbatim}
+@thesis{Brice:2004,
+  author      = {Brice, Catherine},
+  title       = {La monarchie et la construction de l'identité nationale italienne :
+                 1861-1911},
+  type        = {Thèse d'\'Etat},
+  discipline  = {Histoire},
+  location    = {Paris},
+  institution = {Institut d'études politiques},
+  year        = {2004},
+  pages       = {3 vol.}
+}
+\end{verbatim}
+|{Brice:2004}{Fitoussi:1995}
+
+\subsubsection{Thèse avec nombre de pages et url}
+
+\bookexample{\textsc{Nom}, Prénom. \textit{Titre du document}. Niveau de la thèse. Ville : Établissement de soutenance. Année. Pagination. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@thesis{Delanoue:2018,
+  author      = {Delanoue, Elsa},
+  title       = {Débats et mobilisations autour de l'élevage : analyse d'une controverse},
+  type        = {Thèse de doctorat},
+  location    = {Rennes},
+  institution = {Rennes 2},
+  year        = {2018},
+  pages       = {489},
+  url         = {http://www.theses.fr/2018REN20040},
+  urldate     = {2018-11-06}
+}
+\end{verbatim}
+|{Delanoue:2018}{Fitoussi:1995}
+
+\subsection{Pages web}
+
+\subsubsection{Pages web avec auteur nominatif}
+
+\onlineexample{\textsc{Nom}, Prénom. \og Titre du document \fg{}. Date de publication. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@online{Mondon:2023:IA,
+  author       = {Mondon, Aurélie},
+  entrysubtype = {website},
+  title        = {Comprendre les enjeux de l'intelligence artificielle},
+  pubdate      = {2023-10-12},
+  urldate      = {2024-01-15},
+  url          = {https://www.exemple.fr/comprendre-les-enjeux-de-l-intelligence-artificielle}
+}
+\end{verbatim}
+|{Mondon:2023:IA}{PresidenceRepublique:2018:BoutiqueElysee}
+
+\subsubsection{Pages web avec auteur institutionnel}
+
+\onlineexample{Institution. \og Titre du document \fg{}. Date de publication. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@online{PresidenceRepublique:2018:BoutiqueElysee,
+  institution = {{Présidence de la République}},
+  entrysubtype = {website},
+  title       = {Entrez dans la (toute nouvelle) boutique de l'Élysée !},
+  pubdate     = {2018},
+  urldate     = {2023-04-05},
+  url         = {https://www.elysee.fr/emmanuel-macron/2018/09/24/entrez-dans-la-toute-nouvelle-boutique-del-elysee}
+}
+\end{verbatim}
+|{PresidenceRepublique:2018:BoutiqueElysee}{Mondon:2023:IA}
+
+\subsection{Vidéos en ligne}
+
+\subsubsection{Vidéo en ligne avec auteur nominatif}
+
+\onlineexample{\textsc{Nom}, Prénom. \textit{Titre de la vidéo}. Année de publication. URL : \url{...} [consultée le jour mois année].}|
+\begin{verbatim}
+@online{Has:2016:Zotero,
+  entrysubtype = {video},
+  author       = {Has, Chandra},
+  title        = {Zotero Reference Manager ({LaTeX} Basic Tutorial-13 C)},
+  platform     = {YouTube},
+  pubdate      = {2016},
+  duration     = {7:09},
+  urldate      = {2023-04-05},
+  url          = {https://www.youtube.com/watch?v=K2MAhuYpORA}
+}
+\end{verbatim}
+|{Has:2016:Zotero}{Mondon:2023:IA}
+
+\subsubsection{Vidéo en ligne avec auteur institutionnel}
+
+\onlineexample{Institution. \textit{Titre de la vidéo}. Année de publication. URL : \url{...} [consultée le jour mois année].}|
+\begin{verbatim}
+@online{SciencesPo:2017,
+  entrysubtype = {video},
+  institution  = {Sciences Po},
+  title        = {Sciences Po passe le bac : épreuve d'histoire},
+  platform     = {YouTube},
+  pubdate      = {2017-06-12},
+  urldate      = {2017-06-14},
+  url          = {https://www.youtube.com/watch?v=ZvSVkNZzvx4&t}
+}
+\end{verbatim}
+|{SciencesPo:2017}{Mondon:2023:IA}
+
+\subsection{Podcasts}
+
+\subsubsection{Podcasts avec auteur nominatif}
+
+\onlineexample{\textsc{Nom}, Prénom. \textit{Titre du podcast / de l'épisode}. Date de publication. Durée. (Titre de la collection ou de la série). URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@online{Levy:2023:IAPodcast,
+  entrysubtype = {podcast},
+  author       = {Lévy, Claire},
+  title        = {L'intelligence artificielle au quotidien},
+  platform     = {Plateforme},
+  pubdate      = {2023-02-01},
+  duration     = {28 min.},
+  series       = {Le monde en question},
+  urldate      = {2023-04-03},
+  url          = {https://www.exemple.fr/podcasts/le-monde-en-question/l-intelligence-artificielle-au-quotidien}
+}
+\end{verbatim}
+|{Levy:2023:IAPodcast}{Mondon:2023:IA}
+
+\subsubsection{Podcasts avec auteur institutionnel}
+
+\onlineexample{Éditeur. \textit{Titre du podcast / de l'épisode}. Date de publication. Durée. (Titre de la collection ou de la série). URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@online{FranceCulture:2023:Holodomor,
+  entrysubtype = {podcast},
+  publisher    = {{France Culture}},
+  title        = {La France reconnaît l'Holodomor comme un « génocide »},
+  platform     = {Radio France},
+  pubdate      = {2023-02-01},
+  duration     = {15 min.},
+  series       = {Guerre en Ukraine, le podcast},
+  urldate      = {2023-04-03},
+  url          = {https://www.radiofrance.fr/franceculture/podcasts/guerre-en-ukraine-le-podcast/la-france-reconnait-l-holodomor-comme-un-genocide-3401753}
+}
+\end{verbatim}
+|{FranceCulture:2023:Holodomor}{Mondon:2023:IA}
+
+\subsection{Statistiques}
+
+\subsubsection{Statistiques avec auteur institutionnel}
+
+\onlineexample{Institution. \textit{Titre}. Base de données. Année de publication. URL : \url{...} [consulté le jour mois année].}|
+\begin{verbatim}
+@online{GlobalWebIndex:2020,
+  entrysubtype = {statistic},
+  institution = {{Global WebIndex}},
+  title     = {COVID-19 level of concern by country worldwide 2020},
+  platform  = {Statista},
+  pubdate   = {2020},
+  urldate   = {2020-09-01},
+  url       = {https://www-statista-com.acces--distant.sciencespo.fr/statistics/1109124/covid-concern-level-by-country-worldwide/}
+}
+\end{verbatim}
+|{GlobalWebIndex:2020}{Mondon:2023:IA}
+
+\section{Compilation}
+
+\subsection{Commande locale}
+\begin{verbatim}
+latexmk -pdf -xelatex main.tex
+\end{verbatim}
+Cette commande enchaîne XeLaTeX et \texttt{biber}, nettoie automatiquement et produit \texttt{build/main.pdf}.
+
+\subsection{Avec Docker/Makefile}
+\begin{verbatim}
+make pdf        % lance docker compose run latex
+make clean      % nettoie via latexmk -C
+\end{verbatim}
+Le \texttt{docker-compose.yml} monte automatiquement les fichiers de style dans \texttt{\$TEXMFHOME}.
+
+\newpage
+\ifdefined\demobib
+  \nocite{*}
+\fi
+\printbibliography[heading=bibintoc, title=Bibliographie]
+
+\end{document}
