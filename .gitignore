@@ -20,5 +20,6 @@
 
 # Editor settings
 /.vscode/
+.codex
 
 
