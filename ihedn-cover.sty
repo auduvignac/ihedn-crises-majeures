@@ -362,7 +362,7 @@
             \fi
           }
           {
-            \regex_match:nnTF { \.(pdf|png)\Z } { \l_tmpb_tl }
+            \file_if_exist:nTF { \tl_use:N \l_tmpa_tl }
               {
                 \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl}
               }
@@ -375,19 +375,29 @@
                     \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
                       { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
                       {
-                        \ifcoverusesvg
-                          \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .svg }
-                          \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
-                            { \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
-                            {
-                              \PackageWarningNoLine{ihedn-cover}
-                                {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.svg}
-                            }
-                        \else
-                          \PackageWarningNoLine{ihedn-cover}
-                            {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png~
-                             (svg~support~disabled)}
-                        \fi
+                        \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .jpg }
+                        \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                          { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
+                          {
+                            \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .jpeg }
+                            \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                              { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
+                              {
+                                \ifcoverusesvg
+                                  \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .svg }
+                                  \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                                    { \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
+                                    {
+                                      \PackageWarningNoLine{ihedn-cover}
+                                        {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.jpg,~.jpeg,~.svg}
+                                    }
+                                \else
+                                  \PackageWarningNoLine{ihedn-cover}
+                                    {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.jpg,~.jpeg~
+                                     (svg~support~disabled)}
+                                \fi
+                              }
+                          }
                       }
                   }
               }
