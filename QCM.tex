@@ -1,0 +1,145 @@
+\documentclass[12pt,a4paper]{article}
+
+% ===============================
+% LANGUE & TYPOGRAPHIE
+% ===============================
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+\usepackage[french]{babel}
+
+% ===============================
+% MISE EN PAGE
+% ===============================
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ===============================
+% PAS DE CÉSURE
+% ===============================
+\usepackage[none]{hyphenat}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+% ===============================
+% LISTES & QCM
+% ===============================
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=3pt}
+\setlist[enumerate]{itemsep=6pt}
+
+\usepackage{amssymb} % cases à cocher
+
+% ===============================
+% URL & LIENS
+% ===============================
+\usepackage{hyperref}
+\usepackage{xurl}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=black,
+  pdfborder={0 0 0}
+}
+
+\Urlmuskip=0mu plus 1mu
+
+% ===============================
+% MICROTYPOGRAPHIE
+% ===============================
+\usepackage{microtype}
+
+% ===============================
+% EN-TÊTES / PIEDS DE PAGE (optionnel)
+% ===============================
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Questionnaire IHEDN}
+\rhead{Gestion des crises majeures}
+\cfoot{\thepage}
+
+% ===============================
+% TITRES
+% ===============================
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+
+% ===============================
+% DOCUMENT
+% ===============================
+\begin{document}
+\section*{Questionnaire : Engagement et compétences en gestion de crise}
+
+\begin{enumerate}[label=\arabic*.]
+
+\item \textbf{Êtes-vous membre d'une association agréée par la sécurité civile ?}
+
+\(\square\) Oui \hspace{1cm} \(\square\) Non
+
+\medskip
+\textit{Si oui, veuillez préciser :}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Association(s) concernée(s) :} \\
+    \(\square\) (liste à compléter)
+
+    \item \textbf{Type d'activités effectuées :} \\
+    \(\square\) Administration \\
+    \(\square\) Coordination en cas de crise \\
+    \(\square\) Intervention terrain \\
+    \(\square\) Autre : \dotfill
+\end{itemize}
+
+\medskip
+
+\item \textbf{Disposez-vous d'une expérience professionnelle ou bénévole en gestion de crise ?}
+
+\(\square\) Oui \hspace{1cm} \(\square\) Non
+
+\medskip
+\textit{Si oui, veuillez préciser :}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Secteur(s) d'activité :} \\
+    \(\square\) Nucléaire \\
+    \(\square\) Industriel \\
+    \(\square\) Sanitaire \\
+    \(\square\) Sécurité / Défense \\
+    \(\square\) Autre : \dotfill
+
+    \item \textbf{Nature de l'expertise :} \\
+    \(\square\) Veille \\
+    \(\square\) Prévention \\
+    \(\square\) Coordination \\
+    \(\square\) Intervention \\
+    \(\square\) Retour d'expérience (RETEX) \\
+    \(\square\) Autre : \dotfill
+\end{itemize}
+
+\medskip
+
+\item \textbf{Accepteriez-vous d'être mobilisé en temps de crise en tant qu'auditeur IHEDN ?}
+
+\(\square\) Oui \hspace{1cm} \(\square\) Non
+
+\medskip
+\textit{Si oui, à quel(s) titre(s) ?}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item[] \(\square\) Veille
+    \item[] \(\square\) Prévention
+    \item[] \(\square\) Coordination en cas de crise
+    \item[] \(\square\) Intervention terrain
+    \item[] \(\square\) Analyse post-crise / RETEX
+    \item[] \(\square\) Autre : \dotfill
+\end{itemize}
+
+\end{enumerate}
+
+\end{document}
