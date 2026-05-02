@@ -333,6 +333,7 @@
   { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
 \cs_new:Npn \CoverSubtitleFontSpec { \fontsize{20.000pt}{22.000pt}\selectfont }
 \cs_new:Npn \CoverCommitteeFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
+\cs_generate_variant:Nn \regex_match:nnTF { nVTF }
 \cs_new_protected:Npn \CoverPlaceLogoIfSet
   {
     \tl_if_blank:VF \l_cover_logo_path_tl
@@ -340,7 +341,7 @@
         \tl_set_eq:NN \l_tmpa_tl \l_cover_logo_path_tl
         \tl_set:Nx \l_tmpb_tl { \tl_lower_case:n { \tl_use:N \l_tmpa_tl } }
 
-        \regex_match:nnTF { \.svg\Z } { \l_tmpb_tl }
+        \regex_match:nVTF { \.svg\Z } \l_tmpb_tl
           {
             \regex_replace_once:nnN { \.[sS][vV][gG]\Z } {} \l_tmpa_tl
             \ifcoverusesvg
@@ -362,9 +363,14 @@
             \fi
           }
           {
-            \regex_match:nnTF { \.(pdf|png)\Z } { \l_tmpb_tl }
+            \regex_match:nVTF { \.(pdf|png|jpe?g)\Z } \l_tmpb_tl
               {
-                \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl}
+                \file_if_exist:nTF { \tl_use:N \l_tmpa_tl }
+                  { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
+                  {
+                    \PackageWarningNoLine{ihedn-cover}
+                      {Logo~path~'\l_tmpa_tl'~not~found}
+                  }
               }
               {
                 \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .pdf }
@@ -375,19 +381,29 @@
                     \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
                       { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
                       {
-                        \ifcoverusesvg
-                          \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .svg }
-                          \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
-                            { \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
-                            {
-                              \PackageWarningNoLine{ihedn-cover}
-                                {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.svg}
-                            }
-                        \else
-                          \PackageWarningNoLine{ihedn-cover}
-                            {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png~
-                             (svg~support~disabled)}
-                        \fi
+                        \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .jpg }
+                        \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                          { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
+                          {
+                            \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .jpeg }
+                            \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                              { \CoverPlaceImage{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpc_tl} }
+                              {
+                                \ifcoverusesvg
+                                  \tl_set:Nx \l_tmpc_tl { \l_tmpa_tl .svg }
+                                  \file_if_exist:nTF { \tl_use:N \l_tmpc_tl }
+                                    { \CoverPlaceSvg{\CoverLogoX}{\CoverLogoY}{\CoverLogoWidth}{\CoverLogoHeight}{\l_tmpa_tl} }
+                                    {
+                                      \PackageWarningNoLine{ihedn-cover}
+                                        {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.jpg,~.jpeg,~.svg}
+                                    }
+                                \else
+                                  \PackageWarningNoLine{ihedn-cover}
+                                    {Logo~path~'\l_tmpa_tl'~not~found.~Tried~.pdf,~.png,~.jpg,~.jpeg~
+                                     (svg~support~disabled)}
+                                \fi
+                              }
+                          }
                       }
                   }
               }

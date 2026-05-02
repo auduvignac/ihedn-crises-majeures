@@ -1,0 +1,126 @@
+% Preambule commun aux comptes rendus CR_*.tex.
+
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\usepackage{multirow}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+% ============================================================
+% IHEDN COVER TEMPLATE (XeLaTeX)
+% ============================================================
+% Compilation (from project root):
+%   latexmk -pdf main.tex
+%   LATEXMK_SHELL_ESCAPE=0 latexmk -pdf main.tex
+%
+% Optional environment controls from latexmkrc:
+%   LATEXMK_ENGINE=xelatex        (default/enforced)
+%   LATEXMK_SHELL_ESCAPE=1|0      (default 1, needed for SVG conversion)
+%
+% Required package for this template:
+%   \usepackage{ihedn-cover}
+%
+% Note: ihedn-cover already loads needed internal packages
+% (fontspec, graphicx, tikz, ragged2e, optional svg).
+% ============================================================
+
+% ----------------------------------------------------------------
+% Package options (documented)
+% ----------------------------------------------------------------
+% Geometry scope:
+%   apply-geometry            -> force A4 + zero margins while cover is built
+%   no-apply-geometry         -> do not alter host geometry (default)
+%
+% Typesetting freeze:
+%   global-typesetting        -> apply freeze globally (intrusive)
+%   no-global-typesetting     -> no global freeze (default)
+%
+% Small-caps handling:
+%   local-smallcaps-fix       -> \textsc -> \MakeUppercase only inside cover (default)
+%   no-local-smallcaps-fix    -> disable local fix
+%   global-smallcaps-fix      -> global override (intrusive)
+%   no-global-smallcaps-fix   -> disable global fix (default)
+%
+% Main font handling:
+%   global-mainfont           -> set Times New Roman globally (default)
+%   local-mainfont            -> set Times only during cover rendering
+%   no-mainfont-override      -> keep host document main font
+%
+% SVG support:
+%   svg-support               -> enable SVG logos (default, needs shell-escape)
+%   no-svg-support            -> disable SVG path handling (pdf/png only)
+%
+% Debug overlay:
+%   debug                     -> show mm grid + bounding boxes on cover
+%   no-debug                  -> hide debug overlay (default)
+% ----------------------------------------------------------------
+\usepackage[
+  no-apply-geometry,
+  no-global-typesetting,
+  global-smallcaps-fix,
+  local-smallcaps-fix,
+  global-mainfont,
+  svg-support,
+  no-debug
+]{ihedn-cover}
+
+% ----------------------------------------------------------------
+% Bibliography stack (BibLaTeX/Biber, style from subtree vendor/)
+% ----------------------------------------------------------------
+\usepackage{polyglossia}
+\setdefaultlanguage{french}
+\makeatletter
+\g@addto@macro\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \renewcommand{\figurename}{Figure}%
+}
+\makeatother
+\usepackage{csquotes}
+\usepackage{hyperref}
+\makeatletter
+\let\ihedn@orig@input@path\input@path
+\def\input@path{{vendor/biblatex-sciences-po-fr/style/}}
+\makeatother
+\usepackage[
+  backend=biber,
+  style=sciencespo,
+  hyperref=true,
+  autolang=other
+]{biblatex}
+\makeatletter
+\let\input@path\ihedn@orig@input@path
+\makeatother
+\addbibresource{bibliographies/bib/articles.bib}
+\addbibresource{bibliographies/bib/livres.bib}
+\addbibresource{bibliographies/bib/online.bib}
+\addbibresource{bibliographies/bib/rapports.bib}
+
+% ----------------------------------------------------------------
+% tcolorbox
+% ----------------------------------------------------------------
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+% Example: use Arial for the full report + cover.
+% Uncomment and switch package option to no-mainfont-override.
+% \setmainfont{Arial}[
+%   UprightFont    = *,
+%   BoldFont       = * Bold,
+%   ItalicFont     = * Italic,
+%   BoldItalicFont = * Bold Italic
+% ]
+
+% Renommage Liste des figures en Table des figures
+\addto\captionsfrench{%
+  \renewcommand{\listfigurename}{Table des figures}
+}
+
+\newcommand{\heure}[2]{{\NoAutoSpacing #1:#2}}
