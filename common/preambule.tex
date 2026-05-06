@@ -102,6 +102,7 @@
 \addbibresource{bibliographies/bib/livres.bib}
 \addbibresource{bibliographies/bib/online.bib}
 \addbibresource{bibliographies/bib/rapports.bib}
+\addbibresource{bibliographies/bib/entretiens.bib}
 
 % ----------------------------------------------------------------
 % tcolorbox
@@ -124,3 +125,10 @@
 }
 
 \newcommand{\heure}[2]{{\NoAutoSpacing #1:#2}}
+
+\DeclareFieldFormat[misc]{title}{#1}
+
+\usepackage[none]{hyphenat}
+
+\usepackage{adjustbox}
+\usepackage{pdfpages}
