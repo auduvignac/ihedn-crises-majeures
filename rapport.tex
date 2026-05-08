@@ -390,10 +390,14 @@ arc=3mm
 
 \clearpage
 
-%\printbibliography[heading=bibintoc,title={Références bibliographiques}]
-
 \addcontentsline{toc}{section}{Références bibliographiques}
 \printbibheading[title={Références bibliographiques}]
+
+\addcontentsline{toc}{subsection}{Ouvrages}
+\printbibliography[	keyword=livre,
+					title={Ouvrages},
+					sorting=nyt,
+					heading=subbibliography]
 
 \addcontentsline{toc}{subsection}{Articles de recherche}
 \printbibliography[	keyword=article_de_recherche,
@@ -416,9 +420,9 @@ arc=3mm
 					heading=subbibliography]
 
 
-\addcontentsline{toc}{subsection}{Ouvrages}
-\printbibliography[	keyword=livre,
-					title={Ouvrages},
+\addcontentsline{toc}{subsection}{Articles de presse en ligne}
+\printbibliography[	keyword=article_presse_online,
+					title={Articles de presse en ligne},
 					sorting=nyt,
 					heading=subbibliography]
 
