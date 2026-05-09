@@ -67,7 +67,7 @@ sub makeglossaries {
 }
 
 # Nettoyage additionnel
-$clean_ext .= ' acn acr alg glg glo gls ist synctex.gz bbl bcf run.xml ';
+$clean_ext .= ' acn acr alg glg glo gls ist lop synctex.gz bbl bcf run.xml ';
 
 
 
