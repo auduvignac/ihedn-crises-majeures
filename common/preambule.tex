@@ -13,6 +13,22 @@
 \usepackage{pdflscape}
 \usepackage{enumitem}
 \usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{ragged2e}
+\usepackage{tabularx}
+\usepackage{xparse}
+\usepackage{ltablex}
+\usepackage{xltabular}
+\usepackage{caption}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+\newcommand{\StyledTableSetup}{%
+  \footnotesize
+  \renewcommand{\arraystretch}{1.2}%
+  \setlength{\tabcolsep}{4pt}%
+}
+
 
 % ============================================================
 % IHEDN COVER TEMPLATE (XeLaTeX)
@@ -84,6 +100,7 @@
 }
 \makeatother
 \usepackage{csquotes}
+\usepackage{xurl}
 \usepackage{hyperref}
 \makeatletter
 \let\ihedn@orig@input@path\input@path
@@ -95,6 +112,7 @@
   hyperref=true,
   autolang=other
 ]{biblatex}
+\AtBeginBibliography{\sloppy\setlength{\emergencystretch}{3em}}
 \makeatletter
 \let\input@path\ihedn@orig@input@path
 \makeatother
@@ -133,7 +151,7 @@
   \@starttoc{lop}
 }
 
-\newcommand*\l@proposition{\@dottedtocline{1}{1.5em}{3.2em}}
+\newcommand*\l@proposition{\@dottedtocline{1}{1.5em}{2.3em}}
 
 \makeatother
 
@@ -172,7 +190,9 @@
 {
   \refstepcounter{proposition}
 
-  \addcontentsline{lop}{proposition}{#1}
+  \addcontentsline{lop}{proposition}{%
+    \protect\numberline{\theproposition}#1%
+  }
 
   \begin{propositionbox}
   {Proposition~\theproposition~: #1}
@@ -195,3 +215,5 @@
 
 \usepackage{adjustbox}
 \usepackage{pdfpages}
+
+\usepackage{tablefootnote}
