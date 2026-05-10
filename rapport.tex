@@ -138,12 +138,14 @@ La désinformation occupe une place particulière dans cet ensemble, car elle ag
 
 Le tableau \ref{tab:vulnerabilites_strategiques_thematique} dresse un état des lieux thématiques des diverses crises auxquelles la France a été confrontée depuis 1980. Celui-ci témoigne de la pluralité des crises auxquelles l'Etat fut confronté et des vulnérabilités afférentes. Une analyse plus détaillée des crises mentionnées et de leurs effets est présentée en annexe \ref{annexe:tableau_crises_majeures}.
 
+\begin{table}[H]
+\centering
 \StyledTableSetup
 
-\stepcounter{footnote}\edef\noteVulnerabilitesTerrorisme{\number\value{footnote}}
-\stepcounter{footnote}\edef\noteVulnerabilitesRisquesNaturels{\number\value{footnote}}
-\stepcounter{footnote}\edef\noteVulnerabilitesCrisesSanitaires{\number\value{footnote}}
-\stepcounter{footnote}\edef\noteVulnerabilitesInterdependances{\number\value{footnote}}
+\stepcounter{footnote}\xdef\noteVulnerabilitesTerrorisme{\number\value{footnote}}
+\stepcounter{footnote}\xdef\noteVulnerabilitesRisquesNaturels{\number\value{footnote}}
+\stepcounter{footnote}\xdef\noteVulnerabilitesCrisesSanitaires{\number\value{footnote}}
+\stepcounter{footnote}\xdef\noteVulnerabilitesInterdependances{\number\value{footnote}}
 
 \begin{tabularx}{\linewidth}{@{}
 p{2.8cm}
@@ -198,8 +200,9 @@ Développement d'une stratégie de résilience nationale et territoriale \\
 \bottomrule
 \end{tabularx}
 
-\captionof{table}{Principales vulnérabilités stratégiques contemporaines et évolution des réponses publiques françaises.}
+\caption{Principales vulnérabilités stratégiques contemporaines et évolution des réponses publiques françaises.}
 \label{tab:vulnerabilites_strategiques_thematique}
+\end{table}
 
 \footnotetext[\noteVulnerabilitesTerrorisme]{Attentats terroristes commis sur le territoire français depuis les années 1980, notamment les vagues d'attentats de 1986, 1995 et 2015.}
 \footnotetext[\noteVulnerabilitesRisquesNaturels]{Tempêtes Lothar et Martin de décembre 1999, tempête Xynthia en 2010 et autres événements majeurs ayant affecté les infrastructures critiques.}
@@ -396,11 +399,11 @@ Lorsque l'événement est en cours, la contribution directe de l'association en 
 
 \clearpage
 
-\subsection{Après la crise : analyse et \acrshort{retex}}
+\subsection{Après la crise : analyse et \texorpdfstring{\acrshort{retex}}{RETEX}}
 
 En aval, la valeur ajoutée des auditeurs se précise. Leur expérience et la diversité de leurs parcours peuvent nourrir l'analyse des crises, la participation aux retours d'expérience (\acrshort{retex}) et l'élaboration de recommandations.
 
-\begin{proposition}{Consolider la contribution de l'AR~16 aux démarches de \acrshort{retex}}
+\begin{proposition}{Consolider la contribution de l'AR~16 aux démarches de \texorpdfstring{\acrshort{retex}}{RETEX}}
 Le comité considère que l'AR~16 pourrait contribuer plus systématiquement aux démarches d'analyse post-crise et de \acrshort{retex}, en s'appuyant sur la diversité des expériences professionnelles et sectorielles de ses membres.
 \end{proposition}
 
@@ -736,33 +739,33 @@ arc=3mm
 \printbibheading[title={Références bibliographiques}]
 
 \addcontentsline{toc}{subsection}{Ouvrages}
+\newrefcontext[sorting=nyt]
 \printbibliography[	keyword=livre,
 					title={Ouvrages},
-					sorting=nyt,
 					heading=subbibliography]
 
 \addcontentsline{toc}{subsection}{Articles de recherche}
+\newrefcontext[sorting=nyt]
 \printbibliography[	keyword=article_de_recherche,
 					title={Articles de recherche},
-					sorting=nyt,
 					heading=subbibliography]
 
 \addcontentsline{toc}{subsection}{Rapports institutionnels}
+\newrefcontext[sorting=nyt]
 \printbibliography[	keyword=rapport_institutionnel,
 					title={Rapports institutionnels},
-					sorting=nyt,
 					heading=subbibliography]
 
 \addcontentsline{toc}{subsection}{Ressources en ligne}
+\newrefcontext[sorting=nyt]
 \printbibliography[	keyword=article_online,
 					title={Ressources en ligne},
-					sorting=nyt,
 					heading=subbibliography]
 
 \addcontentsline{toc}{subsection}{Articles de presse en ligne}
+\newrefcontext[sorting=nyt]
 \printbibliography[	keyword=article_presse_online,
 					title={Articles de presse en ligne},
-					sorting=nyt,
 					heading=subbibliography]
 
 \end{document}

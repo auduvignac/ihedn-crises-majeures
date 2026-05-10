@@ -100,6 +100,7 @@
 }
 \makeatother
 \usepackage{csquotes}
+\usepackage{xurl}
 \usepackage{hyperref}
 \makeatletter
 \let\ihedn@orig@input@path\input@path
@@ -111,6 +112,7 @@
   hyperref=true,
   autolang=other
 ]{biblatex}
+\AtBeginBibliography{\sloppy\setlength{\emergencystretch}{3em}}
 \makeatletter
 \let\input@path\ihedn@orig@input@path
 \makeatother
