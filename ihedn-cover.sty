@@ -483,10 +483,16 @@
       { \tl_gset_eq:NN \g_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
       { \tl_gset:Nn \g_cover_rapporteur_label_tl {#2} }
   }
-\NewDocumentCommand{\Citation}{m m}
+\NewDocumentCommand{\Citation}{m o g}
   {
     \tl_gset:Nn \g_cover_citation_tl {#1}
-    \tl_gset:Nn \g_cover_citation_author_tl {#2}
+    \IfNoValueTF{#2}
+      {
+        \IfNoValueTF{#3}
+          { \tl_gclear:N \g_cover_citation_author_tl }
+          { \tl_gset:Nn \g_cover_citation_author_tl {#3} }
+      }
+      { \tl_gset:Nn \g_cover_citation_author_tl {#2} }
   }
 \cs_generate_variant:Nn \regex_match:nnTF { nVTF }
 \cs_new_protected:Npn \CoverPlaceLogoIfSet
