@@ -435,9 +435,9 @@
         ] at ([xshift=\dimexpr\CoverCitationBlockX mm + \CoverCitationBlockWidth mm/2\relax,yshift=-\CoverCitationBlockY mm]current~page.north~west)
           {\parbox[t]{\CoverCitationBlockWidth mm}{%
             \Centering
-            {\CoverCitationFontSpec «~\tl_use:N \l_cover_citation_tl~»\par}%
+            {\CoverCitationFontSpec \enquote{\CoverCitationField}\par}%
             \tl_if_empty:NF \l_cover_citation_author_tl
-              {{\vspace{1.5mm}\CoverCitationAuthorFontSpec \tl_use:N \l_cover_citation_author_tl\par}}%
+              {{\vspace{1.5mm}\CoverCitationAuthorFontSpec \CoverCitationAuthorField\par}}%
           }};
       }
   }
