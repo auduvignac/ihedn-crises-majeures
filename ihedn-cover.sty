@@ -125,6 +125,12 @@
 \newcommand{\CoverSubtitleBlockX}{13.081}
 \newcommand{\CoverSubtitleBlockY}{150.757}
 \newcommand{\CoverSubtitleBlockWidth}{176.536}
+\newcommand{\CoverPresidentBlockX}{13.081}
+\newcommand{\CoverPresidentBlockY}{186.000}
+\newcommand{\CoverPresidentBlockWidth}{176.536}
+\newcommand{\CoverRapporteurBlockX}{13.081}
+\newcommand{\CoverRapporteurBlockY}{208.000}
+\newcommand{\CoverRapporteurBlockWidth}{176.536}
 \newcommand{\CoverReportLineOneX}{28.448}
 \newcommand{\CoverReportLineOneY}{121.518}
 \newcommand{\CoverReportLineOneWidth}{145.713}
@@ -241,6 +247,16 @@
 \tl_new:N \l_cover_title_tl
 \tl_new:N \l_cover_subtitle_tl
 \tl_new:N \l_cover_committee_tl
+\tl_new:N \l_cover_president_tl
+\tl_new:N \l_cover_rapporteur_tl
+\tl_new:N \l_cover_president_label_tl
+\tl_new:N \l_cover_rapporteur_label_tl
+\tl_new:N \g_cover_president_tl
+\tl_new:N \g_cover_rapporteur_tl
+\tl_new:N \g_cover_president_label_tl
+\tl_new:N \g_cover_rapporteur_label_tl
+\tl_const:Nn \c_cover_default_president_label_tl { Président }
+\tl_const:Nn \c_cover_default_rapporteur_label_tl { Rapporteur }
 \tl_new:N \l_cover_logo_path_tl
 \tl_new:N \l_cover_header_one_tl
 \tl_new:N \l_cover_header_two_tl
@@ -253,13 +269,42 @@
 \box_new:N \l_cover_title_measure_box
 \dim_new:N \l_cover_title_allowed_dim
 \dim_new:N \l_cover_title_used_dim
+\bool_new:N \l_cover_president_key_bool
+\bool_new:N \l_cover_rapporteur_key_bool
+\bool_new:N \l_cover_president_label_key_bool
+\bool_new:N \l_cover_rapporteur_label_key_bool
 
+% Role precedence:
+% 1. Per-cover keys passed to \PageDeGardeIHEDN take priority.
+% 2. Global values set by \President/\Rapporteur are fallbacks.
+% 3. If a per-cover role name is supplied without its label, the default label
+%    is used instead of inheriting a previous global label.
 \keys_define:nn { cover/page }
   {
     date .tl_set:N = \l_cover_date_tl,
     title .tl_set:N = \l_cover_title_tl,
     subtitle .tl_set:N = \l_cover_subtitle_tl,
     committee .tl_set:N = \l_cover_committee_tl,
+    president .code:n =
+      {
+        \bool_set_true:N \l_cover_president_key_bool
+        \tl_set:Nn \l_cover_president_tl {#1}
+      },
+    rapporteur .code:n =
+      {
+        \bool_set_true:N \l_cover_rapporteur_key_bool
+        \tl_set:Nn \l_cover_rapporteur_tl {#1}
+      },
+    president_label .code:n =
+      {
+        \bool_set_true:N \l_cover_president_label_key_bool
+        \tl_set:Nn \l_cover_president_label_tl {#1}
+      },
+    rapporteur_label .code:n =
+      {
+        \bool_set_true:N \l_cover_rapporteur_label_key_bool
+        \tl_set:Nn \l_cover_rapporteur_label_tl {#1}
+      },
     logo_path .tl_set:N = \l_cover_logo_path_tl,
     header_1 .tl_set:N = \l_cover_header_one_tl,
     header_2 .tl_set:N = \l_cover_header_two_tl,
@@ -301,6 +346,14 @@
     \tl_clear:N \l_cover_title_tl
     \tl_clear:N \l_cover_subtitle_tl
     \tl_clear:N \l_cover_committee_tl
+    \bool_set_false:N \l_cover_president_key_bool
+    \bool_set_false:N \l_cover_rapporteur_key_bool
+    \bool_set_false:N \l_cover_president_label_key_bool
+    \bool_set_false:N \l_cover_rapporteur_label_key_bool
+    \tl_set_eq:NN \l_cover_president_tl \g_cover_president_tl
+    \tl_set_eq:NN \l_cover_rapporteur_tl \g_cover_rapporteur_tl
+    \tl_set_eq:NN \l_cover_president_label_tl \g_cover_president_label_tl
+    \tl_set_eq:NN \l_cover_rapporteur_label_tl \g_cover_rapporteur_label_tl
     \tl_clear:N \l_cover_logo_path_tl
     \tl_set:Nn \l_cover_header_one_tl {Union-IHEDN}
     \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
@@ -311,8 +364,22 @@
     \tl_set:Nn \l_cover_title_baselineskip_tl {28.667pt}
     \int_set:Nn \l_cover_title_max_lines_int {2}
     \keys_set:nn { cover/page } { #1 }
+    \bool_if:nT
+      { \l_cover_president_key_bool && ! \l_cover_president_label_key_bool }
+      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
+    \bool_if:nT
+      { \l_cover_rapporteur_key_bool && ! \l_cover_rapporteur_label_key_bool }
+      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
+    \tl_if_empty:NT \l_cover_president_label_tl
+      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
+    \tl_if_empty:NT \l_cover_rapporteur_label_tl
+      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_trim_spaces:N \l_cover_logo_path_tl
     \tl_trim_spaces:N \l_cover_committee_tl
+    \tl_trim_spaces:N \l_cover_president_tl
+    \tl_trim_spaces:N \l_cover_rapporteur_tl
+    \tl_trim_spaces:N \l_cover_president_label_tl
+    \tl_trim_spaces:N \l_cover_rapporteur_label_tl
     \tl_replace_all:Nnn \l_cover_committee_tl { \par } { \par\noindent }
     \tl_replace_all:Nnn \l_cover_committee_tl { \\ } { \par\noindent }
     \cover_check_title_fit:
@@ -323,6 +390,10 @@
 \cs_new:Npn \CoverTitleField { \tl_use:N \l_cover_title_tl }
 \cs_new:Npn \CoverSubtitleField { \tl_use:N \l_cover_subtitle_tl }
 \cs_new:Npn \CoverCommitteeField { \tl_use:N \l_cover_committee_tl }
+\cs_new:Npn \CoverPresidentField { \tl_use:N \l_cover_president_tl }
+\cs_new:Npn \CoverRapporteurField { \tl_use:N \l_cover_rapporteur_tl }
+\cs_new:Npn \CoverPresidentLabelField { \tl_use:N \l_cover_president_label_tl }
+\cs_new:Npn \CoverRapporteurLabelField { \tl_use:N \l_cover_rapporteur_label_tl }
 \cs_new:Npn \CoverLogoPathField { \tl_use:N \l_cover_logo_path_tl }
 \cs_new:Npn \CoverHeaderOneField { \tl_use:N \l_cover_header_one_tl }
 \cs_new:Npn \CoverHeaderTwoField { \tl_use:N \l_cover_header_two_tl }
@@ -333,6 +404,50 @@
   { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
 \cs_new:Npn \CoverSubtitleFontSpec { \fontsize{20.000pt}{22.000pt}\selectfont }
 \cs_new:Npn \CoverCommitteeFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
+\cs_new:Npn \CoverRoleNameFontSpec { \fontsize{14.000pt}{16.000pt}\selectfont }
+\cs_new:Npn \CoverRoleLabelFontSpec { \fontsize{12.000pt}{14.000pt}\selectfont }
+\cs_new_protected:Npn \cover_role_box:nnnNN #1 #2 #3 #4 #5
+  {
+    \tl_if_empty:NF #4
+      {
+        \node[
+          anchor=north,
+          inner~sep=0pt,
+          outer~sep=0pt,
+          align=center
+        ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current~page.north~west)
+          {{\CoverRoleNameFontSpec \tl_use:N #4}\\{\CoverRoleLabelFontSpec \tl_use:N #5}};
+      }
+  }
+\cs_new_protected:Npn \CoverPresidentAndRapporteur
+  {
+    \cover_role_box:nnnNN
+      {\CoverPresidentBlockX}
+      {\CoverPresidentBlockY}
+      {\CoverPresidentBlockWidth}
+      \l_cover_president_tl
+      \l_cover_president_label_tl
+    \cover_role_box:nnnNN
+      {\CoverRapporteurBlockX}
+      {\CoverRapporteurBlockY}
+      {\CoverRapporteurBlockWidth}
+      \l_cover_rapporteur_tl
+      \l_cover_rapporteur_label_tl
+  }
+\NewDocumentCommand{\President}{m g}
+  {
+    \tl_gset:Nn \g_cover_president_tl {#1}
+    \IfNoValueTF{#2}
+      { \tl_gset_eq:NN \g_cover_president_label_tl \c_cover_default_president_label_tl }
+      { \tl_gset:Nn \g_cover_president_label_tl {#2} }
+  }
+\NewDocumentCommand{\Rapporteur}{m g}
+  {
+    \tl_gset:Nn \g_cover_rapporteur_tl {#1}
+    \IfNoValueTF{#2}
+      { \tl_gset_eq:NN \g_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
+      { \tl_gset:Nn \g_cover_rapporteur_label_tl {#2} }
+  }
 \cs_generate_variant:Nn \regex_match:nnTF { nVTF }
 \cs_new_protected:Npn \CoverPlaceLogoIfSet
   {
@@ -460,6 +575,9 @@
 
 % --- Central statement ---
 \CoverSubtitleBox{\CoverSubtitleField}
+
+% --- President and rapporteur ---
+\CoverPresidentAndRapporteur
 
 % --- Committee paragraph ---
 \CoverCommitteeBoxJustified{\CoverCommitteeX}{\CoverCommitteeY}{\CoverCommitteeWidth}{\CoverCommitteeFontSpec}{\CoverCommitteeField}
