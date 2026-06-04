@@ -255,6 +255,8 @@
 \tl_new:N \g_cover_rapporteur_tl
 \tl_new:N \g_cover_president_label_tl
 \tl_new:N \g_cover_rapporteur_label_tl
+\tl_const:Nn \c_cover_default_president_label_tl { Président }
+\tl_const:Nn \c_cover_default_rapporteur_label_tl { Rapporteur }
 \tl_new:N \l_cover_logo_path_tl
 \tl_new:N \l_cover_header_one_tl
 \tl_new:N \l_cover_header_two_tl
@@ -324,9 +326,9 @@
     \tl_set_eq:NN \l_cover_president_label_tl \g_cover_president_label_tl
     \tl_set_eq:NN \l_cover_rapporteur_label_tl \g_cover_rapporteur_label_tl
     \tl_if_empty:NT \l_cover_president_label_tl
-      { \tl_set:Nn \l_cover_president_label_tl { Président } }
+      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
     \tl_if_empty:NT \l_cover_rapporteur_label_tl
-      { \tl_set:Nn \l_cover_rapporteur_label_tl { Rapporteur } }
+      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_clear:N \l_cover_logo_path_tl
     \tl_set:Nn \l_cover_header_one_tl {Union-IHEDN}
     \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
@@ -401,14 +403,14 @@
   {
     \tl_gset:Nn \g_cover_president_tl {#1}
     \IfNoValueTF{#2}
-      { \tl_gset:Nn \g_cover_president_label_tl {Président} }
+      { \tl_gset_eq:NN \g_cover_president_label_tl \c_cover_default_president_label_tl }
       { \tl_gset:Nn \g_cover_president_label_tl {#2} }
   }
 \NewDocumentCommand{\Rapporteur}{m g}
   {
     \tl_gset:Nn \g_cover_rapporteur_tl {#1}
     \IfNoValueTF{#2}
-      { \tl_gset:Nn \g_cover_rapporteur_label_tl {Rapporteur} }
+      { \tl_gset_eq:NN \g_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
       { \tl_gset:Nn \g_cover_rapporteur_label_tl {#2} }
   }
 \cs_generate_variant:Nn \regex_match:nnTF { nVTF }
