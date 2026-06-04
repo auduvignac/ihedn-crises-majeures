@@ -125,11 +125,14 @@
 \newcommand{\CoverSubtitleBlockX}{13.081}
 \newcommand{\CoverSubtitleBlockY}{150.757}
 \newcommand{\CoverSubtitleBlockWidth}{176.536}
+\newcommand{\CoverCitationBlockX}{25.000}
+\newcommand{\CoverCitationBlockY}{174.000}
+\newcommand{\CoverCitationBlockWidth}{160.000}
 \newcommand{\CoverPresidentBlockX}{13.081}
-\newcommand{\CoverPresidentBlockY}{186.000}
+\newcommand{\CoverPresidentBlockY}{198.000}
 \newcommand{\CoverPresidentBlockWidth}{176.536}
 \newcommand{\CoverRapporteurBlockX}{13.081}
-\newcommand{\CoverRapporteurBlockY}{208.000}
+\newcommand{\CoverRapporteurBlockY}{220.000}
 \newcommand{\CoverRapporteurBlockWidth}{176.536}
 \newcommand{\CoverReportLineOneX}{28.448}
 \newcommand{\CoverReportLineOneY}{121.518}
@@ -247,12 +250,16 @@
 \tl_new:N \l_cover_title_tl
 \tl_new:N \l_cover_subtitle_tl
 \tl_new:N \l_cover_committee_tl
+\tl_new:N \l_cover_citation_tl
+\tl_new:N \l_cover_citation_author_tl
 \tl_new:N \l_cover_president_tl
 \tl_new:N \l_cover_rapporteur_tl
 \tl_new:N \l_cover_president_label_tl
 \tl_new:N \l_cover_rapporteur_label_tl
 \tl_new:N \g_cover_president_tl
 \tl_new:N \g_cover_rapporteur_tl
+\tl_new:N \g_cover_citation_tl
+\tl_new:N \g_cover_citation_author_tl
 \tl_new:N \g_cover_president_label_tl
 \tl_new:N \g_cover_rapporteur_label_tl
 \tl_const:Nn \c_cover_default_president_label_tl { Président }
@@ -285,6 +292,9 @@
     title .tl_set:N = \l_cover_title_tl,
     subtitle .tl_set:N = \l_cover_subtitle_tl,
     committee .tl_set:N = \l_cover_committee_tl,
+    citation .tl_set:N = \l_cover_citation_tl,
+    citation_author .tl_set:N = \l_cover_citation_author_tl,
+    citation_auteur .tl_set:N = \l_cover_citation_author_tl,
     president .code:n =
       {
         \bool_set_true:N \l_cover_president_key_bool
@@ -346,6 +356,8 @@
     \tl_clear:N \l_cover_title_tl
     \tl_clear:N \l_cover_subtitle_tl
     \tl_clear:N \l_cover_committee_tl
+    \tl_set_eq:NN \l_cover_citation_tl \g_cover_citation_tl
+    \tl_set_eq:NN \l_cover_citation_author_tl \g_cover_citation_author_tl
     \bool_set_false:N \l_cover_president_key_bool
     \bool_set_false:N \l_cover_rapporteur_key_bool
     \bool_set_false:N \l_cover_president_label_key_bool
@@ -376,6 +388,8 @@
       { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_trim_spaces:N \l_cover_logo_path_tl
     \tl_trim_spaces:N \l_cover_committee_tl
+    \tl_trim_spaces:N \l_cover_citation_tl
+    \tl_trim_spaces:N \l_cover_citation_author_tl
     \tl_trim_spaces:N \l_cover_president_tl
     \tl_trim_spaces:N \l_cover_rapporteur_tl
     \tl_trim_spaces:N \l_cover_president_label_tl
@@ -390,6 +404,8 @@
 \cs_new:Npn \CoverTitleField { \tl_use:N \l_cover_title_tl }
 \cs_new:Npn \CoverSubtitleField { \tl_use:N \l_cover_subtitle_tl }
 \cs_new:Npn \CoverCommitteeField { \tl_use:N \l_cover_committee_tl }
+\cs_new:Npn \CoverCitationField { \tl_use:N \l_cover_citation_tl }
+\cs_new:Npn \CoverCitationAuthorField { \tl_use:N \l_cover_citation_author_tl }
 \cs_new:Npn \CoverPresidentField { \tl_use:N \l_cover_president_tl }
 \cs_new:Npn \CoverRapporteurField { \tl_use:N \l_cover_rapporteur_tl }
 \cs_new:Npn \CoverPresidentLabelField { \tl_use:N \l_cover_president_label_tl }
@@ -402,10 +418,29 @@
 \cs_new:Npn \CoverReportLineTwoField { \tl_use:N \l_cover_reportline_two_tl }
 \cs_new:Npn \CoverTitleFontSpec
   { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
-\cs_new:Npn \CoverSubtitleFontSpec { \fontsize{20.000pt}{22.000pt}\selectfont }
+\cs_new:Npn \CoverSubtitleFontSpec { \fontsize{16.000pt}{18.000pt}\selectfont }
 \cs_new:Npn \CoverCommitteeFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
+\cs_new:Npn \CoverCitationFontSpec { \itshape\fontsize{12.000pt}{14.000pt}\selectfont }
+\cs_new:Npn \CoverCitationAuthorFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
 \cs_new:Npn \CoverRoleNameFontSpec { \fontsize{14.000pt}{16.000pt}\selectfont }
 \cs_new:Npn \CoverRoleLabelFontSpec { \fontsize{12.000pt}{14.000pt}\selectfont }
+\cs_new_protected:Npn \CoverCitationBox
+  {
+    \tl_if_empty:NF \l_cover_citation_tl
+      {
+        \node[
+          anchor=north,
+          inner~sep=0pt,
+          outer~sep=0pt
+        ] at ([xshift=\dimexpr\CoverCitationBlockX mm + \CoverCitationBlockWidth mm/2\relax,yshift=-\CoverCitationBlockY mm]current~page.north~west)
+          {\parbox[t]{\CoverCitationBlockWidth mm}{%
+            \Centering
+            {\CoverCitationFontSpec «~\tl_use:N \l_cover_citation_tl~»\par}%
+            \tl_if_empty:NF \l_cover_citation_author_tl
+              {{\vspace{1.5mm}\CoverCitationAuthorFontSpec \tl_use:N \l_cover_citation_author_tl\par}}%
+          }};
+      }
+  }
 \cs_new_protected:Npn \cover_role_box:nnnNN #1 #2 #3 #4 #5
   {
     \tl_if_empty:NF #4
@@ -447,6 +482,11 @@
     \IfNoValueTF{#2}
       { \tl_gset_eq:NN \g_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
       { \tl_gset:Nn \g_cover_rapporteur_label_tl {#2} }
+  }
+\NewDocumentCommand{\Citation}{m m}
+  {
+    \tl_gset:Nn \g_cover_citation_tl {#1}
+    \tl_gset:Nn \g_cover_citation_author_tl {#2}
   }
 \cs_generate_variant:Nn \regex_match:nnTF { nVTF }
 \cs_new_protected:Npn \CoverPlaceLogoIfSet
@@ -575,6 +615,9 @@
 
 % --- Central statement ---
 \CoverSubtitleBox{\CoverSubtitleField}
+
+% --- Optional citation ---
+\CoverCitationBox
 
 % --- President and rapporteur ---
 \CoverPresidentAndRapporteur
