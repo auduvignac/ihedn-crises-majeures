@@ -128,7 +128,7 @@
 \newcommand{\CoverCitationBlockX}{25.000}
 \newcommand{\CoverCitationBlockY}{174.000}
 \newcommand{\CoverCitationBlockWidth}{160.000}
-\newcommand{\CoverCitationAuthorSkip}{1.5mm}
+\newcommand{\CoverCitationAuthorSkip}{1.5}
 \newcommand{\CoverPresidentBlockX}{13.081}
 \newcommand{\CoverPresidentBlockY}{198.000}
 \newcommand{\CoverPresidentBlockWidth}{176.536}
@@ -442,7 +442,7 @@
             \Centering
             {\CoverCitationFontSpec \enquote{\CoverCitationField}\par}%
             \tl_if_empty:NF \l_cover_citation_author_tl
-              {{\vspace{\CoverCitationAuthorSkip}\CoverCitationAuthorFontSpec \CoverCitationAuthorField\par}}%
+              {{\vspace{\CoverCitationAuthorSkip mm}\CoverCitationAuthorFontSpec \CoverCitationAuthorField\par}}%
           }};
       }
   }
