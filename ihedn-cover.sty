@@ -483,6 +483,8 @@
       { \tl_gset_eq:NN \g_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
       { \tl_gset:Nn \g_cover_rapporteur_label_tl {#2} }
   }
+% Canonical form: \Citation{quote}[author]. Legacy \Citation{quote}{author} is
+% still accepted when no optional author is provided.
 \NewDocumentCommand{\Citation}{m o g}
   {
     \tl_gset:Nn \g_cover_citation_tl {#1}
@@ -490,9 +492,23 @@
       {
         \IfNoValueTF{#3}
           { \tl_gclear:N \g_cover_citation_author_tl }
-          { \tl_gset:Nn \g_cover_citation_author_tl {#3} }
+          {
+            \PackageWarning{ihedn-cover}
+              {Legacy~\string\Citation{quote}{author}~syntax~used;~
+               prefer~\string\Citation{quote}[author]}
+            \tl_gset:Nn \g_cover_citation_author_tl {#3}
+          }
       }
-      { \tl_gset:Nn \g_cover_citation_author_tl {#2} }
+      {
+        \IfNoValueF{#3}
+          {
+            \PackageError{ihedn-cover}
+              {Ambiguous~\string\Citation~author~arguments}
+              {Use~either~\string\Citation{quote}[author]~or~
+               \string\Citation{quote}{author},~not~both.}
+          }
+        \tl_gset:Nn \g_cover_citation_author_tl {#2}
+      }
   }
 \cs_generate_variant:Nn \regex_match:nnTF { nVTF }
 \cs_new_protected:Npn \CoverPlaceLogoIfSet
