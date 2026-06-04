@@ -269,17 +269,42 @@
 \box_new:N \l_cover_title_measure_box
 \dim_new:N \l_cover_title_allowed_dim
 \dim_new:N \l_cover_title_used_dim
+\bool_new:N \l_cover_president_key_bool
+\bool_new:N \l_cover_rapporteur_key_bool
+\bool_new:N \l_cover_president_label_key_bool
+\bool_new:N \l_cover_rapporteur_label_key_bool
 
+% Role precedence:
+% 1. Per-cover keys passed to \PageDeGardeIHEDN take priority.
+% 2. Global values set by \President/\Rapporteur are fallbacks.
+% 3. If a per-cover role name is supplied without its label, the default label
+%    is used instead of inheriting a previous global label.
 \keys_define:nn { cover/page }
   {
     date .tl_set:N = \l_cover_date_tl,
     title .tl_set:N = \l_cover_title_tl,
     subtitle .tl_set:N = \l_cover_subtitle_tl,
     committee .tl_set:N = \l_cover_committee_tl,
-    president .tl_set:N = \l_cover_president_tl,
-    rapporteur .tl_set:N = \l_cover_rapporteur_tl,
-    president_label .tl_set:N = \l_cover_president_label_tl,
-    rapporteur_label .tl_set:N = \l_cover_rapporteur_label_tl,
+    president .code:n =
+      {
+        \bool_set_true:N \l_cover_president_key_bool
+        \tl_set:Nn \l_cover_president_tl {#1}
+      },
+    rapporteur .code:n =
+      {
+        \bool_set_true:N \l_cover_rapporteur_key_bool
+        \tl_set:Nn \l_cover_rapporteur_tl {#1}
+      },
+    president_label .code:n =
+      {
+        \bool_set_true:N \l_cover_president_label_key_bool
+        \tl_set:Nn \l_cover_president_label_tl {#1}
+      },
+    rapporteur_label .code:n =
+      {
+        \bool_set_true:N \l_cover_rapporteur_label_key_bool
+        \tl_set:Nn \l_cover_rapporteur_label_tl {#1}
+      },
     logo_path .tl_set:N = \l_cover_logo_path_tl,
     header_1 .tl_set:N = \l_cover_header_one_tl,
     header_2 .tl_set:N = \l_cover_header_two_tl,
@@ -321,14 +346,14 @@
     \tl_clear:N \l_cover_title_tl
     \tl_clear:N \l_cover_subtitle_tl
     \tl_clear:N \l_cover_committee_tl
+    \bool_set_false:N \l_cover_president_key_bool
+    \bool_set_false:N \l_cover_rapporteur_key_bool
+    \bool_set_false:N \l_cover_president_label_key_bool
+    \bool_set_false:N \l_cover_rapporteur_label_key_bool
     \tl_set_eq:NN \l_cover_president_tl \g_cover_president_tl
     \tl_set_eq:NN \l_cover_rapporteur_tl \g_cover_rapporteur_tl
     \tl_set_eq:NN \l_cover_president_label_tl \g_cover_president_label_tl
     \tl_set_eq:NN \l_cover_rapporteur_label_tl \g_cover_rapporteur_label_tl
-    \tl_if_empty:NT \l_cover_president_label_tl
-      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
-    \tl_if_empty:NT \l_cover_rapporteur_label_tl
-      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_clear:N \l_cover_logo_path_tl
     \tl_set:Nn \l_cover_header_one_tl {Union-IHEDN}
     \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
@@ -339,6 +364,16 @@
     \tl_set:Nn \l_cover_title_baselineskip_tl {28.667pt}
     \int_set:Nn \l_cover_title_max_lines_int {2}
     \keys_set:nn { cover/page } { #1 }
+    \bool_if:nT
+      { \l_cover_president_key_bool && ! \l_cover_president_label_key_bool }
+      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
+    \bool_if:nT
+      { \l_cover_rapporteur_key_bool && ! \l_cover_rapporteur_label_key_bool }
+      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
+    \tl_if_empty:NT \l_cover_president_label_tl
+      { \tl_set_eq:NN \l_cover_president_label_tl \c_cover_default_president_label_tl }
+    \tl_if_empty:NT \l_cover_rapporteur_label_tl
+      { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_trim_spaces:N \l_cover_logo_path_tl
     \tl_trim_spaces:N \l_cover_committee_tl
     \tl_trim_spaces:N \l_cover_president_tl
