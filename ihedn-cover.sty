@@ -128,6 +128,7 @@
 \newcommand{\CoverCitationBlockX}{25.000}
 \newcommand{\CoverCitationBlockY}{174.000}
 \newcommand{\CoverCitationBlockWidth}{160.000}
+\newcommand{\CoverCitationAuthorSkip}{1.5mm}
 \newcommand{\CoverPresidentBlockX}{13.081}
 \newcommand{\CoverPresidentBlockY}{198.000}
 \newcommand{\CoverPresidentBlockWidth}{176.536}
@@ -295,6 +296,10 @@
     citation .tl_set:N = \l_cover_citation_tl,
     citation_author .tl_set:N = \l_cover_citation_author_tl,
     citation_auteur .tl_set:N = \l_cover_citation_author_tl,
+    citation_block_x .code:n = { \renewcommand{\CoverCitationBlockX}{#1} },
+    citation_block_y .code:n = { \renewcommand{\CoverCitationBlockY}{#1} },
+    citation_block_width .code:n = { \renewcommand{\CoverCitationBlockWidth}{#1} },
+    citation_author_skip .code:n = { \renewcommand{\CoverCitationAuthorSkip}{#1} },
     president .code:n =
       {
         \bool_set_true:N \l_cover_president_key_bool
@@ -437,7 +442,7 @@
             \Centering
             {\CoverCitationFontSpec \enquote{\CoverCitationField}\par}%
             \tl_if_empty:NF \l_cover_citation_author_tl
-              {{\vspace{1.5mm}\CoverCitationAuthorFontSpec \CoverCitationAuthorField\par}}%
+              {{\vspace{\CoverCitationAuthorSkip}\CoverCitationAuthorFontSpec \CoverCitationAuthorField\par}}%
           }};
       }
   }
