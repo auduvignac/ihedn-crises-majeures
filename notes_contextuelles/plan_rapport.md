@@ -1,6 +1,6 @@
 # Objet du rapport
 
-Le rapport examine le rôle possible des citoyens engagés et des associations IHEDN, en particulier l'AR 16 Paris Ile-de-France, face aux crises majeures contemporaines.
+Le rapport examine le rôle possible des citoyens engagés et des associations IHEDN, en particulier l'AR 16 Paris Île-de-France, face aux crises majeures contemporaines.
 
 Il ne cherche pas à définir une doctrine opérationnelle de gestion de crise. Il vise à clarifier une contribution associative réaliste, complémentaire des autorités publiques, principalement située dans la préparation, la sensibilisation, l'analyse et le retour d'expérience. Le contexte mobilisé est celui d'une montée des enjeux de résilience nationale et européenne, d'une hybridation des menaces et d'une implication accrue de la société dans la préparation aux crises.
 
@@ -110,7 +110,7 @@ Le questionnaire est la condition méthodologique préalable à toute contributi
 Points méthodologiques à préserver :
 La section insiste sur l'objectivation sociologique, la neutralité des questions, le risque d'imposition de problématique, l'illusion biographique, l'équilibre entre questions ouvertes et fermées, et la conformité au RGPD.
 
-## Plan prévisionnel de mise en oeuvre du questionnaire
+## Plan prévisionnel de mise en œuvre du questionnaire
 
 Objectif :
 Décrire les conditions pratiques de conception, déploiement et exploitation du questionnaire.
