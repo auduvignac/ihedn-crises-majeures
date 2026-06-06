@@ -25,11 +25,9 @@
 
 # Build outputs
 /build/
-/main.pdf
 
 # Editor settings
 /.vscode/
 .codex
-*.md
 
 
