@@ -66,7 +66,7 @@ Objectif :
 Stabiliser le cadre conceptuel et institutionnel.
 
 Principaux arguments :
-Les crises relèvent d'une sécurité globale ; les quatre cercles de l'IHEDN permettent de situer défense militaire, défense nationale, sécurité nationale et sécurité internationale ; menace, risque et crise doivent être distingués ; les conflictualités hybrides et la désinformation modifient les conditions de résilience ; la gestion de crise publique reste structurée par des niveaux de décision et des dispositifs normés comme ORSEC, PCS et PCIS.
+Les crises relèvent d'une sécurité globale ; les quatre cercles de l'IHEDN permettent de situer défense militaire, défense nationale, sécurité nationale et sécurité internationale ; menace, risque et crise doivent être distingués ; les conflictualités hybrides et la désinformation modifient les conditions de résilience ; la gestion de crise publique reste structurée par des niveaux de décision et des dispositifs normés comme ORSEC, PCS et PICS.
 
 Conclusion :
 Le rôle de l'AR 16 ne peut être pensé qu'en complément des dispositifs institutionnels existants.
