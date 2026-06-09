@@ -1,5 +1,5 @@
 \newcount\MaquetteQuestionnairePageCount
-\MaquetteQuestionnairePageCount=\XeTeXpdfpagecount "QCM.pdf"
+\IhednSetPdfPageCount{\MaquetteQuestionnairePageCount}{QCM.pdf}
 
 \foreach \MaquetteQuestionnairePage in {1,...,\the\MaquetteQuestionnairePageCount}{%
   \begin{tcolorbox}[
