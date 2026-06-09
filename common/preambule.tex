@@ -216,17 +216,26 @@
 \newcommand{\IhednSetPdfPageCount}[2]{%
   \begingroup
   \edef\ihedn@pdfpath{#2}%
-  \ifXeTeX
-    \global#1=\XeTeXpdfpagecount "\ihedn@pdfpath" %
-  \else
-    \ifLuaTeX
-      \saveimageresource{\ihedn@pdfpath}%
-      \global#1=\lastsavedimageresourcepages\relax
+  \IfFileExists{\ihedn@pdfpath}{%
+    \ifXeTeX
+      \global#1=\XeTeXpdfpagecount "\ihedn@pdfpath" %
     \else
-      \pdfximage{\ihedn@pdfpath}%
-      \global#1=\pdflastximagepages\relax
+      \ifLuaTeX
+        \saveimageresource{\ihedn@pdfpath}%
+        \global#1=\lastsavedimageresourcepages\relax
+      \else
+        \pdfximage{\ihedn@pdfpath}%
+        \global#1=\pdflastximagepages\relax
+      \fi
     \fi
-  \fi
+  }{%
+    \PackageError{ihedn-common}
+      {PDF file `\ihedn@pdfpath' not found or unreadable}
+      {The macro \string\IhednSetPdfPageCount\space was called with\MessageBreak
+       a missing or unreadable PDF file.\MessageBreak
+       Check the path `\ihedn@pdfpath' and try again.}%
+    \global#1=0\relax
+  }%
   \endgroup
 }
 \makeatother
