@@ -1,17 +1,1 @@
-\newcount\EnqueteNationaleARPageCount
-\IhednSetPdfPageCount{\EnqueteNationaleARPageCount}{sources_collaboratives/Alain_Fontan/ENQUETE_2015_template.pdf}
-
-\foreach \EnqueteNationaleARPage in {1,...,\the\EnqueteNationaleARPageCount}{%
-  \begin{tcolorbox}[
-  colback=gray!5,
-  colframe=black,
-  boxrule=0.5pt,
-  arc=3mm
-  ]
-  \centering
-  \includegraphics[page=\EnqueteNationaleARPage,width=0.95\textwidth]{sources_collaboratives/Alain_Fontan/ENQUETE_2015_template.pdf}
-  \end{tcolorbox}
-  \ifnum\EnqueteNationaleARPage<\EnqueteNationaleARPageCount
-    \clearpage
-  \fi
-}
+\IhednRenderPdfPagesInBoxes{sources_collaboratives/Alain_Fontan/ENQUETE_2015_template.pdf}

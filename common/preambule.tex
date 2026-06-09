@@ -231,4 +231,23 @@
 }
 \makeatother
 
+\newcount\IhednIncludedPdfPageCount
+\newcommand{\IhednRenderPdfPagesInBoxes}[1]{%
+  \IhednSetPdfPageCount{\IhednIncludedPdfPageCount}{#1}%
+  \foreach \IhednIncludedPdfPage in {1,...,\the\IhednIncludedPdfPageCount}{%
+    \begin{tcolorbox}[
+      colback=gray!5,
+      colframe=black,
+      boxrule=0.5pt,
+      arc=3mm
+    ]
+    \centering
+    \includegraphics[page=\IhednIncludedPdfPage,width=0.95\textwidth]{#1}
+    \end{tcolorbox}
+    \ifnum\IhednIncludedPdfPage<\IhednIncludedPdfPageCount
+      \clearpage
+    \fi
+  }%
+}
+
 \usepackage{tablefootnote}

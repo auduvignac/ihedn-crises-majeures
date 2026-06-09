@@ -1,17 +1,1 @@
-\newcount\MaquetteQuestionnairePageCount
-\IhednSetPdfPageCount{\MaquetteQuestionnairePageCount}{QCM.pdf}
-
-\foreach \MaquetteQuestionnairePage in {1,...,\the\MaquetteQuestionnairePageCount}{%
-  \begin{tcolorbox}[
-  colback=gray!5,
-  colframe=black,
-  boxrule=0.5pt,
-  arc=3mm
-  ]
-  \centering
-  \includegraphics[page=\MaquetteQuestionnairePage,width=0.95\textwidth]{QCM.pdf}
-  \end{tcolorbox}
-  \ifnum\MaquetteQuestionnairePage<\MaquetteQuestionnairePageCount
-    \clearpage
-  \fi
-}
+\IhednRenderPdfPagesInBoxes{QCM.pdf}
