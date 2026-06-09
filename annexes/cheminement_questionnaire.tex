@@ -102,11 +102,14 @@ La présente annexe reprend, sous une forme consolidée, la chronologie du proje
 
 \subsubsection*{Réunions et initiatives du comité}
 
+\newcommand{\titreTableauReunionsInitiatives}{Réunions et initiatives du comité dans le cheminement du projet de questionnaire.}
+
 \begingroup
 \StyledTableSetup
 \renewcommand{\arraystretch}{1.05}
 \newcommand{\ChronoDate}[1]{\begin{minipage}[t]{\linewidth}\vspace{0pt}\RaggedRight #1\end{minipage}}
 \newcommand{\ChronoItems}[1]{\begin{minipage}[t]{\linewidth}\vspace{0pt}\begin{itemize}[leftmargin=0.95em, nosep, topsep=0pt, partopsep=0pt, parsep=0pt, itemsep=0pt]#1\end{itemize}\end{minipage}}
+\label{tab:reunions_initiatives_comite_page_debut}%
 \begin{xltabular}{\linewidth}{@{}>{\RaggedRight\arraybackslash}p{2.15cm}Y@{}}
 \toprule
 \textbf{Date} & \textbf{Éléments relevés dans la chronologie} \\
@@ -256,8 +259,14 @@ La présente annexe reprend, sous une forme consolidée, la chronologie du proje
 
 \end{xltabular}
 \endgroup
-\captionof{table}{Réunions et initiatives du comité dans le cheminement du projet de questionnaire.}
-\label{tab:reunions_initiatives_comite}
+\par\nopagebreak\vspace{0.4em}
+\begin{center}
+\refstepcounter{table}%
+\label{tab:reunions_initiatives_comite}%
+\label{tab:reunions_initiatives_comite_page_fin}%
+\addtocontents{lot}{\protect\contentsline{table}{\protect\numberline{\thetable}\titreTableauReunionsInitiatives}{\protect\pageref{tab:reunions_initiatives_comite_page_debut}--\protect\pageref{tab:reunions_initiatives_comite_page_fin}}{table.\thetable}}%
+Tableau~\thetable{} : \titreTableauReunionsInitiatives
+\end{center}
 
 \subsubsection*{Obstacles et conditions préalables identifiés}
 
