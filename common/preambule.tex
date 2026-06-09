@@ -7,6 +7,7 @@
 \geometry{a4paper, margin=1in}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{pgffor}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage{pgfgantt}
@@ -116,11 +117,7 @@
 \makeatletter
 \let\input@path\ihedn@orig@input@path
 \makeatother
-\addbibresource{bibliographies/bib/articles.bib}
-\addbibresource{bibliographies/bib/livres.bib}
-\addbibresource{bibliographies/bib/online.bib}
-\addbibresource{bibliographies/bib/rapports.bib}
-\addbibresource{bibliographies/bib/entretiens.bib}
+\addbibresource{bibliographies/bib/rapport.bib}
 
 % ----------------------------------------------------------------
 % tcolorbox
@@ -215,5 +212,52 @@
 
 \usepackage{adjustbox}
 \usepackage{pdfpages}
+
+\makeatletter
+\newcommand{\IhednSetPdfPageCount}[2]{%
+  \begingroup
+  \edef\ihedn@pdfpath{#2}%
+  \IfFileExists{\ihedn@pdfpath}{%
+    \ifXeTeX
+      \global#1=\XeTeXpdfpagecount "\ihedn@pdfpath" %
+    \else
+      \ifLuaTeX
+        \saveimageresource{\ihedn@pdfpath}%
+        \global#1=\lastsavedimageresourcepages\relax
+      \else
+        \pdfximage{\ihedn@pdfpath}%
+        \global#1=\pdflastximagepages\relax
+      \fi
+    \fi
+  }{%
+    \PackageError{ihedn-common}
+      {PDF file `\ihedn@pdfpath' not found or unreadable}
+      {The macro \string\IhednSetPdfPageCount\space was called with\MessageBreak
+       a missing or unreadable PDF file.\MessageBreak
+       Check the path `\ihedn@pdfpath' and try again.}%
+    \global#1=0\relax
+  }%
+  \endgroup
+}
+\makeatother
+
+\newcount\IhednIncludedPdfPageCount
+\newcommand{\IhednRenderPdfPagesInBoxes}[1]{%
+  \IhednSetPdfPageCount{\IhednIncludedPdfPageCount}{#1}%
+  \foreach \IhednIncludedPdfPage in {1,...,\the\IhednIncludedPdfPageCount}{%
+    \begin{tcolorbox}[
+      colback=gray!5,
+      colframe=black,
+      boxrule=0.5pt,
+      arc=3mm
+    ]
+    \centering
+    \includegraphics[page=\IhednIncludedPdfPage,width=0.95\textwidth]{#1}
+    \end{tcolorbox}
+    \ifnum\IhednIncludedPdfPage<\IhednIncludedPdfPageCount
+      \clearpage
+    \fi
+  }%
+}
 
 \usepackage{tablefootnote}
