@@ -110,57 +110,71 @@
 
 % Coordinate system: origin top-left; x right; y down; units in mm.
 \newcommand{\CoverXRight}{195.0}
-\newcommand{\CoverLogoX}{19.451}
-\newcommand{\CoverLogoY}{24.596}
-\newcommand{\CoverLogoWidth}{32.052}
-\newcommand{\CoverLogoHeight}{44.907}
-\newcommand{\CoverHeaderLineOneY}{12.933}
-\newcommand{\CoverHeaderLineTwoY}{19.918}
-\newcommand{\CoverHeaderLineThreeY}{26.945}
-\newcommand{\CoverHeaderDateY}{36.766}
-\newcommand{\CoverTitleX}{13.208}
-\newcommand{\CoverTitleY}{87.107}
-\newcommand{\CoverTitleWidth}{175.741}
-\newcommand{\CoverTitleWidthDim}{175.741mm}
-\newcommand{\CoverSubtitleBlockX}{13.081}
-\newcommand{\CoverSubtitleBlockY}{150.757}
-\newcommand{\CoverSubtitleBlockWidth}{176.536}
-\newcommand{\CoverCitationBlockX}{25.000}
-\newcommand{\CoverCitationBlockY}{174.000}
-\newcommand{\CoverCitationBlockWidth}{160.000}
+\newcommand{\CoverLogoX}{18.000}
+\newcommand{\CoverLogoY}{16.000}
+\newcommand{\CoverLogoBaseWidth}{18.000}
+\newcommand{\CoverLogoBaseHeight}{24.444}
+\newcommand{\CoverLogoScale}{1.8}
+\pgfmathsetmacro{\CoverLogoWidth}{\CoverLogoBaseWidth * \CoverLogoScale}
+\pgfmathsetmacro{\CoverLogoHeight}{\CoverLogoBaseHeight * \CoverLogoScale}
+\newcommand{\CoverTopNoteX}{18.000}
+\newcommand{\CoverTopNoteY}{47.000}
+\newcommand{\CoverTopNoteWidth}{174.000}
+\newcommand{\CoverHeaderBlockX}{18.000}
+\newcommand{\CoverHeaderBlockY}{74.000}
+\newcommand{\CoverHeaderBlockWidth}{174.000}
+\newcommand{\CoverHeaderLineOneY}{74.000}
+\newcommand{\CoverHeaderLineTwoY}{81.500}
+\newcommand{\CoverHeaderLineThreeY}{89.000}
+\newcommand{\CoverHeaderDateY}{250.000}
+\newcommand{\CoverTitleX}{18.000}
+\newcommand{\CoverTitleY}{123.000}
+\newcommand{\CoverTitleWidth}{174.000}
+\newcommand{\CoverTitleWidthDim}{174.000mm}
+\newcommand{\CoverSubtitleBlockX}{24.000}
+\newcommand{\CoverSubtitleBlockY}{204.000}
+\newcommand{\CoverSubtitleBlockWidth}{162.000}
+\newcommand{\CoverCitationBlockX}{30.000}
+\newcommand{\CoverCitationBlockY}{158.000}
+\newcommand{\CoverCitationBlockWidth}{150.000}
 \newcommand{\CoverCitationAuthorSkip}{1.5}
-\newcommand{\CoverPresidentBlockX}{13.081}
-\newcommand{\CoverPresidentBlockY}{198.000}
-\newcommand{\CoverPresidentBlockWidth}{176.536}
-\newcommand{\CoverRapporteurBlockX}{13.081}
-\newcommand{\CoverRapporteurBlockY}{220.000}
-\newcommand{\CoverRapporteurBlockWidth}{176.536}
-\newcommand{\CoverReportLineOneX}{28.448}
-\newcommand{\CoverReportLineOneY}{121.518}
-\newcommand{\CoverReportLineOneWidth}{145.713}
-\newcommand{\CoverReportLineTwoX}{48.218}
-\newcommand{\CoverReportLineTwoY}{127.995}
-\newcommand{\CoverReportLineTwoWidth}{106.209}
-\newcommand{\CoverCommitteeX}{15.028}
-\newcommand{\CoverCommitteeY}{261.094}
-\newcommand{\CoverCommitteeWidth}{180.013}
-\newcommand{\CoverCommitteeBottomY}{292.165}
+\newcommand{\CoverPresidentBlockX}{24.000}
+\newcommand{\CoverPresidentBlockY}{176.000}
+\newcommand{\CoverPresidentBlockWidth}{162.000}
+\newcommand{\CoverRapporteurBlockX}{24.000}
+\newcommand{\CoverRapporteurBlockY}{189.000}
+\newcommand{\CoverRapporteurBlockWidth}{162.000}
+\newcommand{\CoverReportLineOneX}{24.000}
+\newcommand{\CoverReportLineOneY}{249.000}
+\newcommand{\CoverReportLineOneWidth}{162.000}
+\newcommand{\CoverReportLineTwoX}{24.000}
+\newcommand{\CoverReportLineTwoY}{257.500}
+\newcommand{\CoverReportLineTwoWidth}{162.000}
+\newcommand{\CoverForumBlockX}{24.000}
+\newcommand{\CoverForumBlockY}{269.000}
+\newcommand{\CoverForumBlockWidth}{162.000}
+\newcommand{\CoverForumLineTwoSkip}{1.800mm}
+\newcommand{\CoverForumLineThreeSkip}{2.400mm}
+\newcommand{\CoverCommitteeX}{18.000}
+\newcommand{\CoverCommitteeY}{222.000}
+\newcommand{\CoverCommitteeWidth}{174.000}
+\newcommand{\CoverCommitteeBottomY}{256.000}
 
 % Debug layout measurements (from calibrated reference boxes).
-\newcommand{\CoverDebugHeaderOneX}{159.851}
-\newcommand{\CoverDebugHeaderTwoX}{113.877}
-\newcommand{\CoverDebugHeaderThreeX}{129.582}
-\newcommand{\CoverDebugHeaderDateX}{160.316}
-\newcommand{\CoverDebugHeaderOneWidth}{35.110}
-\newcommand{\CoverDebugHeaderTwoWidth}{81.055}
-\newcommand{\CoverDebugHeaderThreeWidth}{65.382}
-\newcommand{\CoverDebugHeaderDateWidth}{34.626}
-\newcommand{\CoverDebugLineHeight}{6.233}
-\newcommand{\CoverDebugTitleHeight}{10.170}
-\newcommand{\CoverDebugSubtitleReportOneHeight}{6.233}
-\newcommand{\CoverDebugSubtitleReportTwoHeight}{6.233}
-\newcommand{\CoverDebugSubtitleBlockHeight}{24.082}
-\newcommand{\CoverDebugCommitteeHeight}{31.071}
+\newcommand{\CoverDebugHeaderOneX}{\CoverHeaderBlockX}
+\newcommand{\CoverDebugHeaderTwoX}{\CoverHeaderBlockX}
+\newcommand{\CoverDebugHeaderThreeX}{\CoverHeaderBlockX}
+\newcommand{\CoverDebugHeaderDateX}{\CoverHeaderBlockX}
+\newcommand{\CoverDebugHeaderOneWidth}{\CoverHeaderBlockWidth}
+\newcommand{\CoverDebugHeaderTwoWidth}{\CoverHeaderBlockWidth}
+\newcommand{\CoverDebugHeaderThreeWidth}{\CoverHeaderBlockWidth}
+\newcommand{\CoverDebugHeaderDateWidth}{\CoverHeaderBlockWidth}
+\newcommand{\CoverDebugLineHeight}{6.500}
+\newcommand{\CoverDebugTitleHeight}{28.000}
+\newcommand{\CoverDebugSubtitleReportOneHeight}{7.000}
+\newcommand{\CoverDebugSubtitleReportTwoHeight}{7.000}
+\newcommand{\CoverDebugSubtitleBlockHeight}{24.000}
+\newcommand{\CoverDebugCommitteeHeight}{58.000}
 
 \newcommand{\CoverLine}[4]{%
   \node[
@@ -196,13 +210,86 @@
   ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#5#6}};%
 }
 
+\newcommand{\CoverCenteredTextBox}[6]{%
+  \node[
+    anchor=north,
+    inner sep=0pt,
+    outer sep=0pt
+  ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current page.north west)
+    {{#5\parbox[t]{#3mm}{%
+      \centering
+      \setlength{\parindent}{0pt}%
+      \setlength{\parskip}{0pt}%
+      #6\par
+    }}};%
+}
+
 \newcommand{\CoverTitleBox}[1]{%
-  \CoverTextBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{center}{\bfseries\CoverTitleFontSpec}{#1}%
+  \CoverCenteredTextBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{center}{\bfseries\CoverTitleFontSpec}{#1}%
 }
 
 \newcommand{\CoverSubtitleBox}[1]{%
-  \CoverTextBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{center}{\bfseries\CoverSubtitleFontSpec}{#1}%
+  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{center}{\CoverSubtitleFontSpec}{#1}%
 }
+
+\ExplSyntaxOn
+\newcommand{\CoverHeaderBox}{%
+  \tl_if_empty:NTF \l_cover_association_line_tl
+    {%
+      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{center}
+        {\CoverHeaderFallbackFontSpec}
+        {\CoverHeaderOneField\par\CoverHeaderTwoField\par\CoverHeaderThreeField}%
+    }
+    {%
+      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{center}
+        {\CoverAssociationLineFontSpec}
+        {%
+          \CoverAssociationLineField
+          \tl_if_empty:NF \l_cover_association_president_tl
+            {%
+              \par\vspace{2.000mm}%
+              {\CoverAssociationPresidentFontSpec \CoverAssociationPresidentField\par}%
+            }%
+        }%
+    }%
+}
+
+\newcommand{\CoverTopNoteBox}{%
+  \tl_if_empty:NF \l_cover_top_note_tl
+    {%
+      \CoverTextBox{\CoverTopNoteX}{\CoverTopNoteY}{\CoverTopNoteWidth}{left}
+        {\CoverTopNoteFontSpec}
+        {\CoverTopNoteField}%
+    }%
+}
+\ExplSyntaxOff
+
+\newcommand{\CoverReportLinesBox}{%
+  \CoverCenteredTextBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{center}
+    {\CoverReportLineFontSpec}
+    {\CoverReportLineOneField\par\CoverReportLineTwoField}%
+}
+
+\newcommand{\CoverDateBox}{%
+  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverHeaderDateY}{\CoverSubtitleBlockWidth}{center}
+    {\CoverDateFontSpec}
+    {Soumis le : \CoverDateField}%
+}
+
+\ExplSyntaxOn
+\newcommand{\CoverForumBox}{%
+  \tl_if_empty:NF \l_cover_forum_line_one_tl
+    {%
+      \CoverCenteredTextBox{\CoverForumBlockX}{\CoverForumBlockY}{\CoverForumBlockWidth}{center}
+        {\CoverForumFontSpec}
+        {%
+          \CoverForumLineOneField
+          \tl_if_empty:NF \l_cover_forum_line_two_tl { \par\vspace{\CoverForumLineTwoSkip}\CoverForumLineTwoField }%
+          \tl_if_empty:NF \l_cover_forum_line_three_tl { \par\vspace{\CoverForumLineThreeSkip}\CoverForumLineThreeField }%
+        }%
+    }%
+}
+\ExplSyntaxOff
 
 \newcommand{\CoverCommitteeBoxJustified}[5]{%
   \node[
@@ -251,6 +338,10 @@
 \tl_new:N \l_cover_title_tl
 \tl_new:N \l_cover_subtitle_tl
 \tl_new:N \l_cover_committee_tl
+\tl_new:N \l_cover_top_note_tl
+\tl_new:N \l_cover_association_line_tl
+\tl_new:N \l_cover_association_president_tl
+\tl_new:N \l_cover_committee_label_tl
 \tl_new:N \l_cover_citation_tl
 \tl_new:N \l_cover_citation_author_tl
 \tl_new:N \l_cover_president_tl
@@ -271,6 +362,9 @@
 \tl_new:N \l_cover_header_three_tl
 \tl_new:N \l_cover_reportline_one_tl
 \tl_new:N \l_cover_reportline_two_tl
+\tl_new:N \l_cover_forum_line_one_tl
+\tl_new:N \l_cover_forum_line_two_tl
+\tl_new:N \l_cover_forum_line_three_tl
 \tl_new:N \l_cover_title_fontsize_tl
 \tl_new:N \l_cover_title_baselineskip_tl
 \int_new:N \l_cover_title_max_lines_int
@@ -293,6 +387,10 @@
     title .tl_set:N = \l_cover_title_tl,
     subtitle .tl_set:N = \l_cover_subtitle_tl,
     committee .tl_set:N = \l_cover_committee_tl,
+    top_note .tl_set:N = \l_cover_top_note_tl,
+    association_line .tl_set:N = \l_cover_association_line_tl,
+    association_president .tl_set:N = \l_cover_association_president_tl,
+    committee_label .tl_set:N = \l_cover_committee_label_tl,
     citation .tl_set:N = \l_cover_citation_tl,
     citation_author .tl_set:N = \l_cover_citation_author_tl,
     citation_auteur .tl_set:N = \l_cover_citation_author_tl,
@@ -326,6 +424,9 @@
     header_3 .tl_set:N = \l_cover_header_three_tl,
     reportline_1 .tl_set:N = \l_cover_reportline_one_tl,
     reportline_2 .tl_set:N = \l_cover_reportline_two_tl,
+    forum_line_1 .tl_set:N = \l_cover_forum_line_one_tl,
+    forum_line_2 .tl_set:N = \l_cover_forum_line_two_tl,
+    forum_line_3 .tl_set:N = \l_cover_forum_line_three_tl,
     title_max_lines .int_set:N = \l_cover_title_max_lines_int,
     title_fontsize .tl_set:N = \l_cover_title_fontsize_tl,
     title_baselineskip .tl_set:N = \l_cover_title_baselineskip_tl,
@@ -361,6 +462,10 @@
     \tl_clear:N \l_cover_title_tl
     \tl_clear:N \l_cover_subtitle_tl
     \tl_clear:N \l_cover_committee_tl
+    \tl_clear:N \l_cover_top_note_tl
+    \tl_clear:N \l_cover_association_line_tl
+    \tl_clear:N \l_cover_association_president_tl
+    \tl_clear:N \l_cover_committee_label_tl
     \tl_set_eq:NN \l_cover_citation_tl \g_cover_citation_tl
     \tl_set_eq:NN \l_cover_citation_author_tl \g_cover_citation_author_tl
     \bool_set_false:N \l_cover_president_key_bool
@@ -375,8 +480,12 @@
     \tl_set:Nn \l_cover_header_one_tl {Union-IHEDN}
     \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
     \tl_set:Nn \l_cover_header_three_tl {région~Paris~/~Île~de~France}
+    \tl_set:Nn \l_cover_committee_label_tl {Comité~de~rédaction}
     \tl_set:Nn \l_cover_reportline_one_tl {Rapport~du~Comité~d'étude~de~l'Association~régionale~des~auditeurs}
     \tl_set:Nn \l_cover_reportline_two_tl {de~l'IHEDN~région~Paris~/~Île~de~France~(AR~16)}
+    \tl_clear:N \l_cover_forum_line_one_tl
+    \tl_clear:N \l_cover_forum_line_two_tl
+    \tl_clear:N \l_cover_forum_line_three_tl
     \tl_set:Nn \l_cover_title_fontsize_tl {26.000pt}
     \tl_set:Nn \l_cover_title_baselineskip_tl {28.667pt}
     \int_set:Nn \l_cover_title_max_lines_int {2}
@@ -393,12 +502,19 @@
       { \tl_set_eq:NN \l_cover_rapporteur_label_tl \c_cover_default_rapporteur_label_tl }
     \tl_trim_spaces:N \l_cover_logo_path_tl
     \tl_trim_spaces:N \l_cover_committee_tl
+    \tl_trim_spaces:N \l_cover_top_note_tl
+    \tl_trim_spaces:N \l_cover_association_line_tl
+    \tl_trim_spaces:N \l_cover_association_president_tl
+    \tl_trim_spaces:N \l_cover_committee_label_tl
     \tl_trim_spaces:N \l_cover_citation_tl
     \tl_trim_spaces:N \l_cover_citation_author_tl
     \tl_trim_spaces:N \l_cover_president_tl
     \tl_trim_spaces:N \l_cover_rapporteur_tl
     \tl_trim_spaces:N \l_cover_president_label_tl
     \tl_trim_spaces:N \l_cover_rapporteur_label_tl
+    \tl_trim_spaces:N \l_cover_forum_line_one_tl
+    \tl_trim_spaces:N \l_cover_forum_line_two_tl
+    \tl_trim_spaces:N \l_cover_forum_line_three_tl
     \tl_replace_all:Nnn \l_cover_committee_tl { \par } { \par\noindent }
     \tl_replace_all:Nnn \l_cover_committee_tl { \\ } { \par\noindent }
     \cover_check_title_fit:
@@ -409,6 +525,10 @@
 \cs_new:Npn \CoverTitleField { \tl_use:N \l_cover_title_tl }
 \cs_new:Npn \CoverSubtitleField { \tl_use:N \l_cover_subtitle_tl }
 \cs_new:Npn \CoverCommitteeField { \tl_use:N \l_cover_committee_tl }
+\cs_new:Npn \CoverTopNoteField { \tl_use:N \l_cover_top_note_tl }
+\cs_new:Npn \CoverAssociationLineField { \tl_use:N \l_cover_association_line_tl }
+\cs_new:Npn \CoverAssociationPresidentField { \tl_use:N \l_cover_association_president_tl }
+\cs_new:Npn \CoverCommitteeLabelField { \tl_use:N \l_cover_committee_label_tl }
 \cs_new:Npn \CoverCitationField { \tl_use:N \l_cover_citation_tl }
 \cs_new:Npn \CoverCitationAuthorField { \tl_use:N \l_cover_citation_author_tl }
 \cs_new:Npn \CoverPresidentField { \tl_use:N \l_cover_president_tl }
@@ -421,14 +541,43 @@
 \cs_new:Npn \CoverHeaderThreeField { \tl_use:N \l_cover_header_three_tl }
 \cs_new:Npn \CoverReportLineOneField { \tl_use:N \l_cover_reportline_one_tl }
 \cs_new:Npn \CoverReportLineTwoField { \tl_use:N \l_cover_reportline_two_tl }
+\cs_new:Npn \CoverForumLineOneField { \tl_use:N \l_cover_forum_line_one_tl }
+\cs_new:Npn \CoverForumLineTwoField { \tl_use:N \l_cover_forum_line_two_tl }
+\cs_new:Npn \CoverForumLineThreeField { \tl_use:N \l_cover_forum_line_three_tl }
 \cs_new:Npn \CoverTitleFontSpec
   { \fontsize{\l_cover_title_fontsize_tl}{\l_cover_title_baselineskip_tl}\selectfont }
-\cs_new:Npn \CoverSubtitleFontSpec { \fontsize{16.000pt}{18.000pt}\selectfont }
-\cs_new:Npn \CoverCommitteeFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
+\cs_new:Npn \CoverTopNoteFontSpec { \bfseries\fontsize{14.000pt}{16.000pt}\selectfont }
+\cs_new:Npn \CoverAssociationLineFontSpec { \fontsize{20.000pt}{21.000pt}\selectfont }
+\cs_new:Npn \CoverAssociationPresidentFontSpec { \CoverRoleNameFontSpec }
+\cs_new:Npn \CoverHeaderFallbackFontSpec { \fontsize{15.500pt}{20.000pt}\selectfont }
+\cs_new:Npn \CoverHeaderFontSpec { \CoverAssociationLineFontSpec }
+\cs_new:Npn \CoverSubtitleFontSpec { \itshape\fontsize{14.500pt}{18.000pt}\selectfont }
+\cs_new:Npn \CoverReportLineFontSpec { \fontsize{13.800pt}{17.000pt}\selectfont }
+\cs_new:Npn \CoverCommitteeLabelFontSpec { \fontsize{14.000pt}{17.000pt}\selectfont }
+\cs_new:Npn \CoverCommitteeFontSpec { \fontsize{9.800pt}{11.700pt}\selectfont }
+\cs_new:Npn \CoverDateFontSpec { \fontsize{13.000pt}{16.000pt}\selectfont }
+\cs_new:Npn \CoverForumFontSpec { \fontsize{12.500pt}{15.000pt}\selectfont }
 \cs_new:Npn \CoverCitationFontSpec { \itshape\fontsize{12.000pt}{14.000pt}\selectfont }
 \cs_new:Npn \CoverCitationAuthorFontSpec { \fontsize{10.667pt}{12.000pt}\selectfont }
-\cs_new:Npn \CoverRoleNameFontSpec { \fontsize{14.000pt}{16.000pt}\selectfont }
-\cs_new:Npn \CoverRoleLabelFontSpec { \fontsize{12.000pt}{14.000pt}\selectfont }
+\cs_new:Npn \CoverRoleNameFontSpec { \fontsize{12.500pt}{14.000pt}\selectfont }
+\cs_new:Npn \CoverRoleLabelFontSpec { \fontsize{10.800pt}{12.000pt}\selectfont }
+\cs_new_protected:Npn \CoverCommitteeEditorialBox
+  {
+    \node[
+      anchor=north,
+      inner~sep=0pt,
+      outer~sep=0pt
+    ] at ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm/2\relax,yshift=-\CoverCommitteeY mm]current~page.north~west)
+      {\parbox[t]{\CoverCommitteeWidth mm}{%
+        \Centering
+        {\CoverCommitteeLabelFontSpec \CoverCommitteeLabelField~:\par}%
+        \vspace{2.000mm}%
+        {\CoverCommitteeFontSpec
+          \justifying
+          \setlength{\parindent}{0pt}%
+          \CoverCommitteeField\par}%
+      }};
+  }
 \cs_new_protected:Npn \CoverCitationBox
   {
     \tl_if_empty:NF \l_cover_citation_tl
@@ -624,37 +773,28 @@
 \thispagestyle{empty}
 \begin{tikzpicture}[remember picture,overlay]
 
-% Reference dimensions (from reference.pdf):
-% MediaBox: 595.320pt x 841.920pt = 210.000mm x 297.000mm
-% 1pt = 0.3527778mm
+% Reference model:
+% sources_collaboratives/page_de_garde_template.pdf is Letter format.
+% The coordinates below transpose its centered typographic composition to A4.
 
 % --- Logo ---
 \CoverPlaceLogoIfSet
+\CoverTopNoteBox
 
-% --- Header (from measured line boxes) ---
-\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineOneY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderOneField}
-\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineTwoY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderTwoField}
-\CoverLineBoxRight{\CoverXRight}{\CoverHeaderLineThreeY}{\bfseries\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverHeaderThreeField}
-\CoverLineBoxRight{\CoverXRight}{\CoverHeaderDateY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverDateField}
+% --- Association line ---
+\CoverHeaderBox
 
 % --- Main title ---
 \CoverTitleBox{\CoverTitleField}
 
-% --- Subtitle ---
-\CoverLineBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverReportLineOneWidth}{c}{\CoverReportLineOneField}
-\CoverLineBox{\CoverReportLineTwoX}{\CoverReportLineTwoY}{\bfseries\itshape\fontsize{15.333pt}{18.000pt}\selectfont}{\CoverReportLineTwoWidth}{c}{\CoverReportLineTwoField}
-
-% --- Central statement ---
-\CoverSubtitleBox{\CoverSubtitleField}
-
 % --- Optional citation ---
 \CoverCitationBox
 
-% --- President and rapporteur ---
+% --- Report roles, committee and submission date ---
 \CoverPresidentAndRapporteur
-
-% --- Committee paragraph ---
-\CoverCommitteeBoxJustified{\CoverCommitteeX}{\CoverCommitteeY}{\CoverCommitteeWidth}{\CoverCommitteeFontSpec}{\CoverCommitteeField}
+\CoverCommitteeEditorialBox
+\CoverDateBox
+\CoverForumBox
 
 \ifcoverdebug
   % 1 mm grid + emphasized 10 mm grid
