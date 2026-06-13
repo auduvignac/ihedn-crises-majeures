@@ -507,8 +507,11 @@
     ] at ([xshift=\dimexpr\CoverCommitteeX mm + \CoverCommitteeWidth mm/2\relax,yshift=-\CoverCommitteeY mm]current~page.north~west)
       {\parbox[t]{\CoverCommitteeWidth mm}{%
         \centering
-        {\CoverCommitteeLabelFontSpec \CoverCommitteeLabelField~:\par}%
-        \vspace{2.000mm}%
+        \tl_if_empty:NF \l_cover_committee_label_tl
+          {%
+            {\CoverCommitteeLabelFontSpec \CoverCommitteeLabelField~:\par}%
+            \vspace{2.000mm}%
+          }%
         {\CoverCommitteeFontSpec
           \justifying
           \setlength{\parindent}{0pt}%
