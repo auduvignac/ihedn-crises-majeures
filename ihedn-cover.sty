@@ -202,7 +202,8 @@
 
 \ExplSyntaxOn
 \newcommand{\CoverHeaderBox}{%
-  \tl_if_empty:NTF \l_cover_association_line_tl
+  \bool_if:nTF
+    { \tl_if_empty_p:N \l_cover_association_line_tl && \tl_if_empty_p:N \l_cover_association_president_tl }
     {%
       \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{\centering}
         {\CoverHeaderFallbackFontSpec}
@@ -212,10 +213,12 @@
       \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{\centering}
         {\CoverAssociationLineFontSpec}
         {%
-          \CoverAssociationLineField
+          \tl_if_empty:NF \l_cover_association_line_tl
+            { \CoverAssociationLineField }
           \tl_if_empty:NF \l_cover_association_president_tl
             {%
-              \par\vspace{2.000mm}%
+              \tl_if_empty:NF \l_cover_association_line_tl
+                { \par\vspace{2.000mm} }%
               {\CoverAssociationPresidentFontSpec \CoverAssociationPresidentField\par}%
             }%
         }%
