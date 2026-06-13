@@ -217,7 +217,7 @@
     outer sep=0pt
   ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current page.north west)
     {{#5\parbox[t]{#3mm}{%
-      \centering
+      #4%
       \setlength{\parindent}{0pt}%
       \setlength{\parskip}{0pt}%
       #6\par
@@ -225,23 +225,23 @@
 }
 
 \newcommand{\CoverTitleBox}[1]{%
-  \CoverCenteredTextBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{center}{\bfseries\CoverTitleFontSpec}{#1}%
+  \CoverCenteredTextBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{\centering}{\bfseries\CoverTitleFontSpec}{#1}%
 }
 
 \newcommand{\CoverSubtitleBox}[1]{%
-  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{center}{\CoverSubtitleFontSpec}{#1}%
+  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{\centering}{\CoverSubtitleFontSpec}{#1}%
 }
 
 \ExplSyntaxOn
 \newcommand{\CoverHeaderBox}{%
   \tl_if_empty:NTF \l_cover_association_line_tl
     {%
-      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{center}
+      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{\centering}
         {\CoverHeaderFallbackFontSpec}
         {\CoverHeaderOneField\par\CoverHeaderTwoField\par\CoverHeaderThreeField}%
     }
     {%
-      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{center}
+      \CoverCenteredTextBox{\CoverHeaderBlockX}{\CoverHeaderBlockY}{\CoverHeaderBlockWidth}{\centering}
         {\CoverAssociationLineFontSpec}
         {%
           \CoverAssociationLineField
@@ -265,13 +265,13 @@
 \ExplSyntaxOff
 
 \newcommand{\CoverReportLinesBox}{%
-  \CoverCenteredTextBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{center}
+  \CoverCenteredTextBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{\centering}
     {\CoverReportLineFontSpec}
     {\CoverReportLineOneField\par\CoverReportLineTwoField}%
 }
 
 \newcommand{\CoverDateBox}{%
-  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverHeaderDateY}{\CoverSubtitleBlockWidth}{center}
+  \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverHeaderDateY}{\CoverSubtitleBlockWidth}{\centering}
     {\CoverDateFontSpec}
     {Soumis le : \CoverDateField}%
 }
@@ -280,7 +280,7 @@
 \newcommand{\CoverForumBox}{%
   \tl_if_empty:NF \l_cover_forum_line_one_tl
     {%
-      \CoverCenteredTextBox{\CoverForumBlockX}{\CoverForumBlockY}{\CoverForumBlockWidth}{center}
+      \CoverCenteredTextBox{\CoverForumBlockX}{\CoverForumBlockY}{\CoverForumBlockWidth}{\centering}
         {\CoverForumFontSpec}
         {%
           \CoverForumLineOneField
