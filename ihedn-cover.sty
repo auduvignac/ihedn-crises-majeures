@@ -144,12 +144,6 @@
 \newcommand{\CoverRapporteurBlockX}{24.000}
 \newcommand{\CoverRapporteurBlockY}{189.000}
 \newcommand{\CoverRapporteurBlockWidth}{162.000}
-\newcommand{\CoverReportLineOneX}{24.000}
-\newcommand{\CoverReportLineOneY}{249.000}
-\newcommand{\CoverReportLineOneWidth}{162.000}
-\newcommand{\CoverReportLineTwoX}{24.000}
-\newcommand{\CoverReportLineTwoY}{257.500}
-\newcommand{\CoverReportLineTwoWidth}{162.000}
 \newcommand{\CoverForumBlockX}{24.000}
 \newcommand{\CoverForumBlockY}{269.000}
 \newcommand{\CoverForumBlockWidth}{162.000}
@@ -171,34 +165,8 @@
 \newcommand{\CoverDebugHeaderDateWidth}{\CoverHeaderBlockWidth}
 \newcommand{\CoverDebugLineHeight}{6.500}
 \newcommand{\CoverDebugTitleHeight}{28.000}
-\newcommand{\CoverDebugSubtitleReportOneHeight}{7.000}
-\newcommand{\CoverDebugSubtitleReportTwoHeight}{7.000}
 \newcommand{\CoverDebugSubtitleBlockHeight}{24.000}
 \newcommand{\CoverDebugCommitteeHeight}{58.000}
-
-\newcommand{\CoverLine}[4]{%
-  \node[
-    anchor=north west,
-    inner sep=0pt,
-    outer sep=0pt
-  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\mbox{#4}}};%
-}
-
-\newcommand{\CoverLineBox}[6]{%
-  \node[
-    anchor=north west,
-    inner sep=0pt,
-    outer sep=0pt
-  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\makebox[#4mm][#5]{#6}}};%
-}
-
-\newcommand{\CoverLineBoxRight}[4]{%
-  \node[
-    anchor=north east,
-    inner sep=0pt,
-    outer sep=0pt
-  ] at ([xshift=#1mm,yshift=-#2mm]current page.north west) {{#3\mbox{#4}}};%
-}
 
 \newcommand{\CoverTextBox}[6]{%
   \node[
@@ -264,12 +232,6 @@
 }
 \ExplSyntaxOff
 
-\newcommand{\CoverReportLinesBox}{%
-  \CoverCenteredTextBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{\centering}
-    {\CoverReportLineFontSpec}
-    {\CoverReportLineOneField\par\CoverReportLineTwoField}%
-}
-
 \newcommand{\CoverDateBox}{%
   \CoverCenteredTextBox{\CoverSubtitleBlockX}{\CoverHeaderDateY}{\CoverSubtitleBlockWidth}{\centering}
     {\CoverDateFontSpec}
@@ -290,22 +252,6 @@
     }%
 }
 \ExplSyntaxOff
-
-\newcommand{\CoverCommitteeBoxJustified}[5]{%
-  \node[
-    anchor=north,
-    inner sep=0pt,
-    outer sep=0pt
-  ] at ([xshift=\dimexpr#1mm + #3mm/2\relax,yshift=-#2mm]current page.north west)
-    {{#4\parbox[t]{#3mm}{%
-      \setlength{\parindent}{0pt}%
-      \setlength{\parskip}{0pt}%
-      \leftskip=0pt%
-      \rightskip=0pt%
-      \parfillskip=0pt%
-      \justifying\noindent #5%
-    }}};%
-}
 
 \newcommand{\CoverPlaceImage}[5]{%
   \node[anchor=north west,inner sep=0pt,outer sep=0pt]
@@ -360,8 +306,6 @@
 \tl_new:N \l_cover_header_one_tl
 \tl_new:N \l_cover_header_two_tl
 \tl_new:N \l_cover_header_three_tl
-\tl_new:N \l_cover_reportline_one_tl
-\tl_new:N \l_cover_reportline_two_tl
 \tl_new:N \l_cover_forum_line_one_tl
 \tl_new:N \l_cover_forum_line_two_tl
 \tl_new:N \l_cover_forum_line_three_tl
@@ -422,8 +366,6 @@
     header_1 .tl_set:N = \l_cover_header_one_tl,
     header_2 .tl_set:N = \l_cover_header_two_tl,
     header_3 .tl_set:N = \l_cover_header_three_tl,
-    reportline_1 .tl_set:N = \l_cover_reportline_one_tl,
-    reportline_2 .tl_set:N = \l_cover_reportline_two_tl,
     forum_line_1 .tl_set:N = \l_cover_forum_line_one_tl,
     forum_line_2 .tl_set:N = \l_cover_forum_line_two_tl,
     forum_line_3 .tl_set:N = \l_cover_forum_line_three_tl,
@@ -481,8 +423,6 @@
     \tl_set:Nn \l_cover_header_two_tl {Association~des~auditeurs~IHEDN}
     \tl_set:Nn \l_cover_header_three_tl {région~Paris~/~Île~de~France}
     \tl_set:Nn \l_cover_committee_label_tl {Comité~de~rédaction}
-    \tl_set:Nn \l_cover_reportline_one_tl {Rapport~du~Comité~d'étude~de~l'Association~régionale~des~auditeurs}
-    \tl_set:Nn \l_cover_reportline_two_tl {de~l'IHEDN~région~Paris~/~Île~de~France~(AR~16)}
     \tl_clear:N \l_cover_forum_line_one_tl
     \tl_clear:N \l_cover_forum_line_two_tl
     \tl_clear:N \l_cover_forum_line_three_tl
@@ -539,8 +479,6 @@
 \cs_new:Npn \CoverHeaderOneField { \tl_use:N \l_cover_header_one_tl }
 \cs_new:Npn \CoverHeaderTwoField { \tl_use:N \l_cover_header_two_tl }
 \cs_new:Npn \CoverHeaderThreeField { \tl_use:N \l_cover_header_three_tl }
-\cs_new:Npn \CoverReportLineOneField { \tl_use:N \l_cover_reportline_one_tl }
-\cs_new:Npn \CoverReportLineTwoField { \tl_use:N \l_cover_reportline_two_tl }
 \cs_new:Npn \CoverForumLineOneField { \tl_use:N \l_cover_forum_line_one_tl }
 \cs_new:Npn \CoverForumLineTwoField { \tl_use:N \l_cover_forum_line_two_tl }
 \cs_new:Npn \CoverForumLineThreeField { \tl_use:N \l_cover_forum_line_three_tl }
@@ -552,7 +490,6 @@
 \cs_new:Npn \CoverHeaderFallbackFontSpec { \fontsize{15.500pt}{20.000pt}\selectfont }
 \cs_new:Npn \CoverHeaderFontSpec { \CoverAssociationLineFontSpec }
 \cs_new:Npn \CoverSubtitleFontSpec { \itshape\fontsize{14.500pt}{18.000pt}\selectfont }
-\cs_new:Npn \CoverReportLineFontSpec { \fontsize{13.800pt}{17.000pt}\selectfont }
 \cs_new:Npn \CoverCommitteeLabelFontSpec { \fontsize{14.000pt}{17.000pt}\selectfont }
 \cs_new:Npn \CoverCommitteeFontSpec { \fontsize{9.800pt}{11.700pt}\selectfont }
 \cs_new:Npn \CoverDateFontSpec { \fontsize{13.000pt}{16.000pt}\selectfont }
@@ -823,8 +760,6 @@
   \CoverDebugBox{\CoverDebugHeaderThreeX}{\CoverHeaderLineThreeY}{\CoverDebugHeaderThreeWidth}{\CoverDebugLineHeight}{hdr3}
   \CoverDebugBox{\CoverDebugHeaderDateX}{\CoverHeaderDateY}{\CoverDebugHeaderDateWidth}{\CoverDebugLineHeight}{date}
   \CoverDebugBox{\CoverTitleX}{\CoverTitleY}{\CoverTitleWidth}{\CoverDebugTitleHeight}{title}
-  \CoverDebugBox{\CoverReportLineOneX}{\CoverReportLineOneY}{\CoverReportLineOneWidth}{\CoverDebugSubtitleReportOneHeight}{sub1}
-  \CoverDebugBox{\CoverReportLineTwoX}{\CoverReportLineTwoY}{\CoverReportLineTwoWidth}{\CoverDebugSubtitleReportTwoHeight}{sub2}
   \CoverDebugBox{\CoverSubtitleBlockX}{\CoverSubtitleBlockY}{\CoverSubtitleBlockWidth}{\CoverDebugSubtitleBlockHeight}{subtitle-block}
   \CoverDebugBox{\CoverCommitteeX}{\CoverCommitteeY}{\CoverCommitteeWidth}{\CoverDebugCommitteeHeight}{committee-block}
   \draw[orange!90!black,line width=0.18mm]
