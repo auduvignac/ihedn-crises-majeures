@@ -77,9 +77,9 @@ Le tableau \ref{tab:risques} présente les risques identifiés, en cohérence av
 
 \begin{table}[h]
 \centering
-\small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{7.2cm}C{2.1cm}C{1.7cm}@{}}
+\makebox[\linewidth][c]{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3cm}>{\raggedright\arraybackslash}p{8.8cm}C{2.35cm}C{1.95cm}@{}}
 \toprule
 \textbf{Risque} & \textbf{Description} & \textbf{Probabilité} & \textbf{Impact} \\
 \midrule
@@ -94,6 +94,7 @@ Périmètre & Confusion possible entre le potentiel des adhérents répondants, 
 Ressources & Inadéquation potentielle entre les compétences requises pour assurer la qualité de conception et l'appropriation du questionnaire, et les ressources effectivement mobilisées & Faible & Élevé \\
 \bottomrule
 \end{tabular}
+}
 \caption{Cartographie des risques du projet.}
 \label{tab:risques}
 \end{table}
