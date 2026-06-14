@@ -149,6 +149,7 @@
 }
 
 \newcommand*\l@proposition{\@dottedtocline{1}{1.5em}{2.3em}}
+\newcommand*\l@subproposition{\@dottedtocline{2}{3.8em}{3.2em}}
 
 \makeatother
 
@@ -157,6 +158,8 @@
 %==================================================
 
 \newcounter{proposition}
+\newcounter{subproposition}[proposition]
+\renewcommand{\thesubproposition}{\theproposition.\arabic{subproposition}}
 
 %==================================================
 % Style graphique des propositions
@@ -193,6 +196,29 @@
 
   \begin{propositionbox}
   {Proposition~\theproposition~: #1}
+}
+{
+  \end{propositionbox}
+}
+
+\newcommand{\propositiongroup}[1]{%
+  \refstepcounter{proposition}%
+  \setcounter{subproposition}{0}%
+  \addcontentsline{lop}{proposition}{%
+    \protect\numberline{\theproposition}#1%
+  }%
+}
+
+\newenvironment{subproposition}[1]
+{
+  \refstepcounter{subproposition}
+
+  \addcontentsline{lop}{subproposition}{%
+    \protect\numberline{\thesubproposition}#1%
+  }
+
+  \begin{propositionbox}
+  {Proposition~\thesubproposition~: #1}
 }
 {
   \end{propositionbox}
