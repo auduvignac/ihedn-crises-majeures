@@ -21,6 +21,51 @@
 \usepackage{ltablex}
 \usepackage{xltabular}
 \usepackage{subcaption}
+\captionsetup[table]{position=bottom,skip=6pt}
+\captionsetup[figure]{position=bottom,skip=6pt}
+\usepackage{needspace}
+
+\let\IhednOriginalSection\section
+\RenewDocumentCommand{\section}{s o m}{%
+  \Needspace{12\baselineskip}%
+  \IfBooleanTF{#1}{%
+    \IhednOriginalSection*{#3}%
+  }{%
+    \IfNoValueTF{#2}{%
+      \IhednOriginalSection{#3}%
+    }{%
+      \IhednOriginalSection[#2]{#3}%
+    }%
+  }%
+}
+
+\let\IhednOriginalSubsection\subsection
+\RenewDocumentCommand{\subsection}{s o m}{%
+  \Needspace{10\baselineskip}%
+  \IfBooleanTF{#1}{%
+    \IhednOriginalSubsection*{#3}%
+  }{%
+    \IfNoValueTF{#2}{%
+      \IhednOriginalSubsection{#3}%
+    }{%
+      \IhednOriginalSubsection[#2]{#3}%
+    }%
+  }%
+}
+
+\let\IhednOriginalSubsubsection\subsubsection
+\RenewDocumentCommand{\subsubsection}{s o m}{%
+  \Needspace{8\baselineskip}%
+  \IfBooleanTF{#1}{%
+    \IhednOriginalSubsubsection*{#3}%
+  }{%
+    \IfNoValueTF{#2}{%
+      \IhednOriginalSubsubsection{#3}%
+    }{%
+      \IhednOriginalSubsubsection[#2]{#3}%
+    }%
+  }%
+}
 
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 
@@ -103,6 +148,9 @@
 \usepackage{csquotes}
 \usepackage{xurl}
 \usepackage{hyperref}
+\usepackage[bottom]{footmisc}
+\interfootnotelinepenalty=10000
+\setlength{\skip\footins}{12pt plus 4pt minus 2pt}
 \makeatletter
 \let\ihedn@orig@input@path\input@path
 \def\input@path{{vendor/biblatex-sciences-po-fr/style/}}
@@ -148,8 +196,19 @@
   \@starttoc{lop}
 }
 
-\newcommand*\l@proposition{\@dottedtocline{1}{1.5em}{2.3em}}
-\newcommand*\l@subproposition{\@dottedtocline{2}{3.8em}{3.2em}}
+\newcommand*\propositionnumberline[1]{\hb@xt@\@tempdima{\hfil#1\enspace}}
+\newcommand*\l@proposition[2]{%
+  \begingroup
+  \let\numberline\propositionnumberline
+  \@dottedtocline{1}{0pt}{6.6em}{#1}{#2}%
+  \endgroup
+}
+\newcommand*\l@subproposition[2]{%
+  \begingroup
+  \let\numberline\propositionnumberline
+  \@dottedtocline{2}{1.5em}{7.8em}{#1}{#2}%
+  \endgroup
+}
 
 \makeatother
 
@@ -191,7 +250,7 @@
   \refstepcounter{proposition}
 
   \addcontentsline{lop}{proposition}{%
-    \protect\numberline{\theproposition}#1%
+    \protect\numberline{Proposition~\theproposition.}#1%
   }
 
   \begin{propositionbox}
@@ -205,7 +264,7 @@
   \refstepcounter{proposition}%
   \setcounter{subproposition}{0}%
   \addcontentsline{lop}{proposition}{%
-    \protect\numberline{\theproposition}#1%
+    \protect\numberline{Proposition~\theproposition.}#1%
   }%
 }
 
@@ -214,7 +273,7 @@
   \refstepcounter{subproposition}
 
   \addcontentsline{lop}{subproposition}{%
-    \protect\numberline{\thesubproposition}#1%
+    \protect\numberline{Proposition~\thesubproposition.}#1%
   }
 
   \begin{propositionbox}
