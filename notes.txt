@@ -1,0 +1,30 @@
+13 octobre 2026 : Journée nationale de la résilience (l'Union IHEDN pensent aux AR et associations divers sur la manière dont peuvent contribuer à la diffusion de kit d'urgence, etc.)
+
+Résumé + Liste des propositions sur la même page
+
+Figures :
+Quatre cercles structurant l’action de l’IHEDN -> plus petit / en annexe
+Chaîne opérationnelle de gestion de crise -> en annexe
+Organisation proposée de la gouvernance du projet de questionnaire :
+  - Renommer en "Organisation proposée de la gouvernance du projet de questionnaire"
+  - plus petit / en annexe
+Calendrier prévisionnel de mise en œuvre du questionnaire de cartographie des compétences des membres de l’AR 16 -> en annexe
+Évolution du taux d’adhésion des auditeurs des sessions régionales selon les cohortes de sessions -> retirer la période (1954-1988)
+
+Évolution du taux d’adhésion des auditeurs des sessions régionales selon les cohortes de sessions :
+  - les auditeurs des SR 200-222 sont en majorité auditeurs : ce qui montre que les auditeurs les plus récents adhèrent
+  - Dernier intervalle faire commencer à 201
+  - ajouter les années dans au niveau des diagrammes pour assurer une lecture optimale
+  - Remarque 151ème régionale en nov 2002 - 16 janvier 2003
+
+Évolution du taux d’adhésion des auditeurs des sessions nationales selon les décennies :
+  - Préciser le Taux d'adhésion d'aujourd'hui (c'est la raison pour laquelle le taux diminuent à mesure des années)
+  - Exemple : 42% des auditeurs de la période 2001-2010 sont adhérents en 2022.
+
+Répartition territoriale des associations régionales de l’Union-IHEDN et importance relative de leurs effectifs :
+  - ajouter que le numéro associé est celui des AR
+
+Tableau : Cartographie des risques du projet -> A réduire
+
+/!\ Modifier le terme Invalidation
+
