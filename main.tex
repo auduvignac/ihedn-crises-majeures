@@ -30,7 +30,7 @@
     header_2={Association des auditeurs IHEDN},
     header_3={région Paris / Île de France},
     association_line={AR~16 : Association régionale Paris Île de France},
-    association_president={Présidente : Madame Coralie Noël},
+    %association_president={Présidente : Madame Coralie Noël},
     committee_label={Comité de rédaction de l'AR~16},
     date={Soumis le : 30 juin 2026},
     logo_path={Figures/logos_IHEDN/Logo_AR_16_PARIS_IDF.jpg},
@@ -53,12 +53,21 @@
 
 \input{sections/resume.tex}
 
+\listofpropositions
+
 \clearpage
 
 \tableofcontents
 
 \clearpage
+
+\printglossary[type=\acronymtype,title={Liste des acronymes}]
+
+\clearpage
+
 \addcontentsline{toc}{section}{Table des figures}
+
+\clearpage
 
 \listoffigures
 
@@ -75,10 +84,6 @@
 
 \clearpage
 
-\listofpropositions
-
-\clearpage
-
 % --- Corps du document en chiffres arabes ---
 \pagenumbering{arabic}
 
@@ -86,37 +91,25 @@
 
 \input{sections/introduction.tex}
 
-\clearpage
-
 \section{Cadre général et enjeux contemporains}
 
 \input{sections/cadrage_et_enjeux.tex}
 
-\clearpage
-
-\section{Positionnement de l'\ARSeize}
+\section{Une contribution de l'\ARSeize{} en appui aux autorités publiques}
 
 \input{sections/positionnement_ar16.tex}
 
-\clearpage
-
-\section{Temporalité de l'engagement des auditeurs}
+\section{Temporalité de la contribution des associations dans le cycle de gestion de crise}
 
 \input{sections/temporalite_engagement.tex}
-
-\clearpage
 
 \section{Proposition structurante : le questionnaire}
 
 \input{sections/proposition_structurante.tex}
 
-\clearpage
-
 \section{Plan prévisionnel de mise en \oe{}uvre du questionnaire}
 
 \input{sections/plan_previsionnel.tex}
-
-\clearpage
 
 \section{Conclusion}
 
@@ -126,6 +119,10 @@
 
 \addtocontents{toc}{\protect\newpage}
 \appendix
+\section{Figures complémentaires}
+\label{annexe:figures_complementaires}
+
+\input{annexes/figures_complementaires.tex}
 
 \section{Évolution des vulnérabilités et des crises majeures contemporaines en France}
 \label{annexe:tableau_crises_majeures}
@@ -141,15 +138,11 @@
 
 \input{annexes/maillage_territorial.tex}
 
-\clearpage
-
 \section{Enquête nationale auprès des associations régionales (2015)}
 \label{annexe:enquete_nationale_ar_2015}
 
 \input{annexes/enquete_nationale_AR_2015.tex}
 
-
-\clearpage
 
 \section{Cheminement méthodologique du projet de questionnaire}
 \label{annexe:cheminement_questionnaire}
@@ -158,23 +151,17 @@
 
 \clearpage
 
-\section{Lettre rédigée par Alain Fontan à destination du Comité Directeur}
+\section{Lettre rédigée par Monsieur Alain Fontan à destination du Comité Directeur}
 \label{annexe:lettre_CODIR}
 
 \input{annexes/lettre_CODIR.tex}
 
 \clearpage
 
-\section{Maquette du questionnaire}
+\section{Maquette du questionnaire proposée par le comité}
 \label{annexe:maquette_questionnaire}
 
 \input{annexes/maquette_questionnaire.tex}
-
-\clearpage
-
-\printglossary[type=\acronymtype,title={Liste des acronymes}]
-
-\clearpage
 
 \addcontentsline{toc}{section}{Références bibliographiques}
 \printbibheading[title={Références bibliographiques}]
